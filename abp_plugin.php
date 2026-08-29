@@ -1,11 +1,11 @@
 <?php
 	/**
 	 * Plugin Name: ABP Plugin
-	 * Description: WooCommerce transport booking for bus, ferry, shuttle and coach services with seat plans, ticket types, routes, schedules and return trips.
-	 * Version: 1.0.2
+	 * Description: ABP Custom Plugin.
+	 * Version: 1.0.0
 	 * Author: abpteam
 	 * Author URI: https://abp-team.com
-	 * Text Domain: abp-transport-booking
+	 * Text Domain: abp-plugin
 	 * Domain Path: /languages
 	 * WC requires at least: 8.0.0
 	 *  WC tested up to: latest
@@ -33,6 +33,7 @@
 					define( 'ABP_PLUGIN_FILE', __FILE__ );
 				}
 				if ( ! defined( 'ABP_VERSION' ) ) {
+					// Keep in sync with the plugin header. Update here when bumping plugin version.
 					define( 'ABP_VERSION', '1.0.0' );
 				}
 				if ( ! defined( 'ABP_DIR' ) ) {
@@ -42,13 +43,26 @@
 					define( 'ABP_URL', plugin_dir_url( __FILE__ ) );
 				}
 				if ( ! defined( 'ABP_BASE' ) ) {
-					define( 'ABP_BASE', basename( __FILE__ ) );
+					define( 'ABP_BASE', plugin_basename( __FILE__ ) );
 				}
 				if ( ! defined( 'ABP_BLANK_IMG_URL' ) ) {
 					define( 'ABP_BLANK_IMG_URL', ABP_URL . 'assets/images/blank_image.png' );
 				}
-				require_once ABP_DIR . 'includes/abp_dependencies.php';
-
+				$dep_file = ABP_DIR . 'includes/abp_dependencies.php';
+				if ( file_exists( $dep_file ) ) {
+					require_once $dep_file;
+				} else {
+					// Avoid fatal error if the dependency file is missing and show admin notice.
+					add_action( 'admin_notices', function() use ( $dep_file ) {
+						/* translators: %s: missing file path */
+						printf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( sprintf( __( 'ABP Plugin error: missing file %s', 'abp-plugin' ), $dep_file ) ) );
+					} );
+				}
+				// Load translations on plugins_loaded to ensure localization functions are available.
+				add_action( 'plugins_loaded', function() {
+					load_plugin_textdomain( 'abp-plugin', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+				} );
+			
 			}
 		}
 		new ABP_Plugin();

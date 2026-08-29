@@ -1,8 +1,8 @@
 @charset "utf-8";
 @media only screen and (min-width: 10px) {
 	:root {
-		--tb_br: --tb_br;
-		--tb_br_xl: --tb_br_xl;
+		--tb_br: 5px;
+		--tb_br_xl: 10px;
 		--tb_fs: --tb_fs;
 		--tb_fs_label: --tb_fs_label;
 		--tb_fs_h6: --tb_fs_h6;
@@ -273,7 +273,7 @@
 	div.abp_area img.emoji {height: 14px !important; min-height: auto !important; width: auto !important; min-width: auto !important;}
 	div.abp_area svg {height: var(--tb_fs_label);}
 	div.abp_area [class*="_img_control"] {width: 100%;height: auto;max-width: 100%;-webkit-border-radius: var(--tb_br); border-radius: var(--tb_br);line-height: 1;display: block;-webkit-transition: var(--tb_transition); transition: var(--tb_transition);}
-	div.abp_area [class*="_img_control"]:hover { -ms-transform: scale(1.05); transform: scale(1.05); }
+
 	div.abp_area .abp_image { width: 100%; overflow: hidden; position: relative; height: auto;line-height: 1; }
 	div.abp_area [data-href] { cursor: pointer; }
 	/**************** ABP Gallery **********************************************/
@@ -1276,19 +1276,3 @@
 	div.abp_area .documentation ul li strong {display: flex;gap: var(--tb_gap_xs);text-wrap: nowrap;}
 }
 /******************************************************************** Empty Class************************************************/
-@media only screen and (min-width: 10px) {
-	.validation_number {}
-	.validation_price {}
-	.validation_id {}
-	.validation_name {}
-	/*=============================*/
-	.configuration_content {}
-	.add_new_hook {}
-	div.abp_area .abp_hidden {display: none;}
-	.hidden_content {}
-	.insertable_area {}
-	div.abp_area .sortable_area {position: relative;}
-	.sortable_handle {cursor: move;}
-	/*=============================*/
-	.abp_allow {}
-}

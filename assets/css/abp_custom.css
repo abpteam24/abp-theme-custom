@@ -1,0 +1,191 @@
+@media only screen and (min-width: 10px) {
+	#pxl-main { padding: var(--tb_gap) 0 !important;}
+	.pxl-tabs1.style-2 .pxl-tabs--title .pxl-item--title:last-child .pxl-title--text {right: -110px;}
+	.pxl-tabs1.style-2 .pxl-tabs--title .pxl-item--title .pxl-title--text {left: -150px;}
+	.elementor-invisible { visibility: visible;}
+	.pxl-menu-primary > li > a {line-height:60px;}
+}
+@media only screen and (min-width: 10px) {
+	.abp-wcu-section {width: 100%;padding: 100px 20px;background: #0B0D10;color: #FFF;box-sizing: border-box;overflow: hidden}
+	.abp-wcu-container {width: 100%;max-width: 1240px;margin: 0 auto}
+	.abp-wcu-header {max-width: 850px;margin: 0 auto 60px;text-align: center}
+	.abp-wcu-label {display: inline-flex;align-items: center;gap: 10px;margin-bottom: 18px;font-size: 13px;font-weight: 700;letter-spacing: 2px;text-transform: uppercase;color: #AEB5BF}
+	.abp-wcu-label-line {width: 30px;height: 1px;background: currentColor;display: inline-block}
+	.abp-wcu-header h2 {margin: 0 0 20px;font-size: 48px;line-height: 1.12;font-weight: 700;letter-spacing: -1.5px;color: #FFF}
+	.abp-wcu-header p {max-width: 760px;margin: 0 auto;font-size: 17px;line-height: 1.75;color: #AEB5BF}
+	.abp-wcu-grid {display: grid;grid-template-columns:repeat(2, minmax(0, 1fr));border: 1px solid rgba(255, 255, 255, .12);border-radius: 22px;overflow: hidden;background: rgba(255, 255, 255, .025)}
+	.abp-wcu-card {display: flex;gap: 24px;padding: 42px;border-right: 1px solid rgba(255, 255, 255, .12);border-bottom: 1px solid rgba(255, 255, 255, .12);transition: transform .3s ease, background .3s ease}
+	.abp-wcu-card:nth-child(2n) {border-right: 0}
+	.abp-wcu-card:nth-child(3), .abp-wcu-card:nth-child(4) {border-bottom: 0}
+	.abp-wcu-card:hover {background: rgba(255, 255, 255, .045)}
+	.abp-wcu-icon {flex: 0 0 54px;width: 54px;height: 54px;display: flex;align-items: center;justify-content: center;border: 1px solid rgba(255, 255, 255, .16);border-radius: 14px;color: #FFF}
+	.abp-wcu-icon svg {width: 27px;height: 27px}
+	.abp-wcu-card-content {min-width: 0}
+	.abp-wcu-number {display: block;margin-bottom: 8px;font-size: 12px;font-weight: 700;letter-spacing: 1.5px;color: #7F8792}
+	.abp-wcu-card h3 {margin: 0 0 11px;font-size: 22px;line-height: 1.3;font-weight: 700;color: #FFF}
+	.abp-wcu-card p {margin: 0;font-size: 15px;line-height: 1.75;color: #9FA7B2}
+	.abp-wcu-bottom {display: flex;justify-content: center;align-items: center;flex-wrap: wrap;gap: 14px 40px;margin-top: 38px}
+	.abp-wcu-bottom-item {display: flex;align-items: center;gap: 9px;font-size: 14px;font-weight: 600;color: #B9C0C9}
+	.abp-wcu-check {display: flex;align-items: center;justify-content: center;width: 22px;height: 22px;border: 1px solid rgba(255, 255, 255, .2);border-radius: 50%;font-size: 12px;color: #FFF}
+	@media (max-width: 900px) {
+		.abp-wcu-section {padding: 80px 20px}
+		.abp-wcu-header h2 {font-size: 38px}
+		.abp-wcu-grid {grid-template-columns:1fr}
+		.abp-wcu-card {border-right: 0 !important;border-bottom: 1px solid rgba(255, 255, 255, .12) !important}
+		.abp-wcu-card:last-child {border-bottom: 0 !important}
+	}
+	@media (max-width: 600px) {
+		.abp-wcu-section {padding: 65px 16px}
+		.abp-wcu-header {margin-bottom: 40px}
+		.abp-wcu-header h2 {font-size: 30px;letter-spacing: -.7px}
+		.abp-wcu-header p {font-size: 15px;line-height: 1.7}
+		.abp-wcu-card {gap: 17px;padding: 28px 22px}
+		.abp-wcu-icon {flex-basis: 46px;width: 46px;height: 46px;border-radius: 12px}
+		.abp-wcu-icon svg {width: 23px;height: 23px}
+		.abp-wcu-card h3 {font-size: 19px}
+		.abp-wcu-card p {font-size: 14px;line-height: 1.7}
+		.abp-wcu-bottom {align-items: flex-start;flex-direction: column;gap: 13px;margin-top: 28px;padding-left: 5px}
+	}
+}
+@media only screen and (min-width: 10px) {
+	.abp-about-section {width: 100%;padding: 110px 20px;background: #F7F8FB;box-sizing: border-box;overflow: hidden}
+	.abp-about-container {width: 100%;max-width: 1240px;margin: 0 auto}
+	.abp-about-main {display: grid;grid-template-columns:minmax(0, 1.02fr) minmax(420px, .98fr);gap: 80px;align-items: center}
+	.abp-about-content {max-width: 650px}
+	.abp-about-eyebrow {display: flex;align-items: center;gap: 10px;margin-bottom: 20px;color: #6E7480;font-size: 12px;font-weight: 800;letter-spacing: 2px}
+	.abp-about-eyebrow-line {width: 34px;height: 2px;background: #111;display: inline-block}
+	.abp-about-content h2 {margin: 0 0 23px;color: #101217;font-size: 52px;line-height: 1.08;font-weight: 750;letter-spacing: -2px}
+	.abp-about-intro {margin: 0 0 34px;color: #666D78;font-size: 17px;line-height: 1.8}
+	.abp-about-features {display: flex;flex-direction: column;gap: 21px}
+	.abp-about-feature {display: flex;align-items: flex-start;gap: 17px}
+	.abp-about-feature-icon {flex: 0 0 48px;width: 48px;height: 48px;display: flex;align-items: center;justify-content: center;border: 1px solid #E0E3E8;border-radius: 13px;background: #FFF;color: #111;box-shadow: 0 8px 25px rgba(15, 18, 24, .04)}
+	.abp-about-feature-icon svg {width: 22px;height: 22px}
+	.abp-about-feature h3 {margin: 1px 0 5px;color: #15171B;font-size: 17px;line-height: 1.4;font-weight: 700}
+	.abp-about-feature p {margin: 0;color: #747B86;font-size: 14px;line-height: 1.65}
+	.abp-about-actions {margin-top: 35px}
+	.abp-about-button {display: inline-flex;align-items: center;gap: 12px;padding: 14px 20px;border-radius: 9px;background: #111217;color: #FFF;text-decoration: none;font-size: 14px;font-weight: 700;transition: transform .25s ease, box-shadow .25s ease, background .25s ease}
+	.abp-about-button:hover {transform: translateY(-2px);background: #292B31;color: #FFF;box-shadow: 0 12px 30px rgba(15, 17, 22, .15)}
+	.abp-about-button svg {width: 19px;height: 19px}
+	.abp-about-visual {position: relative;min-height: 540px;display: flex;align-items: center;justify-content: center}
+	.abp-about-orbit {position: absolute;border: 1px solid #E2E5E9;border-radius: 50%;pointer-events: none}
+	.abp-about-orbit-one {width: 500px;height: 500px}
+	.abp-about-orbit-two {width: 390px;height: 390px}
+	.abp-about-product-card {position: relative;z-index: 2;width: 100%;max-width: 510px;padding: 28px;border: 1px solid #E2E5E9;border-radius: 24px;background: #FFF;box-shadow: 0 30px 70px rgba(20, 25, 35, .1)}
+	.abp-about-product-top {display: flex;align-items: flex-start;justify-content: space-between;padding-bottom: 22px;border-bottom: 1px solid #ECEEF1}
+	.abp-about-product-label {display: block;margin-bottom: 5px;color: #858B95;font-size: 10px;font-weight: 800;letter-spacing: 1.7px}
+	.abp-about-product-top h3 {margin: 0;color: #15171B;font-size: 25px;line-height: 1.25;font-weight: 750}
+	.abp-about-status {display: flex;align-items: center;gap: 7px;padding: 7px 10px;border-radius: 20px;background: #F4F7F4;color: #59635B;font-size: 11px;font-weight: 700}
+	.abp-about-status span {width: 6px;height: 6px;border-radius: 50%;background: #4B9B5F}
+	.abp-about-product-list {padding: 8px 0}
+	.abp-about-product-item {display: grid;grid-template-columns:42px 1fr auto;gap: 14px;align-items: center;padding: 17px 0;border-bottom: 1px solid #EFF0F2}
+	.abp-about-product-item:last-child {border-bottom: 0}
+	.abp-about-product-icon {width: 42px;height: 42px;display: flex;align-items: center;justify-content: center;border-radius: 11px;background: #F5F6F8;color: #1B1D22}
+	.abp-about-product-icon svg {width: 20px;height: 20px}
+	.abp-about-product-item strong {display: block;margin-bottom: 3px;color: #1A1C21;font-size: 14px;font-weight: 700}
+	.abp-about-product-item span {display: block;color: #888E98;font-size: 12px}
+	.abp-about-product-item b {color: #B0B5BD;font-size: 11px;font-weight: 700}
+	.abp-about-product-footer {display: flex;align-items: center;justify-content: center;gap: 9px;padding-top: 20px;color: #8A9099;font-size: 10px;font-weight: 700;letter-spacing: .2px}
+	.abp-about-trust {display: grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items: center;margin-top: 80px;padding: 25px 0;border-top: 1px solid #E0E3E8;border-bottom: 1px solid #E0E3E8}
+	.abp-about-trust-item {text-align: center}
+	.abp-about-trust-item strong {display: block;margin-bottom: 5px;color: #181A1F;font-size: 15px;font-weight: 750}
+	.abp-about-trust-item span {display: block;color: #8A9099;font-size: 12px}
+	.abp-about-trust-divider {width: 1px;height: 35px;background: #E0E3E8}
+	@media (max-width: 1050px) {
+		.abp-about-main {grid-template-columns:1fr;gap: 65px}
+		.abp-about-content {max-width: 800px}
+		.abp-about-visual {min-height: 500px}
+		.abp-about-product-card {max-width: 560px}
+	}
+	@media (max-width: 700px) {
+		.abp-about-section {padding: 75px 17px}
+		.abp-about-main {gap: 45px}
+		.abp-about-content h2 {font-size: 36px;letter-spacing: -1.1px}
+		.abp-about-intro {font-size: 15px;line-height: 1.7}
+		.abp-about-feature p {font-size: 13px}
+		.abp-about-visual {min-height: 420px}
+		.abp-about-orbit-one {width: 390px;height: 390px}
+		.abp-about-orbit-two {width: 310px;height: 310px}
+		.abp-about-product-card {padding: 21px;border-radius: 19px}
+		.abp-about-product-top h3 {font-size: 21px}
+		.abp-about-product-item {grid-template-columns:38px 1fr auto;gap: 11px;padding: 14px 0}
+		.abp-about-product-icon {width: 38px;height: 38px}
+		.abp-about-product-item strong {font-size: 13px}
+		.abp-about-product-item span {font-size: 11px}
+		.abp-about-trust {grid-template-columns:1fr;gap: 20px;margin-top: 55px}
+		.abp-about-trust-divider {width: 45px;height: 1px;margin: auto}
+	}
+	@media (max-width: 420px) {
+		.abp-about-section {padding: 60px 14px}
+		.abp-about-content h2 {font-size: 31px}
+		.abp-about-feature-icon {flex-basis: 43px;width: 43px;height: 43px}
+		.abp-about-feature h3 {font-size: 16px}
+		.abp-about-feature p {font-size: 12.5px}
+		.abp-about-visual {min-height: 390px}
+		.abp-about-orbit-one {width: 340px;height: 340px}
+		.abp-about-orbit-two {width: 275px;height: 275px}
+		.abp-about-product-card {padding: 17px}
+		.abp-about-product-top {padding-bottom: 17px}
+		.abp-about-status {padding: 6px 8px;font-size: 10px}
+		.abp-about-product-footer {flex-wrap: wrap;line-height: 1.6}
+	}
+}
+@media only screen and (min-width: 10px) {
+	.abp-how-section {width: 100%;padding: 105px 20px;background: #101114;color: #FFF;box-sizing: border-box;overflow: hidden}
+	.abp-how-container {width: 100%;max-width: 1240px;margin: 0 auto}
+	.abp-how-header {max-width: 820px;margin: 0 auto 60px;text-align: center}
+	.abp-how-eyebrow {display: flex;align-items: center;justify-content: center;gap: 10px;margin-bottom: 18px;color: #A1A6AE;font-size: 12px;font-weight: 800;letter-spacing: 2px}
+	.abp-how-line {width: 32px;height: 1px;background: #FFF;display: inline-block}
+	.abp-how-header h2 {margin: 0 0 20px;color: #FFF;font-size: 48px;line-height: 1.12;font-weight: 750;letter-spacing: -1.5px}
+	.abp-how-header p {max-width: 730px;margin: 0 auto;color: #9DA3AD;font-size: 16px;line-height: 1.75}
+	.abp-how-steps {display: grid;grid-template-columns:repeat(4, minmax(0, 1fr));border: 1px solid rgba(255, 255, 255, .13);border-radius: 22px;overflow: hidden;background: rgba(255, 255, 255, .025)}
+	.abp-how-step {position: relative;min-height: 390px;padding: 30px 28px 0;border-right: 1px solid rgba(255, 255, 255, .13);display: flex;flex-direction: column;transition: background .3s ease, transform .3s ease}
+	.abp-how-step:last-child {border-right: 0}
+	.abp-how-step:hover {background: rgba(255, 255, 255, .045)}
+	.abp-how-step-top {display: flex;align-items: center;justify-content: space-between;margin-bottom: 40px}
+	.abp-how-number {font-size: 12px;font-weight: 800;letter-spacing: 1.5px;color: #777E88}
+	.abp-how-icon {width: 52px;height: 52px;display: flex;align-items: center;justify-content: center;border: 1px solid rgba(255, 255, 255, .14);border-radius: 14px;color: #FFF;background: rgba(255, 255, 255, .035)}
+	.abp-how-icon svg {width: 25px;height: 25px}
+	.abp-how-step-label {display: block;margin-bottom: 10px;color: #777E88;font-size: 10px;font-weight: 800;letter-spacing: 1.7px}
+	.abp-how-step-body h3 {margin: 0 0 13px;color: #FFF;font-size: 20px;line-height: 1.35;font-weight: 700}
+	.abp-how-step-body p {margin: 0;color: #969DA7;font-size: 13.5px;line-height: 1.75}
+	.abp-how-step-footer {display: flex;align-items: center;gap: 9px;margin-top: auto;padding: 20px 0;border-top: 1px solid rgba(255, 255, 255, .1);color: #858C96;font-size: 10px;font-weight: 700}
+	.abp-how-step-footer span:first-child {color: #FFF}
+	.abp-how-bottom {display: flex;align-items: center;justify-content: space-between;gap: 30px;margin-top: 34px;padding: 25px 28px;border: 1px solid rgba(255, 255, 255, .1);border-radius: 16px;background: rgba(255, 255, 255, .025)}
+	.abp-how-bottom-text strong {display: block;margin-bottom: 5px;color: #FFF;font-size: 14px}
+	.abp-how-bottom-text span {display: block;color: #858C96;font-size: 12px}
+	.abp-how-bottom-points {display: flex;align-items: center;gap: 24px;flex-wrap: wrap}
+	.abp-how-bottom-points span {display: flex;align-items: center;gap: 7px;color: #A0A6AF;font-size: 11px;font-weight: 700}
+	.abp-how-bottom-points i {font-style: normal;display: flex;align-items: center;justify-content: center;width: 19px;height: 19px;border: 1px solid rgba(255, 255, 255, .16);border-radius: 50%;color: #FFF;font-size: 10px}
+	@media (max-width: 1050px) {
+		.abp-how-steps {grid-template-columns:repeat(2, minmax(0, 1fr))}
+		.abp-how-step:nth-child(2) {border-right: 0}
+		.abp-how-step:nth-child(1), .abp-how-step:nth-child(2) {border-bottom: 1px solid rgba(255, 255, 255, .13)}
+		.abp-how-step {min-height: 360px}
+	}
+	@media (max-width: 700px) {
+		.abp-how-section {padding: 75px 16px}
+		.abp-how-header {margin-bottom: 40px}
+		.abp-how-header h2 {font-size: 34px;letter-spacing: -1px}
+		.abp-how-header p {font-size: 14px}
+		.abp-how-steps {grid-template-columns:1fr}
+		.abp-how-step {min-height: auto !important;padding: 27px 23px 0;border-right: 0 !important;border-bottom: 1px solid rgba(255, 255, 255, .13) !important}
+		.abp-how-step:last-child {border-bottom: 0 !important}
+		.abp-how-step-top {margin-bottom: 28px}
+		.abp-how-step-body {padding-bottom: 25px}
+		.abp-how-step-body h3 {font-size: 19px}
+		.abp-how-step-body p {font-size: 13px}
+		.abp-how-bottom {flex-direction: column;align-items: flex-start;padding: 22px;margin-top: 25px}
+		.abp-how-bottom-points {gap: 13px;flex-direction: column;align-items: flex-start}
+	}
+	@media (max-width: 420px) {
+		.abp-how-section {padding: 60px 14px}
+		.abp-how-header h2 {font-size: 29px}
+		.abp-how-step {padding-left: 19px;padding-right: 19px}
+		.abp-how-icon {width: 46px;height: 46px;border-radius: 12px}
+		.abp-how-icon svg {width: 22px;height: 22px}
+		.abp-how-step-body h3 {font-size: 18px}
+		.abp-how-step-body p {font-size: 12.5px}
+	}
+}
+@media only screen and (min-width: 10px) {
+}

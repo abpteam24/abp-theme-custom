@@ -157,29 +157,7 @@ function abp_toast_msg(msg, type = 'info') {
     abp_parent.find('.toast_msg_area').append(el).hide().fadeIn(200);
     setTimeout(() => el.fadeOut(300, () => el.remove()), 3400);
 }
-function abp_wc_price_format(price) {
-    if (typeof price === 'string') {
-        price = Number(price);
-    }
-    price = price.toFixed(abp_var.decimal_num);
-    let total_part = price.toString().split(".");
-    total_part[0] = total_part[0].replace(/\B(?=(\d{3})+(?!\d))/g, abp_var.thousands_separator);
-    price = total_part.join(abp_var.currency_decimal);
-    let price_text = '';
-    if (abp_var.currency_position === 'right') {
-        price_text = price + abp_var.currency_symbol;
-    } else if (abp_var.currency_position === 'right_space') {
-        price_text = price + '&nbsp;' + abp_var.currency_symbol;
-    } else if (abp_var.currency_position === 'left') {
-        price_text = abp_var.currency_symbol + price;
-    } else {
-        price_text = abp_var.currency_symbol + '&nbsp;' + price;
-    }
-    if (abp_var.currency_suffix) {
-        price_text = price + '&nbsp;' + abp_var.currency_suffix;
-    }
-    return price_text;
-}
+
 function abp_spinner(parent = abp_parent) {
     if (parent.length>0 && parent.find('.abp_spinner').length < 1) {
         parent.addClass('_p_relative').append('<div class="abp_spinner"></div>');
@@ -188,23 +166,7 @@ function abp_spinner(parent = abp_parent) {
 function abp_spinner_remove(parent = abp_parent) {
     parent.removeClass('_p_relative').find('.abp_spinner').remove();
 }
-function abp_get_form_data(form_area) {
-    let formData = new FormData();
-    form_area.find('input, select, textarea').each(function () {
-        let name = jQuery(this).attr('name');
-        let value = jQuery(this).val();
-        if (name) {
-            if (jQuery(this).attr('type') === 'checkbox' || jQuery(this).attr('type') === 'radio') {
-                if (jQuery(this).is(':checked')) {
-                    formData.append(name, value);
-                }
-            } else {
-                formData.append(name, value);
-            }
-        }
-    });
-    return formData;
-}
+
 function abp_ajx_error(xhr, target) {
     abp_spinner_remove(target);
     if (xhr.response && xhr.response.data) {

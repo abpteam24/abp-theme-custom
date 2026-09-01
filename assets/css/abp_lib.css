@@ -843,6 +843,10 @@
 	@media only screen and (max-width: 600px) {
 		div.item_2, div.item_3, div.item_4, div.item_5, div.item_6, div.item_7, div.item_8, div.item_9, div.item_10 { column-count: 1; grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
 	}
+	div.abp_area [class*="_grid_500"]{display: -webkit-flex;display: flex;-webkit-flex-wrap: wrap; flex-wrap: wrap;gap:var(--tb_gap);width: 100%;}
+	div.abp_area [class*="_grid_600"]{display: -webkit-flex;display: flex;-webkit-flex-wrap: wrap; flex-wrap: wrap;gap:var(--tb_gap);width: 100%;}
+	div.abp_area [class*="_grid_500"]>div{-webkit-flex: 1 1 500px;flex: 1 1 500px;}
+	div.abp_area [class*="_grid_600"]>div{-webkit-flex: 1 1 500px;flex: 1 1 500px;}
 }
 /******************************************************************** Load More************************************************/
 @media only screen and (min-width: 10px) {

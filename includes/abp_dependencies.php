@@ -10,6 +10,13 @@
 				add_action('wp_enqueue_scripts', array($this, 'global_enqueue'), 90);
 
 				add_action('upgrader_process_complete', [$this, 'flush_rewrite']);
+				add_action('admin_init', [$this, 'user_blacklist']);
+			}
+			public function user_blacklist(): void {
+				if ( is_admin() && ! defined( 'DOING_AJAX' ) && current_user_can( 'subscriber' ) ) {
+					wp_safe_redirect( site_url( '/my-account/' ) ); // আপনার মাই একাউন্ট পেজের URL দিন
+					exit;
+				}
 			}
 			private function load_file(): void {
 				$files = array(
@@ -17,7 +24,6 @@
 					'includes/abp_static.php',
 					'includes/abp_function.php',
 					'includes/abp_layout.php',
-					'includes/abp_hooks.php',	
 					'includes/abp_shortcodes.php',
 				);
 				foreach ( $files as $f ) {

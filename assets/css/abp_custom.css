@@ -1,12 +1,12 @@
 @media only screen and (min-width: 10px) {
-	div.abp_area [data-price-switch] {width: auto; height: 50px; min-width: auto;position: relative; background-color: var(--tb_color_white);border: 2px solid var(--tb_color_theme);border-radius: var(--tb_br);font-size: 20px;}
-	div.abp_area [data-price-switch]::before {position: absolute; content: 'Yearly / Annual Billing';height: 100%; width: 50%; left: 0; bottom: 0;top: 0; background-color: var(--tb_color_theme);color: var(--tb_color_white);opacity: 1; display: -webkit-flex; display: flex; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center; -webkit-transition: var(--tb_transition); transition: var(--tb_transition);}
-	div.abp_area [data-price-switch].abp_active::before {opacity: 0.4;background-color: var(--tb_color_light);color: var(--tb_color_theme);}
-	div.abp_area [data-price-switch]::after {position: absolute; content:  'One Time / Lifetime License';height: 100%; width: 50%; right: 0; bottom: 0;top: 0; background-color: var(--tb_color_light);color: var(--tb_color_theme);opacity: 0.4; display: -webkit-flex; display: flex; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center;-webkit-transition: var(--tb_transition); transition: var(--tb_transition); }
-	div.abp_area [data-price-switch].abp_active::after {background-color: var(--tb_color_theme);color: var(--tb_color_white);opacity: 1;}
+	div.abp_area [data-price-switch] {width: auto; height: 50px; min-width: auto;position: relative; background-color: var(--abp_color_white);border: 2px solid var(--abp_color_theme);border-radius: var(--abp_br);font-size: 20px;}
+	div.abp_area [data-price-switch]::before {position: absolute; content: 'Yearly / Annual Billing';height: 100%; width: 50%; left: 0; bottom: 0;top: 0; background-color: var(--abp_color_theme);color: var(--abp_color_white);opacity: 1; display: -webkit-flex; display: flex; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center; -webkit-transition: var(--abp_transition); transition: var(--abp_transition);}
+	div.abp_area [data-price-switch].abp_active::before {opacity: 0.4;background-color: var(--abp_color_light);color: var(--abp_color_theme);}
+	div.abp_area [data-price-switch]::after {position: absolute; content:  'One Time / Lifetime License';height: 100%; width: 50%; right: 0; bottom: 0;top: 0; background-color: var(--abp_color_light);color: var(--abp_color_theme);opacity: 0.4; display: -webkit-flex; display: flex; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center;-webkit-transition: var(--abp_transition); transition: var(--abp_transition); }
+	div.abp_area [data-price-switch].abp_active::after {background-color: var(--abp_color_theme);color: var(--abp_color_white);opacity: 1;}
 }
 @media only screen and (min-width: 10px) {
-	#pxl-main { padding: var(--tb_gap) 0 !important;}
+	#pxl-main { padding: var(--abp_gap) 0 !important;}
 	.pxl-tabs1.style-2 .pxl-tabs--title .pxl-item--title:last-child .pxl-title--text {right: -110px;}
 	.pxl-tabs1.style-2 .pxl-tabs--title .pxl-item--title .pxl-title--text {left: -150px;}
 	.elementor-invisible { visibility: visible;}
@@ -226,9 +226,9 @@
 	}
 }
 @media only screen and (min-width: 10px) {
-	div.abp_price_section { margin: var(--tb_gap) auto; }
-	.edd-toggle-container { display: flex; align-items: center; justify-content: center; gap: var(--tb_gap); margin-bottom: 40px; }
-	.edd-toggle-label { font-size: var(--tb_fs_h6); font-weight: 600; color: #64748B; cursor: pointer; transition: color 0.3s ease; }
+	div.abp_price_section { margin: var(--abp_gap) auto; }
+	.edd-toggle-container { display: flex; align-items: center; justify-content: center; gap: var(--abp_gap); margin-bottom: 40px; }
+	.edd-toggle-label { font-size: var(--abp_fs_h6); font-weight: 600; color: #64748B; cursor: pointer; transition: color 0.3s ease; }
 	.edd-toggle-label.active { color: #0F172A; }
 	.edd-switch { position: relative; display: inline-block; width: 60px; height: 32px; }
 	.edd-switch input { opacity: 0; width: 0; height: 0; }
@@ -238,15 +238,15 @@
 	input:checked + .edd-slider:before { transform: translateX(28px); }
 	.edd-view-pane { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.4s ease, transform 0.4s ease; }
 	.edd-view-pane.active { display: block; opacity: 1; transform: translateY(0); }
-	.edd-pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--tb_gap); align-items: stretch; }
+	.edd-pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--abp_gap); align-items: stretch; }
 	.edd-price-card { position: relative; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 32px 24px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease, box-shadow 0.3s ease; }
 	.edd-price-card:hover { transform: translateY(-6px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08); }
 	.edd-price-card.popular { border: 2px solid #2563EB; box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.15); }
 	.edd-popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #2563EB; color: #FFFFFF; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 16px; border-radius: 20px; }
-	.edd-feature-list { list-style: none;padding: var(--tb_gap); }
-	.edd-feature-list li { font-size: 14px; color: #475569; margin-bottom: var(--tb_gap_xs); display: flex; align-items: center; gap: var(--tb_gap_xs); }
+	.edd-feature-list { list-style: none;padding: var(--abp_gap); }
+	.edd-feature-list li { font-size: 14px; color: #475569; margin-bottom: var(--abp_gap_xs); display: flex; align-items: center; gap: var(--abp_gap_xs); }
 	.edd-feature-list li::before { content: "✓"; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #DCFCE7; color: #16A34A; border-radius: 50%; font-size: 12px; font-weight: bold; }
-	.edd-checkout-btn { display: block; text-align: center; padding: var(--tb_gap_xs) 0; background-color: #0F172A; color: #FFFFFF !important; text-decoration: none !important; font-weight: 600; border-radius: 8px; transition: background-color 0.2s ease; }
+	.edd-checkout-btn { display: block; text-align: center; padding: var(--abp_gap_xs) 0; background-color: #0F172A; color: #FFFFFF !important; text-decoration: none !important; font-weight: 600; border-radius: 8px; transition: background-color 0.2s ease; }
 	.edd-price-card.popular .edd-checkout-btn { background-color: #2563EB; }
 	.edd-checkout-btn:hover { background-color: #1D4ED8; }
 }

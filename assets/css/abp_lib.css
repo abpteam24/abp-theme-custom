@@ -387,7 +387,7 @@
 	div.abp_area [class*="_main_widget"] { width: 100%; max-width: var(--tb_widget_main); margin: 0 0 0 var(--tb_gap); }
 	div.abp_area [class*="_right_widget"] { width: 100%; max-width: var(--tb_widget_right); }
 	/*=============================*/
-	.abp_area [class*="_section"] { padding: var(--tb_gap); background-color: var(--tb_color_section); border: 1px solid var(--tb_color_border);width: 100%;border-radius: var(--tb_br); }
+	.abp_area [class*="_section"] { padding: var(--tb_gap); width: 100%; }
 	div.abp_area [class*="_section_1"] {box-shadow: var(--tb_shadow_1);}
 	div.abp_area [class*="_section_2"] {box-shadow: var(--tb_shadow_2);}
 	div.abp_area [class*="_section_3"] {box-shadow: var(--tb_shadow_3);}
@@ -563,6 +563,8 @@
 	div.abp_area [data-switch].abp_active::before {opacity: 0.4;background-color: var(--tb_color_light);color: var(--tb_color_theme);}
 	div.abp_area [data-switch]::after {position: absolute; content: var(--tb_text_on);height: 100%; width: 50%; right: 0; bottom: 0;top: 0; background-color: var(--tb_color_light);color: var(--tb_color_theme);opacity: 0.4; display: -webkit-flex; display: flex; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center;-webkit-transition: var(--tb_transition); transition: var(--tb_transition); }
 	div.abp_area [data-switch].abp_active::after {background-color: var(--tb_color_success);color: var(--tb_color_white);opacity: 1;}
+	/*************** PriceSwitch on/off*********/
+
 	/*************** Custom Checkbox & radio*********/
 	div.abp_area [data-checked] { -webkit-transition: var(--tb_transition); transition: var(--tb_transition); }
 	div.abp_area div.custom_radio [data-radio].abp_active { -webkit-box-shadow: var(--tb_shadow_1); box-shadow: var(--tb_shadow_1); }
@@ -846,7 +848,7 @@
 	div.abp_area [class*="_grid_500"]{display: -webkit-flex;display: flex;-webkit-flex-wrap: wrap; flex-wrap: wrap;gap:var(--tb_gap);width: 100%;}
 	div.abp_area [class*="_grid_600"]{display: -webkit-flex;display: flex;-webkit-flex-wrap: wrap; flex-wrap: wrap;gap:var(--tb_gap);width: 100%;}
 	div.abp_area [class*="_grid_500"]>div{-webkit-flex: 1 1 500px;flex: 1 1 500px;}
-	div.abp_area [class*="_grid_600"]>div{-webkit-flex: 1 1 500px;flex: 1 1 500px;}
+	div.abp_area [class*="_grid_600"]>div{-webkit-flex: 1 1 500px;flex: 1 1 600px;}
 }
 /******************************************************************** Load More************************************************/
 @media only screen and (min-width: 10px) {
@@ -1033,6 +1035,7 @@
 	div.abp_area [class*="_btn_tp"] {color: var(--tb_color_default); background-color: transparent;border-color: transparent; }
 	div.abp_area [class*="_btn_tp"].abp_active { color: var(--tb_color_theme);background-color: transparent;border-color: transparent;}
 	/*=============================*/
+	div.abp_area [class*="_btn_light_theme"].abp_active,
 	div.abp_area [class*="_btn_theme"] {color: var(--tb_color_theme_alter); background-color: var(--tb_color_theme);border-color: var(--tb_color_theme); }
 	div.abp_area [class*="_btn_light_theme"] { color: var(--tb_color_theme);background-color: var(--tb_color_theme_alter);border-color: var(--tb_color_theme);}
 	div.abp_area [class*="_btn_theme"].abp_active { color: var(--tb_color_theme); background-color: var(--tb_color_theme_alter);}

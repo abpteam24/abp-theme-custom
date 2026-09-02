@@ -45,8 +45,8 @@
 				wp_enqueue_style('abp_jquery_ui', ABP_URL . 'assets/css/jquery-ui.min.css', array(), '1.13.2');
 				wp_enqueue_style('abp_font_awesome', ABP_URL . 'assets/css/font_awesome.min.css', array(), '5.15.4');
 				wp_enqueue_style('abp_custom', ABP_URL . 'assets/css/abp_custom.css', array(), time());
-				wp_enqueue_style('abp_lib', ABP_URL . 'assets/css/abp_lib.css', array(), ABP_VERSION);
-				wp_enqueue_script('abp_lib', ABP_URL . 'assets/js/abp_lib.js', array('jquery'), ABP_VERSION, true);
+				wp_enqueue_style('abp_lib', ABP_URL . 'assets/css/abp_lib.css', array(), time());
+				wp_enqueue_script('abp_lib', ABP_URL . 'assets/js/abp_lib.js', array('jquery'), time(), true);
 				$colors = ABP_Function::get_option('abp_color');
 				//echo '<pre>';                print_r($colors);                echo '</pre>';
 				$available = !empty($colors['available']) ? $colors['available'] : "#D4EDDA";

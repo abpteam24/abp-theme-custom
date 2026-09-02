@@ -7,6 +7,21 @@
 			public function __construct() {
 			}
 
+			public static function build_edd_url( $product_id, $price_id ): string {
+				if ( ! empty( $price_id ) && ! empty( $product_id ) ) {
+					$base_url = home_url( '/checkout/' );
+
+					return add_query_arg( array(
+						'edd_action'  => 'add_to_cart',
+						'download_id' => $product_id,
+						'edd_options' => array(
+							'price_id' => $price_id,
+						),
+					), $base_url );
+				}
+				return '';
+			}
+
 			public static function get_post_info( $post_id, $key, $default = '' ) {
 				$data = get_post_meta( $post_id, $key, true ) ?: $default;
 
@@ -82,8 +97,6 @@
 				return $default;
 			}
 
-
-
 			public static function get_image_url( $post_id = '', $image_id = '', $size = '' ): bool|string {
 				$image_id = $post_id && $post_id > 0 ? get_post_thumbnail_id( $post_id ) : $image_id;
 
@@ -129,5 +142,33 @@
 			//============== Transport Function===============//
 		}
 		new ABP_Function();
+	}
+	function edd_sl_get_license_limit( $license ) {
+		if ( is_array( $license ) ) {
+			$license_obj = (object) $license;
+		} elseif ( is_object( $license ) ) {
+			$license_obj = $license;
+		} else {
+			return 0;
+		}
+		$stored_limit = isset( $license_obj->activation_limit ) ? (int) $license_obj->activation_limit : 0;
+		if ( $stored_limit > 0 ) {
+			return $stored_limit;
+		}
+		$product_id = isset( $license_obj->product_id ) ? (int) $license_obj->product_id : 0;
+		if ( ! $product_id ) {
+			return 0;
+		}
+		$price_id = null;
+		if ( isset( $license_obj->price_id ) && is_numeric( $license_obj->price_id ) ) {
+			$price_id = (int) $license_obj->price_id;
+		}
+		if ( function_exists( 'edd_sl_get_product_license_config' ) ) {
+			$config = edd_sl_get_product_license_config( $product_id, $price_id );
+
+			return isset( $config['limit'] ) ? (int) $config['limit'] : 0;
+		}
+
+		return 0;
 	}
 

@@ -3,8 +3,8 @@
 	:root {
 		--abp_br: 5px;
 		--abp_br_xl: 10px;
-		--abp_fs: 12px;
-		--abp_fs_label: 14px;
+		--abp_fs: 14px;
+		--abp_fs_label: 15px;
 		--abp_fs_h6: 17px;
 		--abp_fs_h5: 20px;
 		--abp_fs_h4: 25px;
@@ -34,12 +34,12 @@
 		--abp_widget_left: 280px;
 		--abp_widget_right: 300px;
 		--abp_widget_main: calc(100% - 300px);
-		--abp_gap: 20px;
-		--abp_negative: -20px;
-		--abp_gap_xs: 10px;
-		--abp_gap_xxs: 5px;
-		--abp_gap_xxs_neg: -5px;
-		--abp_gap_xs_neg: -10px;
+		--abp_gap: 30px;
+		--abp_negative: -30px;
+		--abp_gap_xs: 15px;
+		--abp_gap_xxs: 10px;
+		--abp_gap_xxs_neg: -10px;
+		--abp_gap_xs_neg: -15px;
 		--abp_button_height: 40px;
 		--abp_button_height_xs: 30px;
 		--abp_button_width: 120px;
@@ -129,7 +129,7 @@
 @media only screen and (max-width: 1100px) {
 	:root {
 		--abp_fs_small: 10px;
-		--abp_fs: 12px;
+		--abp_fs: 13px;
 		--abp_fs_label: 14px;
 		--abp_button_fs: 14px;
 		--abp_fs_h6: 14px;
@@ -138,10 +138,10 @@
 		--abp_fs_h3: 22px;
 		--abp_fs_h2: 25px;
 		--abp_fs_h1: 30px;
-		--abp_gap: 16px;
-		--abp_negative: -16px;
-		--abp_gap_xs: 8px;
-		--abp_gap_xs_neg: -8px;
+		--abp_gap: 20px;
+		--abp_negative: -10px;
+		--abp_gap_xs: 10px;
+		--abp_gap_xs_neg: -10px;
 	}
 }
 @media only screen and (max-width: 700px) {
@@ -155,9 +155,9 @@
 		--abp_fs_h3: 18px;
 		--abp_fs_h2: 20px;
 		--abp_fs_h1: 24px;
-		--abp_gap: 10px;
-		--abp_gap_xs: 5px;
-		--abp_gap_xs_neg: -5px;
+		--abp_gap: 16px;
+		--abp_gap_xs: 8px;
+		--abp_gap_xs_neg: -8px;
 	}
 }
 /******************************************************************** General ************************************************/
@@ -193,11 +193,11 @@
 }
 /******************************************************************** Font Size & Font weight ************************************************/
 @media only screen and (min-width: 10px) {
-	.abp_area h1[class*="abp"], div.abp_area [class*="_fs_h1"] { font-size: var(--abp_fs_h1); font-weight: var(--abp_fw-bold); text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4;color: inherit;}
-	.abp_area h2[class*="abp"], div.abp_area [class*="_fs_h2"] { font-size: var(--abp_fs_h2); font-weight: var(--abp_fw-bold);text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4; color: inherit;}
-	.abp_area h3[class*="abp"], div.abp_area [class*="_fs_h3"] { font-size: var(--abp_fs_h3); font-weight: var(--abp_fw-medium);text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4; color: inherit;}
-	.abp_area h4[class*="abp"], div.abp_area [class*="_fs_h4"] { font-size: var(--abp_fs_h4); font-weight: var(--abp_fw-medium); text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4;color: inherit;}
-	.abp_area h5[class*="abp"], div.abp_area [class*="_fs_h5"] { font-size: var(--abp_fs_h5); font-weight: var(--abp_fw-medium); text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4;color: inherit;}
+	.abp_area h1[class*="abp"], div.abp_area [class*="_fs_h1"] { font-size: var(--abp_fs_h1); font-weight: 600; text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4;color: inherit;}
+	.abp_area h2[class*="abp"], div.abp_area [class*="_fs_h2"] { font-size: var(--abp_fs_h2); font-weight: 600;text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4; color: inherit;}
+	.abp_area h3[class*="abp"], div.abp_area [class*="_fs_h3"] { font-size: var(--abp_fs_h3); font-weight: 500;text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4; color: inherit;}
+	.abp_area h4[class*="abp"], div.abp_area [class*="_fs_h4"] { font-size: var(--abp_fs_h4); font-weight: 500; text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4;color: inherit;}
+	.abp_area h5[class*="abp"], div.abp_area [class*="_fs_h5"] { font-size: var(--abp_fs_h5); font-weight: 500; text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4;color: inherit;}
 	.abp_area h6[class*="abp"], .abp_area [class*="_fs_h6"] { font-size: var(--abp_fs_h6); font-weight: var(--abp_fw-medium); text-transform: capitalize;margin: 0; padding: 0; line-height: 1.4;color: inherit;}
 	.abp_area label, div.abp_area [class*="_fs_label"] { font-size: var(--abp_fs_label); font-weight: var(--abp_fw-medium);margin: 0; padding: 0; line-height: 1.4; color: inherit;}
 	.abp_area small, div.abp_area [class*="_fs_small"] { font-size: var(--abp_fs_small); font-weight: var(--abp_fw-medium);margin: 0; padding: 0; line-height: 1.4;color: inherit; }
@@ -380,6 +380,7 @@
 	body.theme-twentytwentytwo div.abp_area div.abp_container,
 	div.abp_area div.abp_container { max-width: var(--abp_container_max); width: 100%; margin: 0 auto; display: -webkit-flex; display: flex; -webkit-flex-direction: column;flex-direction: column;gap: var(--abp_gap);}
 	div.abp_area [class*="abp_row"] { min-height: 1px; display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap;}
+	div.abp_area div.abp_container{background-color: #707;}
 	/*=============================*/
 	div.abp_area pre {background: var(--abp_color_light); border: 1px solid var(--abp_color_border); padding: var(--abp_gap);display: block; font-size: var(--abp_fs_h5); word-break: break-all; word-wrap: break-word;white-space: pre-wrap;}
 	/*=============================*/
@@ -845,10 +846,12 @@
 	@media only screen and (max-width: 600px) {
 		div.item_2, div.item_3, div.item_4, div.item_5, div.item_6, div.item_7, div.item_8, div.item_9, div.item_10 { column-count: 1; grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
 	}
-	div.abp_area [class*="_grid_500"]{display: -webkit-flex;display: flex;-webkit-flex-wrap: wrap; flex-wrap: wrap;gap:var(--abp_gap);width: 100%;}
+	div.abp_area [class*="_grid_350"],
+	div.abp_area [class*="_grid_500"],
 	div.abp_area [class*="_grid_600"]{display: -webkit-flex;display: flex;-webkit-flex-wrap: wrap; flex-wrap: wrap;gap:var(--abp_gap);width: 100%;}
+	div.abp_area [class*="_grid_350"]>div{-webkit-flex: 1 1 350px;flex: 1 1 350px;}
 	div.abp_area [class*="_grid_500"]>div{-webkit-flex: 1 1 500px;flex: 1 1 500px;}
-	div.abp_area [class*="_grid_600"]>div{-webkit-flex: 1 1 500px;flex: 1 1 600px;}
+	div.abp_area [class*="_grid_600"]>div{-webkit-flex: 1 1 600px;flex: 1 1 600px;}
 }
 /******************************************************************** Load More************************************************/
 @media only screen and (min-width: 10px) {

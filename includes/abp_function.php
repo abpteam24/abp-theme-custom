@@ -6,7 +6,16 @@
 		class ABP_Function {
 			public function __construct() {
 			}
+			public static function get_post_id(): array {
 
+				$all_data = get_posts(array(
+					'post_type'      => 'download',
+					'post_status'    => 'publish',
+					'numberposts'    => -1,
+					'fields'         => 'ids',
+				));
+				return array_unique($all_data);
+			}
 			public static function build_edd_url( $product_id, $price_id ): string {
 				if ( ! empty( $price_id ) && ! empty( $product_id ) ) {
 					$base_url = home_url( '/checkout/' );

@@ -1,10 +1,10 @@
 
 (function ($) {
     "use strict";
-    $(document).on('click', 'div.abp_area .abp_price_section [data-price-target]', function () {
+    $(document).on('click', 'div.abp_area .abp_product_price [data-price-target]', function () {
         if (!$(this).hasClass('abp_active')) {
             let tabsTarget = $(this).data('price-target');
-            let parent = $(this).closest('.abp_price_section');
+            let parent = $(this).closest('.abp_product_price');
             parent.height(parent.height());
             parent.find('[data-price-target].abp_active').removeClass('abp_active');
             $(this).addClass('abp_active');

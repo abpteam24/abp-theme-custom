@@ -152,7 +152,7 @@
                                                             <th><?php echo esc_html( $expiration_text ); ?></th>
                                                             <th><?php echo esc_html( $amount ); ?></th>
                                                             <th>
-																<?php echo ! empty( $download_html ) ? implode( '<br>', $download_html ) : esc_html__( 'No file', 'easy-digital-downloads' ); ?>
+																<?php echo (! empty( $download_html ) && $license && $license->license_key)  ? implode( '<br>', $download_html ) : esc_html__( 'No file', 'easy-digital-downloads' ); ?>
                                                             </th>
                                                             <th>
 																<?php if ( $license && $license->date_expiration && $license->date_expiration !== 'lifetime' ) { ?>

@@ -1,383 +1,654 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit; // Exit if accessed directly
-    }
-    if ( ! class_exists( 'ABP_Static' ) ) {
-        class ABP_Static {
-            public static function array_info( $key ) {
-                $des = apply_filters( 'abp_info_array_filter', '' );
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit; // Exit if accessed directly
+	}
+	if ( ! class_exists( 'ABP_Static' ) ) {
+		class ABP_Static {
+			public static function array_info( $key ) {
+				$des = apply_filters( 'abp_info_array_filter', '' );
 
-                return $des[ $key ] ?? '';
-            }
+				return $des[ $key ] ?? '';
+			}
 
-            public static function svg( $key ): void {
-                $des              = [
-                    'user_group_1' => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"  d="M17 20c0-1.657-2.239-3-5-3s-5 1.343-5 3m14-3c0-1.23-1.234-2.287-3-2.75M3 17c0-1.23 1.234-2.287 3-2.75m12-4.014a3 3 0 1 0-4-4.472m-8 4.472a3 3 0 0 1 4-4.472M12 14a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z"/></svg>',
-                    'user_group_2' => '<svg  viewBox="0 0 24 24"> <path fill="currentColor" fill-rule="evenodd" d="M12 6a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7m-1.5 8a4 4 0 0 0-4 4c0 1.1.9 2 2 2h7a2 2 0 0 0 2-2a4 4 0 0 0-4-4zm6.8-3.1a5.5 5.5 0 0 0-2.8-6.3c.6-.4 1.3-.6 2-.6a3.5 3.5 0 0 1 .8 6.9m2.2 7.1h.5a2 2 0 0 0 2-2a4 4 0 0 0-4-4h-1.1l-.5.8c1.9 1 3.1 3 3.1 5.2M4 7.5a3.5 3.5 0 0 1 5.5-2.9A5.5 5.5 0 0 0 6.7 11A3.5 3.5 0 0 1 4 7.5M7.1 12H6a4 4 0 0 0-4 4c0 1.1.9 2 2 2h.5a6 6 0 0 1 3-5.2z" clip-rule="evenodd"/></svg>',
-                    'plus'         => '<svg viewBox="0 0 16 16"><path fill="currentColor" d="M14 7H9V2H7v5H2v2h5v5h2V9h5V7z"/></svg>',
-                    'minus_1'      => '<svg viewBox="0 0 16 16"><path fill="currentColor" d="M2 7h12v2H2V7z"/></svg>',
-                    'minus_2'      => '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.707 10.295a2.41 2.41 0 0 0 0 3.41l7.588 7.588a2.41 2.41 0 0 0 3.41 0l7.588-7.588a2.41 2.41 0 0 0 0-3.41l-7.588-7.588a2.41 2.41 0 0 0-3.41 0zM8.5 12h7"/></svg>',
-                    'minus_3'      => '<svg viewBox="0 0 32 32"><path fill="currentColor" d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3zm0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5zm-6 10v2h12v-2H10z"/></svg>',
-                    'minus_4'      => '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M299 213H0v-42h299v42z"/></svg>',
-                    'save'         => '<svg  viewBox="0 0 100 100.016"><path fill="#23475F" d="M88.555 0H83v.016a2 2 0 0 1-2 2H19a2 2 0 0 1-2-2V0H4a4 4 0 0 0-4 4v92.016a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V11.525C100.049 11.436 88.564.071 88.555 0z"/><path fill="#1C3C50" d="M81.04 53.016H18.96a2 2 0 0 0-2 2v45h66.08v-45c0-1.106-.895-2-2-2zm-61.957-10h61.834a2 2 0 0 0 2-2V.555A1.993 1.993 0 0 1 81 2.015H19c-.916 0-1.681-.62-1.917-1.46v40.46a2 2 0 0 0 2 2.001z"/><path fill="#EBF0F1" d="M22 55.985h56a2 2 0 0 1 2 2v37.031a2 2 0 0 1-2 2H22c-1.104 0-2-.396-2-1.5V57.985a2 2 0 0 1 2-2z"/><path fill="#BCC4C8" d="M25 77.016h50v1H25v-1zm0 10h50v1H25v-1z"/><path fill="#1C3C50" d="M7 84.016h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zm83 0h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z"/><path fill="#BCC4C8" d="M37 1.989v36.026a2 2 0 0 0 2 2h39a2 2 0 0 0 2-2V1.989c0 .007-42.982.007-43 0zm37 29.027a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2V10.989a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v20.027z"/><path fill="#FF9D00" d="M78 55.985H22a2 2 0 0 0-2 2v10.031h60V57.985a2 2 0 0 0-2-2z"/></svg>',
-                    'edit'         => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="M15.49 7.3h-1.16v6.35H1.67V3.28H8V2H1.67A1.21 1.21 0 0 0 .5 3.28v10.37a1.21 1.21 0 0 0 1.17 1.25h12.66a1.21 1.21 0 0 0 1.17-1.25z"/><path fill="currentColor" d="M10.56 2.87L6.22 7.22l-.44.44l-.08.08l-1.52 3.16a1.08 1.08 0 0 0 1.45 1.45l3.14-1.53l.53-.53l.43-.43l4.34-4.36l.45-.44l.25-.25a2.18 2.18 0 0 0 0-3.08a2.17 2.17 0 0 0-1.53-.63a2.19 2.19 0 0 0-1.54.63l-.7.69l-.45.44zM5.51 11l1.18-2.43l1.25 1.26zm2-3.36l3.9-3.91l1.3 1.31L8.85 9zm5.68-5.31a.91.91 0 0 1 .65.27a.93.93 0 0 1 0 1.31l-.25.24l-1.3-1.3l.25-.25a.88.88 0 0 1 .69-.25z"/></svg>',
-                    'drag'         => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="m15.46 7l-3.2-2.19l-.71 1l2.29 1.57H8.62V2.16l1.57 2.29l1-.71L9 .54a1.25 1.25 0 0 0-2 0l-2.22 3.2l1 .71l1.59-2.29v5.22H2.16l2.29-1.57l-.71-1L.54 7a1.25 1.25 0 0 0 0 2l3.2 2.19l.71-1l-2.29-1.57h5.21v5.22l-1.56-2.29l-1 .71L7 15.46a1.25 1.25 0 0 0 2.06 0l2.19-3.2l-1-.71l-1.63 2.29V8.62h5.22l-2.29 1.57l.71 1L15.46 9a1.25 1.25 0 0 0 0-2z"/></svg>',
-                    'order'        => '<svg  viewBox="0 0 16 16"> <path fill="none" stroke="currentColor" stroke-linejoin="round" d="M5 11.5h4M5 9h6M5 6.5h6m-5.5-4h-2v12h9v-12h-2m-5-1h5l-.625 2h-3.75z"/></svg>',
-                    'seat'         => '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 21v-6h16v6h-2v-4H6v4H4Zm-1-7v-3h3v3H3Zm4 0V3h10v11H7Zm11 0v-3h3v3h-3Z"/></svg>',
-                    'globe'        => '<svg viewBox="0 0 100 100"><path id="gisGlobe0" fill="currentColor" fill-opacity="1" fill-rule="nonzero" stroke="none" stroke-dasharray="none" stroke-dashoffset="188.976" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-opacity="1" stroke-width="5" d="M52.5 5.682v20.187h17.676c-.988-2.823-2.13-5.429-3.408-7.75c-3.966-7.2-9-11.541-14.268-12.437zm-5 .197c-4.93 1.223-9.61 5.462-13.342 12.24c-1.278 2.321-2.42 4.927-3.408 7.75H47.5V5.88zM35.98 7.232C25.985 10.5 17.545 17.163 12.01 25.87h13.455c1.187-3.695 2.633-7.112 4.312-10.162c1.793-3.255 3.88-6.123 6.203-8.475zm29.41.463c2.145 2.263 4.082 4.967 5.758 8.012c1.68 3.05 3.123 6.467 4.307 10.162H87.99c-5.28-8.306-13.202-14.761-22.6-18.174zM9.257 30.87A44.79 44.79 0 0 0 5.072 47.5h16.79c.194-5.872.957-11.469 2.202-16.63H9.256zm19.974 0c-1.32 5.077-2.15 10.696-2.363 16.631H47.5V30.87H29.23zm23.27 0V47.5H74.06c-.212-5.935-1.043-11.554-2.364-16.63H52.5zm24.355 0c1.243 5.163 2.004 10.76 2.198 16.631h15.875a44.79 44.79 0 0 0-4.184-16.63h-13.89zM5.072 52.5a44.79 44.79 0 0 0 4.184 16.63h14.572c-1.174-5.176-1.865-10.774-1.994-16.63H5.072zm21.762 0c.14 5.915.901 11.53 2.146 16.63H47.5V52.5H26.834zm25.666 0v16.63h19.445c1.245-5.1 2.006-10.715 2.147-16.63H52.5zm26.576 0c-.129 5.855-.815 11.453-1.986 16.63h13.654a44.79 44.79 0 0 0 4.184-16.63H79.076zM12.01 74.13c5.285 8.313 13.214 14.772 22.62 18.183c-1.785-2.05-3.415-4.407-4.853-7.018c-1.83-3.325-3.389-7.08-4.63-11.164H12.01zm18.394 0c1.062 3.216 2.326 6.159 3.754 8.753c3.5 6.355 7.834 10.475 12.424 11.974c.306.023.61.054.918.07V74.132H30.404zm22.096 0v20.798a45.48 45.48 0 0 0 2.127-.162c4.485-1.575 8.713-5.658 12.14-11.883c1.429-2.594 2.693-5.537 3.754-8.752H52.5zm23.275 0c-1.239 4.085-2.796 7.84-4.627 11.165c-1.311 2.382-2.782 4.556-4.386 6.476a45.06 45.06 0 0 0 21.228-17.64H75.775z" color="currentColor" color-interpolation="sRGB" color-rendering="auto" display="inline" opacity="1" vector-effect="none" visibility="visible"/></svg>',
-                    'setting'      => '<svg viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M16 15c1.306 0 2.418.835 2.83 2H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 1 1 0-2h9.17A3.001 3.001 0 0 1 16 15Zm0 2a1 1 0 1 0 0 2a1 1 0 0 0 0-2ZM8 9a3 3 0 0 1 2.762 1.828l.067.172H20a1 1 0 0 1 .117 1.993L20 13h-9.17a3.001 3.001 0 0 1-5.592.172L5.17 13H4a1 1 0 0 1-.117-1.993L4 11h1.17A3.001 3.001 0 0 1 8 9Zm0 2a1 1 0 1 0 0 2a1 1 0 0 0 0-2Zm8-8c1.306 0 2.418.835 2.83 2H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 0 1 0-2h9.17A3.001 3.001 0 0 1 16 3Zm0 2a1 1 0 1 0 0 2a1 1 0 0 0 0-2Z"/></g></svg>',
-                    'status'       => '<svg  viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M16.001 5.2q-.262.385-.445.82a7 7 0 0 0-.157.405c-.165.461-.27.881-.373 1.303l-.005.019c-.132.533-.264 1.067-.525 1.687a5 5 0 0 1-.48.88l-.006.006l-.002.004c2.325.684 4.925-.224 5.868-2.452c.58-1.368.257-3.08-1.052-3.672c-1.054-.476-2.088-.086-2.822 1M3.184 12.023q.147-.447.38-.854q.111-.194.224-.37c.264-.408.532-.742.8-1.076l.026-.031c.335-.42.672-.84.998-1.414q.234-.407.386-.854l.006-.019l.018-.058c1.897 1.55 2.71 4.266 1.52 6.362c-.729 1.289-2.258 2.021-3.487 1.268c-.99-.605-1.29-1.702-.871-2.954M21 17.251c-2.51 0-4.544-2.108-4.544-4.708h-2.654C13.802 16.662 17.025 20 21 20zm-8.663-4.708c0 4.119-3.223 7.457-7.198 7.457v-2.75c2.51 0 4.544-2.107 4.544-4.707zm0 0l-.002-8.324H9.68l.002 8.324z" clip-rule="evenodd"/></svg>',
-                    'category'     => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/>  <path d="M3 9h18"/>  <path d="M7 16v2"/>  <path d="M17 16v2"/><circle cx="7" cy="18.5" r="0.5" fill="currentColor" stroke="none"/>  <circle cx="17" cy="18.5" r="0.5" fill="currentColor" stroke="none"/></svg>',
-                    'category_1'   => '<svg  viewBox="0 0 24 24" fill="none">  <rect x="4" y="7" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/>  <line x1="4" y1="11" x2="20" y2="11" stroke="currentColor" stroke-width="2"/>  <line x1="8" y1="4" x2="8" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>  <line x1="16" y1="4" x2="16" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>  <circle cx="8.5" cy="15" r="1.3" fill="currentColor"/></svg>',
-                    'brand_1'      => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3v6c0 5-3 8.5-7 11-4-2.5-7-6-7-11V5z"/>  <path d="M9 12l2 2 4-4"/></svg>',
-                    'brand_2'      => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><line x1="8" y1="7" x2="8" y2="7.01"/><line x1="12" y1="7" x2="12" y2="7.01"/><line x1="16" y1="7" x2="16" y2="7.01"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><path d="M9 21v-4h6v4"/></svg>',
-                    'organizer_1'  => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/>  <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/>  <path d="M17.5 4.5l1 1 2-2"/></svg>',
-                    'organizer_2'  => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h2"/><path d="M8 12h2"/><path d="M8 16h2"/><path d="M14 8l1.5 1.5L18 7"/><path d="M14 12l1.5 1.5L18 11"/><path d="M14 16l1.5 1.5L18 15"/></svg>',
-                    'date_1'       => '<svg viewBox="0 0 48 48">    <path fill="#CFD8DC" d="M5 38V14h38v24c0 2.2-1.8 4-4 4H9c-2.2 0-4-1.8-4-4z"/>    <path fill="#F44336" d="M43 10v6H5v-6c0-2.2 1.8-4 4-4h30c2.2 0 4 1.8 4 4z"/>    <g fill="#B71C1C">        <circle cx="33" cy="10" r="3"/>        <circle cx="15" cy="10" r="3"/>    </g>    <path fill="#B0BEC5" d="M33 3c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zM15 3c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z"/>    <path fill="#90A4AE" d="M13 20h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-18 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-18 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4z"/></svg>',
-                    'date_2'       => '<svg  viewBox="0 0 64 64">    <path fill="#ba9372" d="M58.1 19.6c-9.8-6-25-14.8-27.1-14.8c-2.1 0-16.7 8.9-26 14.8l-.5-.9C6.9 17.2 28 3.8 31 3.8s25.1 13.4 27.6 15l-.5.8"/>    <path fill="#93a2aa" d="M62 56.8c0 1.6-1.2 3-2.7 3H6.8c-1.5 0-2.7-1.3-2.7-3V21.1c0-1.6 1.2-3 2.7-3h52.5c1.5 0 2.7 1.3 2.7 3v35.7"/>    <path fill="#ed4c5c" d="M60 21.1c0-1.6-1.2-3-2.7-3H4.7c-1.5 0-2.7 1.3-2.7 3v9.5h58v-9.5z"/>    <path fill="#d9e3e8" d="M2 30.6v26.2c0 1.6 1.2 3 2.7 3h52.5c1.5 0 2.7-1.3 2.7-3V30.6H2z"/> <path fill="#93a2aa" d="M4.5 33h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zM28 37.4h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm-47 4.4h6V44h-6zm7.8 0h6V44h-6zm7.9 0h6V44h-6zm7.8 0h6V44h-6zm7.8 0h6V44h-6zm7.9 0h6V44h-6zm7.8 0h6V44h-6zm-47 4.5h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm-47 4.4h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm-47 4.4h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6z"/><ellipse cx="31.2" cy="6.2" fill="#333" rx="1.8" ry="1.9"/><ellipse cx="31" cy="6.2" fill="#93a2aa" rx="1.8" ry="1.9"/>    <path fill="#fff" d="M19.5 25.5v.2c0 .6.1 1 .2 1.3c.1.2.3.4.7.4c.4 0 .6-.1.7-.4c.1-.2.1-.4.1-.8v-5.5h1.6v5.4c0 .7-.1 1.2-.3 1.6c-.4.7-1 1-2 1s-1.6-.3-2-.8c-.3-.5-.5-1.3-.5-2.2v-.2h1.5m5-4.8h1.6v4.8c0 .5.1.9.2 1.2c.2.4.6.7 1.3.7c.6 0 1.1-.2 1.3-.7c.1-.3.1-.7.1-1.2v-4.8h1.6v4.8c0 .8-.1 1.5-.4 1.9c-.5.8-1.4 1.3-2.7 1.3c-1.3 0-2.2-.4-2.7-1.3c-.3-.5-.4-1.1-.4-1.9c.1 0 .1-4.8.1-4.8m7.7 0h1.6v6.4h3.8v1.4h-5.4v-7.8m10 0H44l-2.6 4.9v2.9h-1.6v-2.9l-2.7-4.9H39l1.6 3.4l1.6-3.4"/></svg>',
-                    'clone_1'      => '<svg viewBox="0 0 1792 1792"><path fill="currentColor" d="M1664 1632V544q0-13-9.5-22.5T1632 512H544q-13 0-22.5 9.5T512 544v1088q0 13 9.5 22.5t22.5 9.5h1088q13 0 22.5-9.5t9.5-22.5zm128-1088v1088q0 66-47 113t-113 47H544q-66 0-113-47t-47-113V544q0-66 47-113t113-47h1088q66 0 113 47t47 113zm-384-384v160h-128V160q0-13-9.5-22.5T1248 128H160q-13 0-22.5 9.5T128 160v1088q0 13 9.5 22.5t22.5 9.5h160v128H160q-66 0-113-47T0 1248V160Q0 94 47 47T160 0h1088q66 0 113 47t47 113z"/></svg>',
-                    'clone_2'      => '<svg viewBox="0 0 36 36"><path fill="currentColor" d="M24 10V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4V12a2 2 0 0 1 2-2Z" class="clr-i-solid clr-i-solid-path-1"/>    <path fill="currentColor" d="M30 12H14a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V14a2 2 0 0 0-2-2Zm-2 11h-5v5h-2v-5h-5v-2h5v-5h2v5h5Z" class="clr-i-solid clr-i-solid-path-2"/>    <path fill="none" d="M0 0h36v36H0z"/></svg>',
-                    'close_1'      => '<svg viewBox="0 0 304 384"><path fill="currentColor" d="M299 73L179 192l120 119l-30 30l-120-119L30 341L0 311l119-119L0 73l30-30l119 119L269 43z"/></svg>',
-                    'close_2'      => '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m-3.4 14L12 13.4L8.4 17L7 15.6l3.6-3.6L7 8.4L8.4 7l3.6 3.6L15.6 7L17 8.4L13.4 12l3.6 3.6l-1.4 1.4Z"/></svg>',
-                    'view_1'       => '<svg viewBox="0 0 24 24" stroke="currentColor"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2.25.75h19.5s1.5 0 1.5 1.5v19.5s0 1.5-1.5 1.5H2.25s-1.5 0-1.5-1.5V2.25s0-1.5 1.5-1.5"/><path d="M4.267 10.722a1.825 1.825 0 0 0 0 2.544C5.818 14.821 8.591 17.25 12 17.25c3.41 0 6.183-2.428 7.735-3.983a1.825 1.825 0 0 0 0-2.544C18.182 9.168 15.406 6.739 12 6.739s-6.18 2.427-7.733 3.983"/><path d="M9.75 11.991a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0"/></g></svg>',
-                    'view_2'       => '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21c-5 0-11-5-11-9s6-9 11-9s11 5 11 9s-6 9-11 9Zm0-14a5 5 0 1 0 0 10a5 5 0 0 0 0-10Z"/></svg>',
-                    'view_3'       => '<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M5 12s2.545-5 7-5c4.454 0 7 5 7 5s-2.546 5-7 5c-4.455 0-7-5-7-5z"/><path d="M12 13a1 1 0 1 0 0-2a1 1 0 0 0 0 2zm9 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/></g></svg>',
-                    'pdf_1'        => '<svg  viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M7.45 5.5a2 2 0 0 0-1.95 2v33.1a2 2 0 0 0 2 2h33.1a2 2 0 0 0 2-2V7.45a2 2 0 0 0-2-1.95Z"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M20.09 30V18h2a6 6 0 0 1 6 6h0a6 6 0 0 1-6 6Zm12.39-11.96h5.98m-5.98 5.98h3.9m-3.9-5.98V30M9.54 30V18h4a4 4 0 0 1 0 8h-4"/></svg>',
-                    'pdf_2'        => '<svg  viewBox="0 0 24 24" fill="none">  <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#e53e3e"/>  <path d="M15 2v5h5" fill="#ffffff" opacity="0.4"/>  <rect x="4" y="14" width="16" height="6" rx="1" fill="#c53030"/>  <text x="12" y="18.5" text-anchor="middle" font-size="6" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">PDF</text></svg>',
-                    'pdf_3'        => '<svg viewBox="0 0 24 24" fill="none">  <circle cx="12" cy="12" r="11" fill="#e53e3e"/>  <path d="M8 7h6l3 3v7a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="#ffffff"/>  <text x="12" y="15.5" text-anchor="middle" font-size="5" font-weight="700" fill="#e53e3e" font-family="Arial, sans-serif">PDF</text></svg>',
-                    'pdf_4'        => '<svg  viewBox="0 0 32 32" fill="none">  <path d="M7 2h13l7 7v19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="currentColor"/>  <path d="M20 2v7h7" fill="#f87171"/>  <rect x="8" y="12" width="10" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="8" y="16" width="14" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="4" y="21" width="20" height="8" rx="1.5" fill="#991b1b"/>  <text x="14" y="27" text-anchor="middle" font-size="8" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">PDF</text></svg>',
-                    'property'     => '<svg viewBox="0 0 120 125" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M5 55 L 60 15 L 115 55"/><rect x="18" y="50" width="84" height="70" rx="2"/><rect x="50" y="80" width="24" height="40"/> <rect x="30" y="62" width="16" height="16"/> <rect x="74" y="62" width="16" height="16"/></svg>',
-                    'check_1'      => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="m5.063 2.616l-1.47.002l-.147.005a1.977 1.977 0 0 0-1.828 1.971l-.002 1.469l-1.038 1.04l-.115.126A1.977 1.977 0 0 0 .58 9.898l1.037 1.037l.002 1.471l.005.148a1.977 1.977 0 0 0 1.971 1.828l1.468-.001l1.04 1.04l.126.116a1.977 1.977 0 0 0 2.67-.116l1.036-1.04l1.471.001l.148-.005a1.977 1.977 0 0 0 1.83-1.971l-.002-1.472l1.04-1.036l.115-.126a1.977 1.977 0 0 0-.115-2.67l-1.04-1.04l.001-1.467l-.005-.148a1.977 1.977 0 0 0-1.971-1.83l-1.471-.001l-1.037-1.037a1.976 1.976 0 0 0-2.796 0zm3.127-.33l1.331 1.331h1.885c.539 0 .976.438.976.977v1.883l1.332 1.333c.381.38.381 1 0 1.38l-1.333 1.331l.001 1.885a.976.976 0 0 1-.976.976H9.52l-1.33 1.332a.976.976 0 0 1-1.381 0l-1.333-1.333l-1.883.001a.976.976 0 0 1-.976-.976l-.001-1.885l-1.331-1.33a.976.976 0 0 1 0-1.381l1.331-1.333V4.594c0-.539.438-.976.977-.976l1.883-.001L6.81 2.286a.976.976 0 0 1 1.38 0m2.664 3.86a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L6.5 9.793l3.646-3.647a.5.5 0 0 1 .708 0"/></svg>',
-                    'check_2'      => '<svg   viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12l4.95 4.95L19.557 6.343"/></svg>',
-                    'check_3'      => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="M14 1H2c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1m-1.56 5.44l-5 5c-.12.12-.28.18-.44.18s-.32-.06-.44-.18l-2.5-2.5c-.24-.24-.24-.64 0-.88s.64-.24.88 0L7 10.12l4.56-4.56c.24-.24.64-.24.88 0c.25.24.25.64 0 .88"/></svg>',
-                    'check_4'      => '<svg  viewBox="0 0 12 12">    <g fill="none" stroke="currentColor">        <rect width="11" height="11" x=".5" y=".5" rx=".5" ry=".5"/>        <path stroke-linecap="round" stroke-linejoin="round" d="m3 6.5l2 2l4-4"/>    </g></svg>',
-                    'box_1'        => '<svg  viewBox="0 0 24 24">    <path fill="currentColor" d="M5 21q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.588 1.413T19 21H5Zm0-2h14V5H5v14Z"/></svg>',
-                    'box_2'        => '<svg viewBox="0 0 24 24">    <path fill="currentColor" d="M4 20V4h16v16H4Zm1-1h14V5H5v14Z"/></svg>',
-                    'csv_1'        => '<svg  viewBox="0 0 32 32" fill="none">  <path d="M7 2h13l7 7v19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="currentColor"/>  <path d="M20 2v7h7" fill="#4ade80"/>  <rect x="8" y="12" width="10" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="8" y="16" width="14" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="4" y="21" width="20" height="8" rx="1.5" fill="#166534"/>  <text x="14" y="27" text-anchor="middle" font-size="8" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">CSV</text></svg>',
-                    'csv_2'        => '<svg  viewBox="0 0 24 24" fill="none" >  <circle cx="12" cy="12" r="11" fill="currentColor"/>  <path d="M8 7h6l3 3v7a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="currentColor"/>  <text x="12" y="15.5" text-anchor="middle" font-size="5" font-weight="700" fill="#38a169" font-family="Arial, sans-serif">CSV</text></svg>',
-                    'csv_3'        => '<svg  viewBox="0 0 24 24" fill="none">  <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="currentColor"/>  <path d="M15 2v5h5" fill="#ffffff" opacity="0.4"/>  <rect x="4" y="14" width="16" height="6" rx="1" fill="#2f855a"/>  <text x="12" y="18.5" text-anchor="middle" font-size="6" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">CSV</text></svg>',
-                    ''             => '',
-                ];
-                $allowed_svg_tags = [
-                    'svg'      => [ 'class' => true, 'aria-hidden' => true, 'aria-labelledby' => true, 'role' => true, 'xmlns' => true, 'width' => true, 'height' => true, 'viewbox' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, ],
-                    'g'        => [ 'fill' => true, ],
-                    'title'    => [ 'title' => true, ],
-                    'path'     => [ 'd' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true, ],
-                    'rect'     => [ 'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true, 'fill' => true, 'stroke' => true, ],
-                    'circle'   => [ 'cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true, ],
-                    'line'     => [ 'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'stroke' => true, 'stroke-width' => true, ],
-                    'polyline' => [ 'points' => true, 'fill' => true, 'stroke' => true, ],
-                ];
-                $icons            = $des[ $key ] ?? '';
-                echo ! empty( $icons ) ? wp_kses( $icons, $allowed_svg_tags ) : '';
-            }
+			public static function svg( $key ): void {
+				$des              = [
+					'user_group_1' => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"  d="M17 20c0-1.657-2.239-3-5-3s-5 1.343-5 3m14-3c0-1.23-1.234-2.287-3-2.75M3 17c0-1.23 1.234-2.287 3-2.75m12-4.014a3 3 0 1 0-4-4.472m-8 4.472a3 3 0 0 1 4-4.472M12 14a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z"/></svg>',
+					'user_group_2' => '<svg  viewBox="0 0 24 24"> <path fill="currentColor" fill-rule="evenodd" d="M12 6a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7m-1.5 8a4 4 0 0 0-4 4c0 1.1.9 2 2 2h7a2 2 0 0 0 2-2a4 4 0 0 0-4-4zm6.8-3.1a5.5 5.5 0 0 0-2.8-6.3c.6-.4 1.3-.6 2-.6a3.5 3.5 0 0 1 .8 6.9m2.2 7.1h.5a2 2 0 0 0 2-2a4 4 0 0 0-4-4h-1.1l-.5.8c1.9 1 3.1 3 3.1 5.2M4 7.5a3.5 3.5 0 0 1 5.5-2.9A5.5 5.5 0 0 0 6.7 11A3.5 3.5 0 0 1 4 7.5M7.1 12H6a4 4 0 0 0-4 4c0 1.1.9 2 2 2h.5a6 6 0 0 1 3-5.2z" clip-rule="evenodd"/></svg>',
+					'plus'         => '<svg viewBox="0 0 16 16"><path fill="currentColor" d="M14 7H9V2H7v5H2v2h5v5h2V9h5V7z"/></svg>',
+					'minus_1'      => '<svg viewBox="0 0 16 16"><path fill="currentColor" d="M2 7h12v2H2V7z"/></svg>',
+					'minus_2'      => '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.707 10.295a2.41 2.41 0 0 0 0 3.41l7.588 7.588a2.41 2.41 0 0 0 3.41 0l7.588-7.588a2.41 2.41 0 0 0 0-3.41l-7.588-7.588a2.41 2.41 0 0 0-3.41 0zM8.5 12h7"/></svg>',
+					'minus_3'      => '<svg viewBox="0 0 32 32"><path fill="currentColor" d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3zm0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5zm-6 10v2h12v-2H10z"/></svg>',
+					'minus_4'      => '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M299 213H0v-42h299v42z"/></svg>',
+					'save'         => '<svg  viewBox="0 0 100 100.016"><path fill="#23475F" d="M88.555 0H83v.016a2 2 0 0 1-2 2H19a2 2 0 0 1-2-2V0H4a4 4 0 0 0-4 4v92.016a4 4 0 0 0 4 4h92a4 4 0 0 0 4-4V11.525C100.049 11.436 88.564.071 88.555 0z"/><path fill="#1C3C50" d="M81.04 53.016H18.96a2 2 0 0 0-2 2v45h66.08v-45c0-1.106-.895-2-2-2zm-61.957-10h61.834a2 2 0 0 0 2-2V.555A1.993 1.993 0 0 1 81 2.015H19c-.916 0-1.681-.62-1.917-1.46v40.46a2 2 0 0 0 2 2.001z"/><path fill="#EBF0F1" d="M22 55.985h56a2 2 0 0 1 2 2v37.031a2 2 0 0 1-2 2H22c-1.104 0-2-.396-2-1.5V57.985a2 2 0 0 1 2-2z"/><path fill="#BCC4C8" d="M25 77.016h50v1H25v-1zm0 10h50v1H25v-1z"/><path fill="#1C3C50" d="M7 84.016h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zm83 0h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z"/><path fill="#BCC4C8" d="M37 1.989v36.026a2 2 0 0 0 2 2h39a2 2 0 0 0 2-2V1.989c0 .007-42.982.007-43 0zm37 29.027a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2V10.989a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v20.027z"/><path fill="#FF9D00" d="M78 55.985H22a2 2 0 0 0-2 2v10.031h60V57.985a2 2 0 0 0-2-2z"/></svg>',
+					'edit'         => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="M15.49 7.3h-1.16v6.35H1.67V3.28H8V2H1.67A1.21 1.21 0 0 0 .5 3.28v10.37a1.21 1.21 0 0 0 1.17 1.25h12.66a1.21 1.21 0 0 0 1.17-1.25z"/><path fill="currentColor" d="M10.56 2.87L6.22 7.22l-.44.44l-.08.08l-1.52 3.16a1.08 1.08 0 0 0 1.45 1.45l3.14-1.53l.53-.53l.43-.43l4.34-4.36l.45-.44l.25-.25a2.18 2.18 0 0 0 0-3.08a2.17 2.17 0 0 0-1.53-.63a2.19 2.19 0 0 0-1.54.63l-.7.69l-.45.44zM5.51 11l1.18-2.43l1.25 1.26zm2-3.36l3.9-3.91l1.3 1.31L8.85 9zm5.68-5.31a.91.91 0 0 1 .65.27a.93.93 0 0 1 0 1.31l-.25.24l-1.3-1.3l.25-.25a.88.88 0 0 1 .69-.25z"/></svg>',
+					'drag'         => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="m15.46 7l-3.2-2.19l-.71 1l2.29 1.57H8.62V2.16l1.57 2.29l1-.71L9 .54a1.25 1.25 0 0 0-2 0l-2.22 3.2l1 .71l1.59-2.29v5.22H2.16l2.29-1.57l-.71-1L.54 7a1.25 1.25 0 0 0 0 2l3.2 2.19l.71-1l-2.29-1.57h5.21v5.22l-1.56-2.29l-1 .71L7 15.46a1.25 1.25 0 0 0 2.06 0l2.19-3.2l-1-.71l-1.63 2.29V8.62h5.22l-2.29 1.57l.71 1L15.46 9a1.25 1.25 0 0 0 0-2z"/></svg>',
+					'order'        => '<svg  viewBox="0 0 16 16"> <path fill="none" stroke="currentColor" stroke-linejoin="round" d="M5 11.5h4M5 9h6M5 6.5h6m-5.5-4h-2v12h9v-12h-2m-5-1h5l-.625 2h-3.75z"/></svg>',
+					'seat'         => '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 21v-6h16v6h-2v-4H6v4H4Zm-1-7v-3h3v3H3Zm4 0V3h10v11H7Zm11 0v-3h3v3h-3Z"/></svg>',
+					'globe'        => '<svg viewBox="0 0 100 100"><path id="gisGlobe0" fill="currentColor" fill-opacity="1" fill-rule="nonzero" stroke="none" stroke-dasharray="none" stroke-dashoffset="188.976" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-opacity="1" stroke-width="5" d="M52.5 5.682v20.187h17.676c-.988-2.823-2.13-5.429-3.408-7.75c-3.966-7.2-9-11.541-14.268-12.437zm-5 .197c-4.93 1.223-9.61 5.462-13.342 12.24c-1.278 2.321-2.42 4.927-3.408 7.75H47.5V5.88zM35.98 7.232C25.985 10.5 17.545 17.163 12.01 25.87h13.455c1.187-3.695 2.633-7.112 4.312-10.162c1.793-3.255 3.88-6.123 6.203-8.475zm29.41.463c2.145 2.263 4.082 4.967 5.758 8.012c1.68 3.05 3.123 6.467 4.307 10.162H87.99c-5.28-8.306-13.202-14.761-22.6-18.174zM9.257 30.87A44.79 44.79 0 0 0 5.072 47.5h16.79c.194-5.872.957-11.469 2.202-16.63H9.256zm19.974 0c-1.32 5.077-2.15 10.696-2.363 16.631H47.5V30.87H29.23zm23.27 0V47.5H74.06c-.212-5.935-1.043-11.554-2.364-16.63H52.5zm24.355 0c1.243 5.163 2.004 10.76 2.198 16.631h15.875a44.79 44.79 0 0 0-4.184-16.63h-13.89zM5.072 52.5a44.79 44.79 0 0 0 4.184 16.63h14.572c-1.174-5.176-1.865-10.774-1.994-16.63H5.072zm21.762 0c.14 5.915.901 11.53 2.146 16.63H47.5V52.5H26.834zm25.666 0v16.63h19.445c1.245-5.1 2.006-10.715 2.147-16.63H52.5zm26.576 0c-.129 5.855-.815 11.453-1.986 16.63h13.654a44.79 44.79 0 0 0 4.184-16.63H79.076zM12.01 74.13c5.285 8.313 13.214 14.772 22.62 18.183c-1.785-2.05-3.415-4.407-4.853-7.018c-1.83-3.325-3.389-7.08-4.63-11.164H12.01zm18.394 0c1.062 3.216 2.326 6.159 3.754 8.753c3.5 6.355 7.834 10.475 12.424 11.974c.306.023.61.054.918.07V74.132H30.404zm22.096 0v20.798a45.48 45.48 0 0 0 2.127-.162c4.485-1.575 8.713-5.658 12.14-11.883c1.429-2.594 2.693-5.537 3.754-8.752H52.5zm23.275 0c-1.239 4.085-2.796 7.84-4.627 11.165c-1.311 2.382-2.782 4.556-4.386 6.476a45.06 45.06 0 0 0 21.228-17.64H75.775z" color="currentColor" color-interpolation="sRGB" color-rendering="auto" display="inline" opacity="1" vector-effect="none" visibility="visible"/></svg>',
+					'setting'      => '<svg viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0h24ZM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018Zm.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M16 15c1.306 0 2.418.835 2.83 2H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 1 1 0-2h9.17A3.001 3.001 0 0 1 16 15Zm0 2a1 1 0 1 0 0 2a1 1 0 0 0 0-2ZM8 9a3 3 0 0 1 2.762 1.828l.067.172H20a1 1 0 0 1 .117 1.993L20 13h-9.17a3.001 3.001 0 0 1-5.592.172L5.17 13H4a1 1 0 0 1-.117-1.993L4 11h1.17A3.001 3.001 0 0 1 8 9Zm0 2a1 1 0 1 0 0 2a1 1 0 0 0 0-2Zm8-8c1.306 0 2.418.835 2.83 2H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 0 1 0-2h9.17A3.001 3.001 0 0 1 16 3Zm0 2a1 1 0 1 0 0 2a1 1 0 0 0 0-2Z"/></g></svg>',
+					'status'       => '<svg  viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M16.001 5.2q-.262.385-.445.82a7 7 0 0 0-.157.405c-.165.461-.27.881-.373 1.303l-.005.019c-.132.533-.264 1.067-.525 1.687a5 5 0 0 1-.48.88l-.006.006l-.002.004c2.325.684 4.925-.224 5.868-2.452c.58-1.368.257-3.08-1.052-3.672c-1.054-.476-2.088-.086-2.822 1M3.184 12.023q.147-.447.38-.854q.111-.194.224-.37c.264-.408.532-.742.8-1.076l.026-.031c.335-.42.672-.84.998-1.414q.234-.407.386-.854l.006-.019l.018-.058c1.897 1.55 2.71 4.266 1.52 6.362c-.729 1.289-2.258 2.021-3.487 1.268c-.99-.605-1.29-1.702-.871-2.954M21 17.251c-2.51 0-4.544-2.108-4.544-4.708h-2.654C13.802 16.662 17.025 20 21 20zm-8.663-4.708c0 4.119-3.223 7.457-7.198 7.457v-2.75c2.51 0 4.544-2.107 4.544-4.707zm0 0l-.002-8.324H9.68l.002 8.324z" clip-rule="evenodd"/></svg>',
+					'category'     => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/>  <path d="M3 9h18"/>  <path d="M7 16v2"/>  <path d="M17 16v2"/><circle cx="7" cy="18.5" r="0.5" fill="currentColor" stroke="none"/>  <circle cx="17" cy="18.5" r="0.5" fill="currentColor" stroke="none"/></svg>',
+					'category_1'   => '<svg  viewBox="0 0 24 24" fill="none">  <rect x="4" y="7" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/>  <line x1="4" y1="11" x2="20" y2="11" stroke="currentColor" stroke-width="2"/>  <line x1="8" y1="4" x2="8" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>  <line x1="16" y1="4" x2="16" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>  <circle cx="8.5" cy="15" r="1.3" fill="currentColor"/></svg>',
+					'brand_1'      => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3v6c0 5-3 8.5-7 11-4-2.5-7-6-7-11V5z"/>  <path d="M9 12l2 2 4-4"/></svg>',
+					'brand_2'      => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><line x1="8" y1="7" x2="8" y2="7.01"/><line x1="12" y1="7" x2="12" y2="7.01"/><line x1="16" y1="7" x2="16" y2="7.01"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><path d="M9 21v-4h6v4"/></svg>',
+					'organizer_1'  => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/>  <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/>  <path d="M17.5 4.5l1 1 2-2"/></svg>',
+					'organizer_2'  => '<svg  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h2"/><path d="M8 12h2"/><path d="M8 16h2"/><path d="M14 8l1.5 1.5L18 7"/><path d="M14 12l1.5 1.5L18 11"/><path d="M14 16l1.5 1.5L18 15"/></svg>',
+					'date_1'       => '<svg viewBox="0 0 48 48">    <path fill="#CFD8DC" d="M5 38V14h38v24c0 2.2-1.8 4-4 4H9c-2.2 0-4-1.8-4-4z"/>    <path fill="#F44336" d="M43 10v6H5v-6c0-2.2 1.8-4 4-4h30c2.2 0 4 1.8 4 4z"/>    <g fill="#B71C1C">        <circle cx="33" cy="10" r="3"/>        <circle cx="15" cy="10" r="3"/>    </g>    <path fill="#B0BEC5" d="M33 3c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zM15 3c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z"/>    <path fill="#90A4AE" d="M13 20h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-18 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm-18 6h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4zm6 0h4v4h-4z"/></svg>',
+					'date_2'       => '<svg  viewBox="0 0 64 64">    <path fill="#ba9372" d="M58.1 19.6c-9.8-6-25-14.8-27.1-14.8c-2.1 0-16.7 8.9-26 14.8l-.5-.9C6.9 17.2 28 3.8 31 3.8s25.1 13.4 27.6 15l-.5.8"/>    <path fill="#93a2aa" d="M62 56.8c0 1.6-1.2 3-2.7 3H6.8c-1.5 0-2.7-1.3-2.7-3V21.1c0-1.6 1.2-3 2.7-3h52.5c1.5 0 2.7 1.3 2.7 3v35.7"/>    <path fill="#ed4c5c" d="M60 21.1c0-1.6-1.2-3-2.7-3H4.7c-1.5 0-2.7 1.3-2.7 3v9.5h58v-9.5z"/>    <path fill="#d9e3e8" d="M2 30.6v26.2c0 1.6 1.2 3 2.7 3h52.5c1.5 0 2.7-1.3 2.7-3V30.6H2z"/> <path fill="#93a2aa" d="M4.5 33h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zM28 37.4h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm-47 4.4h6V44h-6zm7.8 0h6V44h-6zm7.9 0h6V44h-6zm7.8 0h6V44h-6zm7.8 0h6V44h-6zm7.9 0h6V44h-6zm7.8 0h6V44h-6zm-47 4.5h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm-47 4.4h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm-47 4.4h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.8 0h6v2.2h-6zm7.9 0h6v2.2h-6z"/><ellipse cx="31.2" cy="6.2" fill="#333" rx="1.8" ry="1.9"/><ellipse cx="31" cy="6.2" fill="#93a2aa" rx="1.8" ry="1.9"/>    <path fill="#fff" d="M19.5 25.5v.2c0 .6.1 1 .2 1.3c.1.2.3.4.7.4c.4 0 .6-.1.7-.4c.1-.2.1-.4.1-.8v-5.5h1.6v5.4c0 .7-.1 1.2-.3 1.6c-.4.7-1 1-2 1s-1.6-.3-2-.8c-.3-.5-.5-1.3-.5-2.2v-.2h1.5m5-4.8h1.6v4.8c0 .5.1.9.2 1.2c.2.4.6.7 1.3.7c.6 0 1.1-.2 1.3-.7c.1-.3.1-.7.1-1.2v-4.8h1.6v4.8c0 .8-.1 1.5-.4 1.9c-.5.8-1.4 1.3-2.7 1.3c-1.3 0-2.2-.4-2.7-1.3c-.3-.5-.4-1.1-.4-1.9c.1 0 .1-4.8.1-4.8m7.7 0h1.6v6.4h3.8v1.4h-5.4v-7.8m10 0H44l-2.6 4.9v2.9h-1.6v-2.9l-2.7-4.9H39l1.6 3.4l1.6-3.4"/></svg>',
+					'clone_1'      => '<svg viewBox="0 0 1792 1792"><path fill="currentColor" d="M1664 1632V544q0-13-9.5-22.5T1632 512H544q-13 0-22.5 9.5T512 544v1088q0 13 9.5 22.5t22.5 9.5h1088q13 0 22.5-9.5t9.5-22.5zm128-1088v1088q0 66-47 113t-113 47H544q-66 0-113-47t-47-113V544q0-66 47-113t113-47h1088q66 0 113 47t47 113zm-384-384v160h-128V160q0-13-9.5-22.5T1248 128H160q-13 0-22.5 9.5T128 160v1088q0 13 9.5 22.5t22.5 9.5h160v128H160q-66 0-113-47T0 1248V160Q0 94 47 47T160 0h1088q66 0 113 47t47 113z"/></svg>',
+					'clone_2'      => '<svg viewBox="0 0 36 36"><path fill="currentColor" d="M24 10V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4V12a2 2 0 0 1 2-2Z" class="clr-i-solid clr-i-solid-path-1"/>    <path fill="currentColor" d="M30 12H14a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V14a2 2 0 0 0-2-2Zm-2 11h-5v5h-2v-5h-5v-2h5v-5h2v5h5Z" class="clr-i-solid clr-i-solid-path-2"/>    <path fill="none" d="M0 0h36v36H0z"/></svg>',
+					'close_1'      => '<svg viewBox="0 0 304 384"><path fill="currentColor" d="M299 73L179 192l120 119l-30 30l-120-119L30 341L0 311l119-119L0 73l30-30l119 119L269 43z"/></svg>',
+					'close_2'      => '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m-3.4 14L12 13.4L8.4 17L7 15.6l3.6-3.6L7 8.4L8.4 7l3.6 3.6L15.6 7L17 8.4L13.4 12l3.6 3.6l-1.4 1.4Z"/></svg>',
+					'view_1'       => '<svg viewBox="0 0 24 24" stroke="currentColor"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2.25.75h19.5s1.5 0 1.5 1.5v19.5s0 1.5-1.5 1.5H2.25s-1.5 0-1.5-1.5V2.25s0-1.5 1.5-1.5"/><path d="M4.267 10.722a1.825 1.825 0 0 0 0 2.544C5.818 14.821 8.591 17.25 12 17.25c3.41 0 6.183-2.428 7.735-3.983a1.825 1.825 0 0 0 0-2.544C18.182 9.168 15.406 6.739 12 6.739s-6.18 2.427-7.733 3.983"/><path d="M9.75 11.991a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0"/></g></svg>',
+					'view_2'       => '<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21c-5 0-11-5-11-9s6-9 11-9s11 5 11 9s-6 9-11 9Zm0-14a5 5 0 1 0 0 10a5 5 0 0 0 0-10Z"/></svg>',
+					'view_3'       => '<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M5 12s2.545-5 7-5c4.454 0 7 5 7 5s-2.546 5-7 5c-4.455 0-7-5-7-5z"/><path d="M12 13a1 1 0 1 0 0-2a1 1 0 0 0 0 2zm9 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/></g></svg>',
+					'pdf_1'        => '<svg  viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M7.45 5.5a2 2 0 0 0-1.95 2v33.1a2 2 0 0 0 2 2h33.1a2 2 0 0 0 2-2V7.45a2 2 0 0 0-2-1.95Z"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M20.09 30V18h2a6 6 0 0 1 6 6h0a6 6 0 0 1-6 6Zm12.39-11.96h5.98m-5.98 5.98h3.9m-3.9-5.98V30M9.54 30V18h4a4 4 0 0 1 0 8h-4"/></svg>',
+					'pdf_2'        => '<svg  viewBox="0 0 24 24" fill="none">  <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#e53e3e"/>  <path d="M15 2v5h5" fill="#ffffff" opacity="0.4"/>  <rect x="4" y="14" width="16" height="6" rx="1" fill="#c53030"/>  <text x="12" y="18.5" text-anchor="middle" font-size="6" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">PDF</text></svg>',
+					'pdf_3'        => '<svg viewBox="0 0 24 24" fill="none">  <circle cx="12" cy="12" r="11" fill="#e53e3e"/>  <path d="M8 7h6l3 3v7a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="#ffffff"/>  <text x="12" y="15.5" text-anchor="middle" font-size="5" font-weight="700" fill="#e53e3e" font-family="Arial, sans-serif">PDF</text></svg>',
+					'pdf_4'        => '<svg  viewBox="0 0 32 32" fill="none">  <path d="M7 2h13l7 7v19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="currentColor"/>  <path d="M20 2v7h7" fill="#f87171"/>  <rect x="8" y="12" width="10" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="8" y="16" width="14" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="4" y="21" width="20" height="8" rx="1.5" fill="#991b1b"/>  <text x="14" y="27" text-anchor="middle" font-size="8" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">PDF</text></svg>',
+					'property'     => '<svg viewBox="0 0 120 125" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"><path d="M5 55 L 60 15 L 115 55"/><rect x="18" y="50" width="84" height="70" rx="2"/><rect x="50" y="80" width="24" height="40"/> <rect x="30" y="62" width="16" height="16"/> <rect x="74" y="62" width="16" height="16"/></svg>',
+					'check_1'      => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="m5.063 2.616l-1.47.002l-.147.005a1.977 1.977 0 0 0-1.828 1.971l-.002 1.469l-1.038 1.04l-.115.126A1.977 1.977 0 0 0 .58 9.898l1.037 1.037l.002 1.471l.005.148a1.977 1.977 0 0 0 1.971 1.828l1.468-.001l1.04 1.04l.126.116a1.977 1.977 0 0 0 2.67-.116l1.036-1.04l1.471.001l.148-.005a1.977 1.977 0 0 0 1.83-1.971l-.002-1.472l1.04-1.036l.115-.126a1.977 1.977 0 0 0-.115-2.67l-1.04-1.04l.001-1.467l-.005-.148a1.977 1.977 0 0 0-1.971-1.83l-1.471-.001l-1.037-1.037a1.976 1.976 0 0 0-2.796 0zm3.127-.33l1.331 1.331h1.885c.539 0 .976.438.976.977v1.883l1.332 1.333c.381.38.381 1 0 1.38l-1.333 1.331l.001 1.885a.976.976 0 0 1-.976.976H9.52l-1.33 1.332a.976.976 0 0 1-1.381 0l-1.333-1.333l-1.883.001a.976.976 0 0 1-.976-.976l-.001-1.885l-1.331-1.33a.976.976 0 0 1 0-1.381l1.331-1.333V4.594c0-.539.438-.976.977-.976l1.883-.001L6.81 2.286a.976.976 0 0 1 1.38 0m2.664 3.86a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L6.5 9.793l3.646-3.647a.5.5 0 0 1 .708 0"/></svg>',
+					'check_2'      => '<svg   viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12l4.95 4.95L19.557 6.343"/></svg>',
+					'check_3'      => '<svg  viewBox="0 0 16 16"><path fill="currentColor" d="M14 1H2c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1m-1.56 5.44l-5 5c-.12.12-.28.18-.44.18s-.32-.06-.44-.18l-2.5-2.5c-.24-.24-.24-.64 0-.88s.64-.24.88 0L7 10.12l4.56-4.56c.24-.24.64-.24.88 0c.25.24.25.64 0 .88"/></svg>',
+					'check_4'      => '<svg  viewBox="0 0 12 12">    <g fill="none" stroke="currentColor">        <rect width="11" height="11" x=".5" y=".5" rx=".5" ry=".5"/>        <path stroke-linecap="round" stroke-linejoin="round" d="m3 6.5l2 2l4-4"/>    </g></svg>',
+					'box_1'        => '<svg  viewBox="0 0 24 24">    <path fill="currentColor" d="M5 21q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.588 1.413T19 21H5Zm0-2h14V5H5v14Z"/></svg>',
+					'box_2'        => '<svg viewBox="0 0 24 24">    <path fill="currentColor" d="M4 20V4h16v16H4Zm1-1h14V5H5v14Z"/></svg>',
+					'csv_1'        => '<svg  viewBox="0 0 32 32" fill="none">  <path d="M7 2h13l7 7v19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="currentColor"/>  <path d="M20 2v7h7" fill="#4ade80"/>  <rect x="8" y="12" width="10" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="8" y="16" width="14" height="1.5" rx="0.75" fill="#ffffff" opacity="0.6"/>  <rect x="4" y="21" width="20" height="8" rx="1.5" fill="#166534"/>  <text x="14" y="27" text-anchor="middle" font-size="8" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">CSV</text></svg>',
+					'csv_2'        => '<svg  viewBox="0 0 24 24" fill="none" >  <circle cx="12" cy="12" r="11" fill="currentColor"/>  <path d="M8 7h6l3 3v7a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="currentColor"/>  <text x="12" y="15.5" text-anchor="middle" font-size="5" font-weight="700" fill="#38a169" font-family="Arial, sans-serif">CSV</text></svg>',
+					'csv_3'        => '<svg  viewBox="0 0 24 24" fill="none">  <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="currentColor"/>  <path d="M15 2v5h5" fill="#ffffff" opacity="0.4"/>  <rect x="4" y="14" width="16" height="6" rx="1" fill="#2f855a"/>  <text x="12" y="18.5" text-anchor="middle" font-size="6" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">CSV</text></svg>',
+					''             => '',
+				];
+				$allowed_svg_tags = [
+					'svg'      => [ 'class' => true, 'aria-hidden' => true, 'aria-labelledby' => true, 'role' => true, 'xmlns' => true, 'width' => true, 'height' => true, 'viewbox' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, ],
+					'g'        => [ 'fill' => true, ],
+					'title'    => [ 'title' => true, ],
+					'path'     => [ 'd' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true, ],
+					'rect'     => [ 'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true, 'fill' => true, 'stroke' => true, ],
+					'circle'   => [ 'cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true, ],
+					'line'     => [ 'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'stroke' => true, 'stroke-width' => true, ],
+					'polyline' => [ 'points' => true, 'fill' => true, 'stroke' => true, ],
+				];
+				$icons            = $des[ $key ] ?? '';
+				echo ! empty( $icons ) ? wp_kses( $icons, $allowed_svg_tags ) : '';
+			}
 
-            public static function static_additional(): array {
-                return [
-                    'as_1' => [ 'icon' => 'fas fa-suitcase-rolling', 'name' => 'Free Luggage', 'qty' => 50, 'max_qty' => 1, 'price' => 0, 'description' => '5 kg · 20×10×10 cm (Maximum one)', 'returnable' => 'no', ],
-                    'as_2' => [ 'icon' => 'fas fa-suitcase-rolling', 'name' => 'Additional luggage', 'qty' => 50, 'max_qty' => 2, 'price' => 4.99, 'description' => '20 kg · 80×50×30 cm', 'returnable' => 'no', ],
-                    'as_3' => [ 'icon' => 'fas fa-suitcase', 'name' => 'Bulky baggage', 'qty' => 30, 'max_qty' => 3, 'price' => 7.99, 'description' => '50 kg · 80×50×30 cm', 'returnable' => 'yes', ],
-                    'as_4' => [ 'icon' => 'fas fa-coffee', 'name' => 'Coffee', 'qty' => 100, 'price' => 2.00, 'description' => 'Price for a cup of coffee', 'returnable' => 'no', ]
-                ];
-            }
+			public static function product( $product_id = '' ): array {
+				$product = [
+					8922 => [
+						'title' => ' — Advanced WordPress Rental Management Plugin',
+						'des' => ' ABP RentalForge is a powerful WooCommerce-based WordPress rental and booking plugin designed for property rentals, equipment rentals, vehicle rentals, and other rental businesses. Manage bookings, pricing, inventory, availability, and rental orders from a single dashboard.',
+						'logo' => 9147,
+						'sub_title' => 'ABP RentalForge PRO is a powerful WooCommerce-based WordPress plugin for managing rental products, resources, pricing, availability, deposits, inventory, customers, and orders. Configure hourly, daily, monthly, or combined rental pricing and manage your rental workflow directly from your WordPress dashboard. The Pro version adds seasonal pricing, early-booking discounts, advanced inventory tools, PDF and CSV exports, PDF invoices, email notifications, and admin order creation.',
+						'variation' => [
+							1 => [
+								'price_sub' => 'Year + VAT',
+								'feature' => [ 'One Site License for One Year', 'One Year Premium Support', 'One Year Priority Updates & New Features' ],
+								'btn_text' => 'BUY NOW',
+								'popular' => true,
+							],
+							2 => [
+								'price_sub' => 'Year + VAT',
+								'feature' => [ 'Five Site License for One Year', 'One Year Premium Support', 'One Year Priority Updates & New Features' ],
+								'btn_text' => 'BUY NOW',
+								'popular' => false,
+							],
+							3 => [
+								'price_sub' => 'Year + VAT',
+								'feature' => [ 'Ten Site License for One Year', 'One Year Premium Support', 'One Year Priority Updates & New Features' ],
+								'btn_text' => 'BUY NOW',
+								'popular' => false,
+							],
+							4 => [
+								'price_sub' => 'One Time + VAT',
+								'feature' => [ 'One Site License for Lifetime', 'Lifetime Premium Support', 'Lifetime Priority Updates & New Features' ],
+								'btn_text' => 'GET LIFETIME ACCESS',
+								'popular' => true,
+							],
+							5 => [
+								'price_sub' => 'One Time + VAT',
+								'feature' => [ 'Five Site License for Lifetime', 'Lifetime Premium Support', 'Lifetime Priority Updates & New Features' ],
+								'btn_text' => 'GET LIFETIME ACCESS',
+								'popular' => false,
+							],
+							6 => [
+								'price_sub' => 'One Time + VAT',
+								'feature' => [ 'Ten Site License for Lifetime', 'Lifetime Premium Support', 'Lifetime Priority Updates & New Features' ],
+								'btn_text' => 'GET LIFETIME ACCESS',
+								'popular' => false,
+							],
+						],
+						'feature' => [
+							[ 'label' => 'Hourly, Daily, Monthly & Combined Pricing', 'icon' => 'fas fa-clock' ],
+							[ 'label' => 'Special Date Configuration', 'icon' => 'fas fa-calendar-days' ],
+							[ 'label' => 'Availability Override', 'icon' => 'fas fa-calendar-xmark' ],
+							[ 'label' => 'Flexible Scheduling Rules', 'icon' => 'fas fa-sliders' ],
+							[ 'label' => 'Minimum & Maximum Duration', 'icon' => 'fas fa-hourglass-half' ],
+							[ 'label' => 'Booking Time Restrictions', 'icon' => 'fas fa-business-time' ],
+							[ 'label' => 'Quantity & Inventory Controls', 'icon' => 'fas fa-boxes-stacked' ],
+							[ 'label' => 'Global & Custom Additional Services', 'icon' => 'fas fa-plus-circle' ],
+							[ 'label' => 'Global & Custom Information Forms', 'icon' => 'fas fa-id-card' ],
+							[ 'label' => 'Fixed Amount Deposit Configuration', 'icon' => 'fas fa-money-bill' ],
+							[ 'label' => 'Percentage-Based Deposit Configuration', 'icon' => 'fas fa-percent' ],
+							[ 'label' => 'Per-Quantity Deposit Configuration', 'icon' => 'fas fa-calculator' ],
+							[ 'label' => 'FAQ & Terms & Conditions Support', 'icon' => 'fas fa-circle-question' ],
+							[ 'label' => 'Rental Resource Management', 'icon' => 'fas fa-cubes' ],
+							[ 'label' => 'Rental Resource Listings', 'icon' => 'fas fa-list' ],
+							[ 'label' => 'Availability Management', 'icon' => 'fas fa-calendar-check' ],
+							[ 'label' => 'Customer & Order Information', 'icon' => 'fas fa-user' ],
+							[ 'label' => 'Order Management & Tracking', 'icon' => 'fas fa-clipboard-list' ],
+							[ 'label' => 'Search & Filter', 'icon' => 'fas fa-magnifying-glass' ],
+							[ 'label' => 'Responsive Gallery', 'icon' => 'fas fa-images' ],
+							[ 'label' => 'Global Feature Management', 'icon' => 'fas fa-toggle-on' ],
+							[ 'label' => 'Global Configuration', 'icon' => 'fas fa-gears' ],
+							[ 'label' => 'Custom CSS Configuration', 'icon' => 'fas fa-code' ],
+							[ 'label' => 'Responsive Frontend', 'icon' => 'fas fa-mobile-screen' ],
+							[ 'label' => 'Shortcode Support', 'icon' => 'fas fa-code' ],
+							[ 'label' => 'Translation Ready', 'icon' => 'fas fa-language' ],
+							[ 'label' => 'WooCommerce Integration', 'icon' => 'fas fa-cart-shopping' ],
+							[ 'label' => 'Multi-Currency Compatible', 'icon' => 'fas fa-coins' ],
+							[ 'label' => 'Developer-Friendly Architecture', 'icon' => 'fas fa-code' ],
+						],
+						'feature_pro' => [
+							[ 'label' => 'Seasonal Pricing & Discount Rules', 'icon' => 'fas fa-calendar' ],
+							[ 'label' => 'Early Booking Pricing & Discounts', 'icon' => 'fas fa-tags' ],
+							[ 'label' => 'Advanced Inventory Management', 'icon' => 'fas fa-boxes-stacked' ],
+							[ 'label' => 'PDF Order Export', 'icon' => 'fas fa-file-pdf' ],
+							[ 'label' => 'CSV Order Export', 'icon' => 'fas fa-file-csv' ],
+							[ 'label' => 'PDF Invoice Generation', 'icon' => 'fas fa-file-invoice-dollar' ],
+							[ 'label' => 'Email Notifications with PDF Attachments', 'icon' => 'fas fa-envelope-open-text' ],
+							[ 'label' => 'Resend Order Emails with PDF Attachments', 'icon' => 'fas fa-envelope-circle-check' ],
+							[ 'label' => 'Create Orders from the WordPress Admin Dashboard', 'icon' => 'fas fa-user-plus' ],
+							[ 'label' => 'Advanced Email Notifications', 'icon' => 'fas fa-bell' ],
+							[ 'label' => 'Advanced Order Management Tools', 'icon' => 'fas fa-screwdriver-wrench' ],
+							[ 'label' => 'Premium Support', 'icon' => 'fas fa-headset' ],
+							[ 'label' => 'Priority Updates & New Features', 'icon' => 'fas fa-arrow-up-right-dots' ],
+						],
+						'why_chose' => [
+							'sub_title' => 'Why Choose RentalForge',
+							'title' => 'Powerful Features for Modern Rental Businesses',
+							'infos' => [
+								[
+									'icon' => '🏠',
+									'title' => 'Product & Resource Management',
+									'description' => 'Create and manage rental products, resources, equipment, and other rentable items from a centralized WordPress dashboard.',
+									'border_color' => '#7B5EA7',
+									'pro' => false,
+								],
+								[
+									'icon' => '💰',
+									'title' => 'Flexible Pricing',
+									'description' => 'Configure hourly, daily, monthly, or combined pricing models with flexible duration rules and automatic price calculation.',
+									'border_color' => '#f59e0b',
+									'pro' => false,
+								],
+								[
+									'icon' => '🔒',
+									'title' => 'Deposit Configuration',
+									'description' => 'Configure fixed, percentage-based, or quantity-based deposits according to your product and rental requirements.',
+									'border_color' => '#10b981',
+									'pro' => false,
+								],
+								[
+									'icon' => '📅',
+									'title' => 'Availability Management',
+									'description' => 'Define availability schedules, special dates, booking restrictions, and minimum or maximum rental duration rules.',
+									'border_color' => '#6366f1',
+									'pro' => false,
+								],
+								[
+									'icon' => '📦',
+									'title' => 'Quantity & Inventory Control',
+									'description' => 'Manage product quantities, inventory limits, availability, and rental capacity directly from your WordPress dashboard.',
+									'border_color' => '#ef4444',
+									'pro' => false,
+								],
+								[
+									'icon' => '💵',
+									'title' => 'Seasonal Pricing & Discounts',
+									'description' => 'Create configurable seasonal pricing rules and discounts to automatically adjust prices for selected periods.',
+									'border_color' => '#ec4899',
+									'pro' => true,
+								],
+								[
+									'icon' => '🐦',
+									'title' => 'Early Booking Pricing',
+									'description' => 'Create early-booking pricing rules and discounts to encourage customers to place orders in advance.',
+									'border_color' => '#14b8a6',
+									'pro' => true,
+								],
+								[
+									'icon' => '📋',
+									'title' => 'Order & Booking Management',
+									'description' => 'Manage orders, customer details, rental products, and booking status through an organized WordPress workflow.',
+									'border_color' => '#0ea5e9',
+									'pro' => false,
+								],
+								[
+									'icon' => '📄',
+									'title' => 'PDF & CSV Export',
+									'description' => 'Export order and booking information to PDF or CSV files for reporting, record keeping, and business administration.',
+									'border_color' => '#22c55e',
+									'pro' => true,
+								],
+								[
+									'icon' => '🧾',
+									'title' => 'PDF Invoice Generation',
+									'description' => 'Generate professional PDF invoices and order documents directly from your WordPress website.',
+									'border_color' => '#f97316',
+									'pro' => true,
+								],
+								[
+									'icon' => '✉️',
+									'title' => 'Email Notifications',
+									'description' => 'Send automated order and booking notifications with relevant PDF documents attached to customer emails.',
+									'border_color' => '#a855f7',
+									'pro' => true,
+								],
+								[
+									'icon' => '👤',
+									'title' => 'Customer Information Management',
+									'description' => 'Collect and manage customer information using configurable forms connected to orders and bookings.',
+									'border_color' => '#64748b',
+									'pro' => false,
+								],
+								[
+									'icon' => '🛠️',
+									'title' => 'Admin Order Creation',
+									'description' => 'Create and manage orders manually from the WordPress administration dashboard when customer assistance is required.',
+									'border_color' => '#eab308',
+									'pro' => true,
+								],
+								[
+									'icon' => '🧩',
+									'title' => 'Additional Services & Options',
+									'description' => 'Add optional services, extras, and configurable options to rental products and allow customers to select them during checkout.',
+									'border_color' => '#7c3aed',
+									'pro' => false,
+								],
+								[
+									'icon' => '❓',
+									'title' => 'FAQ & Terms Management',
+									'description' => 'Display product-specific FAQs, policies, and Terms & Conditions to provide customers with clear information before placing an order.',
+									'border_color' => '#0891b2',
+									'pro' => false,
+								],
+								[
+									'icon' => '⚡',
+									'title' => 'Developer Friendly',
+									'description' => 'Extend the plugin with hooks, filters, shortcodes, and a structured architecture for custom integrations and business workflows.',
+									'border_color' => '#475569',
+									'pro' => false,
+								],
+							],
+						],
+						'use_case' => [
+							'sub_title' => 'ABP RentalForge helps you manage rental products, resources, inventory, pricing, availability, and customer orders from your WordPress website.',
+							'title' => 'Built for Flexible Rental Businesses',
+							'infos' => [
+								[ 'icon' => '🏡', 'title' => 'Property Rental', 'bg_color' => '#f0edff' ],
+								[ 'icon' => '🚗', 'title' => 'Vehicle Rental', 'bg_color' => '#fff3f0' ],
+								[ 'icon' => '🚲', 'title' => 'Bike & Bicycle Rental', 'bg_color' => '#f0fff4' ],
+								[ 'icon' => '🛠️', 'title' => 'Equipment Rental', 'bg_color' => '#fffbf0' ],
+								[ 'icon' => '🏨', 'title' => 'Hospitality Products', 'bg_color' => '#f0f8ff' ],
+								[ 'icon' => '⛵', 'title' => 'Marine Equipment', 'bg_color' => '#f5f0ff' ],
+								[ 'icon' => '📷', 'title' => 'Photography Equipment', 'bg_color' => '#fff0f6' ],
+								[ 'icon' => '🏕️', 'title' => 'Outdoor Equipment', 'bg_color' => '#f0fdf4' ],
+								[ 'icon' => '🎉', 'title' => 'Event Equipment', 'bg_color' => '#fff7ed' ],
+								[ 'icon' => '🏗️', 'title' => 'Construction Equipment', 'bg_color' => '#eff6ff' ],
+								[ 'icon' => '🎾', 'title' => 'Sports Equipment', 'bg_color' => '#fdf4ff' ],
+								[ 'icon' => '🔧', 'title' => 'Tools & Machinery', 'bg_color' => '#fefce8' ],
+								[ 'icon' => '🛋️', 'title' => 'Furniture Rental', 'bg_color' => '#ecfeff' ],
+								[ 'icon' => '🎥', 'title' => 'Video Production Equipment', 'bg_color' => '#fdf2f8' ],
+								[ 'icon' => '🏖️', 'title' => 'Recreation Equipment', 'bg_color' => '#f0fdfa' ],
+								[ 'icon' => '🚜', 'title' => 'Agricultural Equipment', 'bg_color' => '#f8fafc' ],
+								[ 'icon' => '🏢', 'title' => 'Workspace Rental', 'bg_color' => '#faf5ff' ],
+								[ 'icon' => '🎪', 'title' => 'Temporary Equipment', 'bg_color' => '#fef2f2' ],
+							],
+						],
+						'short_code' => [
+							'title' => 'Powerful Shortcodes for Your WordPress Website',
+							'sub_title' => 'Use simple shortcodes to add RentalForge booking interfaces, rental listings, product content, and image galleries to any page, post, or widget area.',
+							'infos' => [
+								[
+									'code' => '[abprf-booking]',
+									'description' => 'Add a RentalForge booking interface to any WordPress page, post, or widget. Use style to choose grid, list, or masonry layout; post_id to display one specific rental item; cat_id to filter items by category; rent_rule to filter by hourly, daily, multi-day, monthly, or multi-month pricing; show to control the number of items displayed; and column to set the number of items per row.',
+								],
+								[
+									'code' => '[abprf-post]',
+									'description' => 'Create a customizable RentalForge listing section anywhere on your website. Use style to choose grid, list, or masonry display; post_id to show a specific item; cat_id to filter by category; rent_rule to filter by pricing model; show to control the number of items displayed; and column to control the grid layout.',
+								],
+								[
+									'code' => '[abprf-property]',
+									'description' => 'Display property rental content in a clean and flexible layout. Use style to choose grid or list view; post_id to display a specific property; cat_id to filter properties by category; brand_id to filter by brand; rent_rule to filter by pricing model; show to control the number of properties displayed; and column to set the number of properties per row.',
+								],
+								[
+									'code' => '[abprf-gallery]',
+									'description' => 'Add RentalForge images to any WordPress page as a gallery or slider. Use slider_style to choose between gallery and slider display; post_id to show images from a specific item; cat_id to filter images by category; rent_rule to filter content by pricing model; and column to control the number of images displayed per row.',
+								],
+							],
+						],
+						'about' => [
+							'title' => 'What is RentalForge?',
+							'sub_title' => 'About RentalForge',
+							'description' => [
+								'RentalForge is a WooCommerce-based WordPress rental plugin that helps businesses manage rental products, resources, availability, pricing, inventory, deposits, and customer orders directly from their own WordPress website.',
+								'With flexible hourly, daily, and monthly pricing, configurable booking rules, availability schedules, quantity controls, deposit options, additional services, and custom customer information forms, RentalForge provides a flexible software solution for managing rental workflows.',
+								'The Pro version adds advanced management tools including seasonal pricing, early-booking discounts, advanced inventory management, PDF and CSV exports, PDF invoice generation, email notifications with PDF attachments, and admin order creation.',
+							],
+						],
+					],
 
-            public static function static_form( $key = '' ): array {
-                $form['pass_name']   = [ 'type' => 'text', 'required' => 'on', 'label' => __( 'First Name', 'abp-transport-booking' ) ];
-                $form['pass_name_2'] = [ 'type' => 'text', 'required' => 'on', 'label' => __( 'Last Name', 'abp-transport-booking' ) ];
-                $form['pass_email']  = [ 'type' => 'email', 'required' => 'on', 'label' => __( 'E-Mail', 'abp-transport-booking' ) ];
-                $form['pass_phone']  = [ 'type' => 'text', 'required' => 'on', 'label' => __( 'Phone', 'abp-transport-booking' ) ];
-                $form['pass_gender'] = [ 'type' => 'select', 'required' => 'off', 'label' => __( 'Gender', 'abp-transport-booking' ), 'option' => 'male,female' ];
-                $form['pass_date']   = [ 'type' => 'date', 'required' => 'off', 'label' => __( 'Date of Birth', 'abp-transport-booking' ) ];
-                if ( ! is_string( $key ) && ! is_int( $key ) ) {
-                    return $form;
-                }
-                if ( $key === '' ) {
-                    return $form;
-                }
+					9130 => [
+						'title' => '— Advanced WooCommerce Ticket Management Plugin',
+						'des' => 'ABP Transport Booking is a powerful WooCommerce-based WordPress transport booking plugin designed for bus, ferry, and passenger transport businesses. Manage routes, schedules, seats, tickets, passengers, bookings, and transport orders from a single dashboard.',
+						'logo' => 9183,
+						'sub_title' => 'ABP Transport Booking PRO is a WooCommerce-based WordPress plugin that provides configurable tools for managing transport products, schedules, seats, ticket types, customer information, capacity, pricing, and orders from your WordPress dashboard. The Pro version adds advanced features including multi-trip management, multi-level seat plans, QR code tickets, PDF tickets, PDF and CSV exports, automated email notifications, and admin order creation.',
+						'variation' => [
+							1 => [
+								'price_sub' => 'Year + VAT',
+								'feature' => [ 'One Site License for One Year', 'One Year Premium Support', 'One Year Priority Updates & New Features' ],
+								'btn_text' => 'BUY NOW',
+								'popular' => true,
+							],
+							2 => [
+								'price_sub' => 'Year + VAT',
+								'feature' => [ 'Five Site License for One Year', 'One Year Premium Support', 'One Year Priority Updates & New Features' ],
+								'btn_text' => 'BUY NOW',
+								'popular' => false,
+							],
+							3 => [
+								'price_sub' => 'Year + VAT',
+								'feature' => [ 'Ten Site License for One Year', 'One Year Premium Support', 'One Year Priority Updates & New Features' ],
+								'btn_text' => 'BUY NOW',
+								'popular' => false,
+							],
+							4 => [
+								'price_sub' => 'One Time + VAT',
+								'feature' => [ 'One Site License for Lifetime', 'Lifetime Premium Support', 'Lifetime Priority Updates & New Features' ],
+								'btn_text' => 'GET LIFETIME ACCESS',
+								'popular' => true,
+							],
+							5 => [
+								'price_sub' => 'One Time + VAT',
+								'feature' => [ 'Five Site License for Lifetime', 'Lifetime Premium Support', 'Lifetime Priority Updates & New Features' ],
+								'btn_text' => 'GET LIFETIME ACCESS',
+								'popular' => false,
+							],
+							6 => [
+								'price_sub' => 'One Time + VAT',
+								'feature' => [ 'Ten Site License for Lifetime', 'Lifetime Premium Support', 'Lifetime Priority Updates & New Features' ],
+								'btn_text' => 'GET LIFETIME ACCESS',
+								'popular' => false,
+							],
+						],
+						'feature' => [
+							[ 'label' => 'Transport Product Management', 'icon' => 'fas fa-bus' ],
+							[ 'label' => 'Schedule Management', 'icon' => 'fas fa-calendar-days' ],
+							[ 'label' => 'Flexible Pricing Rules', 'icon' => 'fas fa-money-bill-wave' ],
+							[ 'label' => 'Pickup & Drop-off Point Management', 'icon' => 'fas fa-location-dot' ],
+							[ 'label' => 'Multiple Intermediate Stops', 'icon' => 'fas fa-map-signs' ],
+							[ 'label' => 'Boarding & Drop-off Stop Types', 'icon' => 'fas fa-map-pin' ],
+							[ 'label' => 'Interactive Seat Selection', 'icon' => 'fas fa-chair' ],
+							[ 'label' => 'Reusable Custom Seat Plans', 'icon' => 'fas fa-table-cells' ],
+							[ 'label' => 'Custom Seat Layout Designer', 'icon' => 'fas fa-vector-square' ],
+							[ 'label' => 'Seat Availability Management', 'icon' => 'fas fa-circle-check' ],
+							[ 'label' => 'Passenger Information Management', 'icon' => 'fas fa-users' ],
+							[ 'label' => 'Custom Passenger Information Forms', 'icon' => 'fas fa-id-card' ],
+							[ 'label' => 'WooCommerce Checkout Integration', 'icon' => 'fas fa-cart-shopping' ],
+							[ 'label' => 'Capacity Management', 'icon' => 'fas fa-users-viewfinder' ],
+							[ 'label' => 'Return Trip Support', 'icon' => 'fas fa-right-left' ],
+							[ 'label' => 'Custom Ticket Types', 'icon' => 'fas fa-ticket-simple' ],
+							[ 'label' => 'Reusable Ticket Type System', 'icon' => 'fas fa-layer-group' ],
+							[ 'label' => 'FAQ & Terms & Conditions Support', 'icon' => 'fas fa-circle-question' ],
+							[ 'label' => 'Global FAQ Management', 'icon' => 'fas fa-circle-info' ],
+							[ 'label' => 'Related Product Listings', 'icon' => 'fas fa-link' ],
+							[ 'label' => 'Global Configuration', 'icon' => 'fas fa-gears' ],
+							[ 'label' => 'Booking & Order Management', 'icon' => 'fas fa-clipboard-list' ],
+							[ 'label' => 'Responsive Frontend', 'icon' => 'fas fa-mobile-screen' ],
+							[ 'label' => 'Shortcode Support', 'icon' => 'fas fa-code' ],
+							[ 'label' => 'Translation Ready', 'icon' => 'fas fa-language' ],
+							[ 'label' => 'WooCommerce Integration', 'icon' => 'fas fa-cart-shopping' ],
+							[ 'label' => 'Multi-Currency Compatible', 'icon' => 'fas fa-coins' ],
+							[ 'label' => 'Developer-Friendly Architecture', 'icon' => 'fas fa-code' ],
+						],
+						'feature_pro' => [
+							[ 'label' => 'Same-Day Multi-Trip Management', 'icon' => 'fas fa-arrows-rotate' ],
+							[ 'label' => 'Multi-Level & Multi-Layer Seat Plans', 'icon' => 'fas fa-layer-group' ],
+							[ 'label' => 'Advanced Ticket Type System', 'icon' => 'fas fa-ticket' ],
+							[ 'label' => 'QR Code Ticket Generation', 'icon' => 'fas fa-qrcode' ],
+							[ 'label' => 'PDF Ticket Generation & Download', 'icon' => 'fas fa-file-pdf' ],
+							[ 'label' => 'PDF Booking & Order Export', 'icon' => 'fas fa-file-pdf' ],
+							[ 'label' => 'CSV Booking & Order Export', 'icon' => 'fas fa-file-csv' ],
+							[ 'label' => 'Automated Booking Email Notifications', 'icon' => 'fas fa-envelope' ],
+							[ 'label' => 'Email Tickets with PDF Attachments', 'icon' => 'fas fa-envelope-open-text' ],
+							[ 'label' => 'Create Orders from Admin Dashboard', 'icon' => 'fas fa-user-plus' ],
+							[ 'label' => 'Advanced Booking & Order Filters', 'icon' => 'fas fa-filter' ],
+							[ 'label' => 'Capacity Management by Business Unit', 'icon' => 'fas fa-layer-group' ],
+							[ 'label' => 'Premium Support', 'icon' => 'fas fa-headset' ],
+							[ 'label' => 'Priority Updates & New Features', 'icon' => 'fas fa-arrow-up-right-dots' ],
+						],
+						'why_chose' => [
+							'sub_title' => 'Why Choose Transport Booking',
+							'title' => 'Powerful Management Tools for WordPress',
+							'infos' => [
+								[
+									'icon' => '🚌',
+									'title' => 'Transport Product Management',
+									'description' => 'Create and manage transport products, schedules, pricing, capacity, and related settings from your WordPress dashboard.',
+									'border_color' => '#7B5EA7',
+									'pro' => false,
+								],
+								[
+									'icon' => '📅',
+									'title' => 'Flexible Schedule Management',
+									'description' => 'Configure schedules, operating times, availability rules, and related product settings to match your business workflow.',
+									'border_color' => '#f59e0b',
+									'pro' => false,
+								],
+								[
+									'icon' => '💺',
+									'title' => 'Interactive Seat Selection',
+									'description' => 'Provide a visual seat selection interface with clear availability and booking status.',
+									'border_color' => '#10b981',
+									'pro' => false,
+								],
+								[
+									'icon' => '🪑',
+									'title' => 'Reusable Seat Plans',
+									'description' => 'Create reusable seat layouts with custom rows, columns, dimensions, numbering, colors, backgrounds, and labels.',
+									'border_color' => '#6366f1',
+									'pro' => false,
+								],
+								[
+									'icon' => '🎟️',
+									'title' => 'Flexible Ticket Types',
+									'description' => 'Create reusable ticket types with custom names, prefixes, colors, icons, and pricing.',
+									'border_color' => '#ef4444',
+									'pro' => false,
+								],
+								[
+									'icon' => '📍',
+									'title' => 'Stop & Point Management',
+									'description' => 'Configure boarding, drop-off, and intermediate points with customizable stop information and scheduling settings.',
+									'border_color' => '#8b5cf6',
+									'pro' => false,
+								],
+								[
+									'icon' => '🔄',
+									'title' => 'Return Trip Support',
+									'description' => 'Configure return-trip options as part of your product and order workflow.',
+									'border_color' => '#ec4899',
+									'pro' => false,
+								],
+								[
+									'icon' => '🚢',
+									'title' => 'Multi-Level Seat Plans',
+									'description' => 'Create multiple seat-plan layers for products that require more complex seating layouts.',
+									'border_color' => '#14b8a6',
+									'pro' => true,
+								],
+								[
+									'icon' => '🔎',
+									'title' => 'Search & Filtering',
+									'description' => 'Help customers find suitable options using the available product, schedule, and booking filters.',
+									'border_color' => '#0ea5e9',
+									'pro' => false,
+								],
+								[
+									'icon' => '🎫',
+									'title' => 'QR Code Tickets',
+									'description' => 'Generate QR-enabled digital tickets containing relevant order and ticket information.',
+									'border_color' => '#22c55e',
+									'pro' => true,
+								],
+								[
+									'icon' => '📄',
+									'title' => 'PDF & CSV Export',
+									'description' => 'Export booking and order information to PDF or CSV files for reporting, record keeping, and website administration.',
+									'border_color' => '#f97316',
+									'pro' => true,
+								],
+								[
+									'icon' => '🧾',
+									'title' => 'PDF Ticket Generation',
+									'description' => 'Generate downloadable PDF tickets containing relevant order, passenger, seat, and product information.',
+									'border_color' => '#a855f7',
+									'pro' => true,
+								],
+								[
+									'icon' => '✉️',
+									'title' => 'Booking Email Notifications',
+									'description' => 'Send automated order notifications and PDF ticket documents to customers after their order is processed.',
+									'border_color' => '#64748b',
+									'pro' => true,
+								],
+								[
+									'icon' => '👤',
+									'title' => 'Customer Information',
+									'description' => 'Collect and manage customer or passenger information using configurable fields connected to orders.',
+									'border_color' => '#eab308',
+									'pro' => false,
+								],
+								[
+									'icon' => '🛠️',
+									'title' => 'Admin Order Creation',
+									'description' => 'Create orders directly from the WordPress administration dashboard when manual order management is required.',
+									'border_color' => '#7c3aed',
+									'pro' => true,
+								],
+								[
+									'icon' => '📊',
+									'title' => 'Capacity Management',
+									'description' => 'Manage available capacity and booking status while keeping product availability organized.',
+									'border_color' => '#0891b2',
+									'pro' => false,
+								],
+								[
+									'icon' => '⚡',
+									'title' => 'Developer Friendly',
+									'description' => 'Extend the plugin using hooks, filters, shortcodes, and a structured architecture for custom integrations and workflows.',
+									'border_color' => '#475569',
+									'pro' => false,
+								],
+							],
+						],
+						'use_case' => [
+							'sub_title' => 'ABP Transport Booking provides configurable WordPress tools for managing transport products, schedules, seats, tickets, customers, capacity, and orders.',
+							'title' => 'Built for Flexible WordPress Workflows',
+							'infos' => [
+								[ 'icon' => '🚌', 'title' => 'Transport Product Management', 'bg_color' => '#f0edff' ],
+								[ 'icon' => '📅', 'title' => 'Schedule Management', 'bg_color' => '#fff3f0' ],
+								[ 'icon' => '💺', 'title' => 'Seat-Based Workflows', 'bg_color' => '#f0fff4' ],
+								[ 'icon' => '🎟️', 'title' => 'Digital Ticket Management', 'bg_color' => '#fffbf0' ],
+								[ 'icon' => '👤', 'title' => 'Customer Information', 'bg_color' => '#f0f8ff' ],
+								[ 'icon' => '📊', 'title' => 'Capacity Management', 'bg_color' => '#f5f0ff' ],
+								[ 'icon' => '📋', 'title' => 'Order Management', 'bg_color' => '#fff0f6' ],
+								[ 'icon' => '📄', 'title' => 'PDF & CSV Reporting', 'bg_color' => '#f0fdf4' ],
+								[ 'icon' => '✉️', 'title' => 'Automated Notifications', 'bg_color' => '#fff7ed' ],
+								[ 'icon' => '🔧', 'title' => 'Custom WordPress Workflows', 'bg_color' => '#eff6ff' ],
+							],
+						],
+						'short_code' => [
+							'title' => 'Powerful Shortcodes for Your WordPress Website',
+							'sub_title' => 'Use simple shortcodes to add transport booking interfaces, product listings, customer tickets, and image galleries to any page, post, or widget area.',
+							'infos' => [
+								[
+									'code' => '[abptb-booking]',
+									'description' => 'Add the Transport Booking interface to any WordPress page, post, or widget area and provide customers with a structured booking experience.',
+								],
+								[
+									'code' => '[abptb-post]',
+									'description' => 'Display transport product listings with filtering options and organize available content anywhere on your WordPress website.',
+								],
+								[
+									'code' => '[abptb-ticket]',
+									'description' => 'Allow customers to retrieve their ticket using an Order ID or Ticket PIN and access their available booking PDF.',
+								],
+								[
+									'code' => '[abptb-gallery]',
+									'description' => 'Display transport images using a responsive gallery or slider layout on any WordPress page or post.',
+								],
+							],
+						],
+						'about' => [
+							'title' => 'What is ABP Transport Booking?',
+							'sub_title' => 'About Transport Booking',
+							'description' => [
+								'ABP Transport Booking is a WooCommerce-based WordPress plugin that provides tools for managing transport products, schedules, seats, ticket types, customer information, capacity, pricing, and orders from a WordPress dashboard.',
+								'The plugin lets website owners configure their own product and booking workflow, including schedules, boarding and drop-off points, seat layouts, ticket options, customer information, and WooCommerce checkout settings.',
+								'Customers can use the configured interface to select available options, choose seats when enabled, provide required information, and place orders through the website.',
+								'The Pro version adds advanced software features including same-day multi-trip management, multi-level seat plans, advanced ticket types, QR code tickets, PDF ticket generation, PDF and CSV exports, automated email notifications, PDF attachments, advanced order filters, and admin order creation.',
+							],
+						],
+					],
+				];
 
-                return is_array( $form[ $key ] ?? null ) ? $form[ $key ] : [];
-            }
+				return $product[ $product_id ] ?? [];
+			}
 
-            public static function static_location(): array {
-                return [
-                    0  => [ 'name' => 'New York City' ],
-                    1  => [ 'name' => 'Los Angeles' ],
-                    2  => [ 'name' => 'Chicago' ],
-                    3  => [ 'name' => 'Houston' ],
-                    4  => [ 'name' => 'Phoenix' ],
-                    5  => [ 'name' => 'Philadelphia' ],
-                    6  => [ 'name' => 'San Antonio' ],
-                    7  => [ 'name' => 'San Diego' ],
-                    8  => [ 'name' => 'Dallas' ],
-                    9  => [ 'name' => 'San Jose' ],
-                    10 => [ 'name' => 'Austin' ],
-                    11 => [ 'name' => 'Jacksonville' ],
-                    12 => [ 'name' => 'Fort Worth' ],
-                    13 => [ 'name' => 'Columbus' ],
-                    14 => [ 'name' => 'Charlotte' ],
-                    15 => [ 'name' => 'Indianapolis' ],
-                    16 => [ 'name' => 'Seattle' ],
-                    17 => [ 'name' => 'Denver' ],
-                    18 => [ 'name' => 'Washington, D.C.' ],
-                    19 => [ 'name' => 'Boston' ],
-                    20 => [ 'name' => 'Nashville' ],
-                    21 => [ 'name' => 'Detroit' ],
-                    22 => [ 'name' => 'Portland' ],
-                    23 => [ 'name' => 'Las Vegas' ],
-                    24 => [ 'name' => 'Memphis' ],
-                    25 => [ 'name' => 'Baltimore' ],
-                    26 => [ 'name' => 'Milwaukee' ],
-                    27 => [ 'name' => 'Albuquerque' ],
-                    28 => [ 'name' => 'Tucson' ],
-                    29 => [ 'name' => 'Fresno' ],
-                    30 => [ 'name' => 'Sacramento' ],
-                    31 => [ 'name' => 'Kansas City' ],
-                    32 => [ 'name' => 'Atlanta' ],
-                    33 => [ 'name' => 'Miami' ],
-                    34 => [ 'name' => 'Orlando' ],
-                    35 => [ 'name' => 'Tampa' ],
-                    36 => [ 'name' => 'New Orleans' ],
-                    37 => [ 'name' => 'Cleveland' ],
-                    38 => [ 'name' => 'Pittsburgh' ],
-                    39 => [ 'name' => 'Cincinnati' ],
-                    40 => [ 'name' => 'Minneapolis' ],
-                    41 => [ 'name' => 'St. Louis' ],
-                    42 => [ 'name' => 'Salt Lake City' ],
-                    43 => [ 'name' => 'Raleigh' ],
-                    44 => [ 'name' => 'Richmond' ],
-                    45 => [ 'name' => 'Buffalo' ],
-                    46 => [ 'name' => 'Providence' ],
-                    47 => [ 'name' => 'Honolulu' ],
-                    48 => [ 'name' => 'Anchorage' ],
-                    49 => [ 'name' => 'Charleston' ],
-                    50 => [ 'name' => 'Tacoma' ],
-                    51 => [ 'name' => 'Olympia' ],
-                    52 => [ 'name' => 'Bakersfield' ],
-                    53 => [ 'name' => 'South Bend' ],
-                    54 => [ 'name' => 'Toledo' ],
-                    55 => [ 'name' => 'New Haven' ],
-                    56 => [ 'name' => 'Corsicana' ],
-                    57 => [ 'name' => 'Huntsville' ],
-                    58 => [ 'name' => 'San Francisco' ],
-                ];
-            }
-
-            public static function static_category(): array {
-                return [
-                    0 => [ 'name' => 'AC' ],
-                    1 => [ 'name' => 'Non AC' ],
-                    2 => [ 'name' => 'Economy' ],
-                    3 => [ 'name' => 'Business' ],
-                    4 => [ 'name' => 'VIP' ],
-                    5 => [ 'name' => 'Sleeper' ],
-                    6 => [ 'name' => 'Express' ],
-                    7 => [ 'name' => 'Local' ],
-                    8 => [ 'name' => 'Luxury' ],
-                    9 => [ 'name' => 'Shuttle' ],
-                ];
-            }
-
-            public static function static_organizer(): array {
-                return [
-                    0 => [ 'name' => 'Global Transit Group' ],
-                    1 => [ 'name' => 'Express Travel Network' ],
-                    2 => [ 'name' => 'Premium Coach Services' ],
-                    3 => [ 'name' => 'InterCity Transport' ],
-                    4 => [ 'name' => 'Continental Bus Lines' ],
-                    5 => [ 'name' => 'Smart Mobility Solutions' ],
-                ];
-            }
-
-            public static function static_brand(): array {
-                return [
-                    0 => [ 'name' => 'Mercedes-Benz' ],
-                    1 => [ 'name' => 'Volvo' ],
-                    2 => [ 'name' => 'Scania' ],
-                    3 => [ 'name' => 'MAN' ],
-                    4 => [ 'name' => 'IVECO' ],
-                    5 => [ 'name' => 'Setra' ],
-                    6 => [ 'name' => 'Yutong' ],
-                    7 => [ 'name' => 'King Long' ],
-                    8 => [ 'name' => 'Alexander Dennis' ],
-                    9 => [ 'name' => 'VDL Bus & Coach' ],
-                ];
-            }
-
-            public static function static_ticket(): array {
-                return [
-                    1 => [ 'label' => 'Ticket', 'color' => '', 'prefix' => '', 'icon' => '🎟️', 'type' => 'seat', ],
-                    2 => [ 'label' => 'VIP', 'color' => '#A78BFA', 'prefix' => 'VIP-', 'icon' => '👑', 'type' => 'seat', ],
-                    3 => [ 'label' => 'Business Class', 'color' => '#0EA5E9', 'prefix' => 'B-', 'icon' => '🛋️', 'type' => 'seat', ],
-                    4 => [ 'label' => 'Special', 'color' => '#6366F1', 'prefix' => 'S-', 'icon' => 'fas fa-couch', 'type' => 'seat', ],
-                    5 => [ 'label' => 'Couple', 'color' => '#C026D3', 'prefix' => 'C-', 'icon' => '💑', 'type' => 'seat', ],
-                    6 => [ 'label' => 'Female', 'color' => '#F472B6', 'prefix' => 'F-', 'icon' => '👩', 'type' => 'seat', ],
-                    7 => [ 'label' => 'Adult', 'color' => '#78350F', 'prefix' => 'AD-', 'icon' => 'fas fa-chair', 'type' => 'seat', ],
-                    8 => [ 'label' => 'Child', 'color' => '#F59E0B', 'prefix' => 'CH-', 'icon' => '🪑', 'type' => 'seat', ],
-                    9 => [ 'label' => 'Economy', 'color' => '#84CC16', 'prefix' => 'E-', 'icon' => '💺', 'type' => 'seat', ],
-                ];
-            }
-
-            public static function static_decoration(): array {
-                return [
-                    1  => [ 'label' => 'Blank Space', 'color' => '', 'icon' => '', 'type' => 'other' ],
-                    2  => [ 'label' => 'Driver Seat', 'color' => '#1E293B', 'icon' => '👨‍✈️', 'type' => 'other' ],
-                    3  => [ 'label' => 'Door Entry', 'color' => '#EAB308', 'icon' => '🚪', 'type' => 'other' ],
-                    4  => [ 'label' => 'Stairs', 'color' => '#64748B', 'icon' => '🪜', 'type' => 'other' ],
-                    5  => [ 'label' => 'Aisle/Walkway', 'color' => '#94A3B8', 'icon' => '↔', 'type' => 'other' ],
-                    6  => [ 'label' => 'Window', 'color' => '#38BDF8', 'icon' => '🪟', 'type' => 'other' ],
-                    7  => [ 'label' => 'Engine Box', 'color' => '#475569', 'icon' => '⚙️', 'type' => 'other' ],
-                    8  => [ 'label' => 'Toilet', 'color' => '#06B6D4', 'icon' => '🚽', 'type' => 'other' ],
-                    9  => [ 'label' => 'Luggage Rack', 'color' => '#F97316', 'icon' => '🧳', 'type' => 'other' ],
-                    10 => [ 'label' => 'Food/Snacks', 'color' => '#10B981', 'icon' => '🍔', 'type' => 'other' ],
-                    11 => [ 'label' => 'Emergency Exit', 'color' => '#EF4444', 'icon' => '🚨', 'type' => 'other' ],
-                ];
-            }
-
-            public static function static_feature(): array {
-                return [
-                    1  => [ 'icon' => '🚍', 'label' => 'Coach Bus' ],
-                    2  => [ 'icon' => '🚐', 'label' => 'Minibus' ],
-                    3  => [ 'icon' => '🏫', 'label' => 'School Bus' ],
-                    4  => [ 'icon' => '🏙️', 'label' => 'City Bus' ],
-                    5  => [ 'icon' => '🏨', 'label' => 'Shuttle Bus' ],
-                    6  => [ 'icon' => '🚇', 'label' => 'Metro' ],
-                    7  => [ 'icon' => '🚉', 'label' => 'Subway' ],
-                    8  => [ 'icon' => '🚝', 'label' => 'Monorail' ],
-                    9  => [ 'icon' => '🚈', 'label' => 'Light Rail' ],
-                    10 => [ 'icon' => '🚄', 'label' => 'High Speed Train' ],
-                    11 => [ 'icon' => '🚅', 'label' => 'Bullet Train' ],
-                    12 => [ 'icon' => '🚞', 'label' => 'Mountain Railway' ],
-                    13 => [ 'icon' => '🚠', 'label' => 'Cable Car' ],
-                    15 => [ 'icon' => '🏠', 'label' => 'Domestic Flight' ],
-                    16 => [ 'icon' => '🌍', 'label' => 'International Flight' ],
-                    17 => [ 'icon' => '🛩️', 'label' => 'Air Charter' ],
-                    18 => [ 'icon' => '🚢', 'label' => 'Passenger Ship' ],
-                    19 => [ 'icon' => '🛳️', 'label' => 'Cruise Ship' ],
-                    21 => [ 'icon' => '🚤', 'label' => 'Speed Boat' ],
-                    22 => [ 'icon' => '🛶', 'label' => 'River Boat' ],
-                    23 => [ 'icon' => '🚕', 'label' => 'Cab Service' ],
-                    24 => [ 'icon' => '🚘', 'label' => 'Ride Sharing' ],
-                    25 => [ 'icon' => '🚗', 'label' => 'Car Rental' ],
-                    26 => [ 'icon' => '🏍️', 'label' => 'Motorbike Taxi' ],
-                    27 => [ 'icon' => '🚲', 'label' => 'Bicycle Rental' ],
-                    28 => [ 'icon' => '🛺', 'label' => 'Auto Rickshaw' ],
-                    29 => [ 'icon' => '🚜', 'label' => 'Van Service' ],
-                    31 => [ 'icon' => '🎟️', 'label' => 'E-Ticket' ],
-                    32 => [ 'icon' => '📱', 'label' => 'Mobile Ticket' ],
-                    33 => [ 'icon' => '🔳', 'label' => 'QR Code Ticket' ],
-                    34 => [ 'icon' => '💺', 'label' => 'Seat Reservation' ],
-                    36 => [ 'icon' => '⭐', 'label' => 'VIP Seat' ],
-                    37 => [ 'icon' => '🛏️', 'label' => 'Sleeper Seat' ],
-                    38 => [ 'icon' => '👨‍👩‍👧‍👦', 'label' => 'Family Seat' ],
-                    40 => [ 'icon' => '🔄', 'label' => 'Round Trip Booking' ],
-                    41 => [ 'icon' => '🌐', 'label' => 'Multi City Booking' ],
-                    42 => [ 'icon' => '⚡', 'label' => 'Instant Booking' ],
-                    43 => [ 'icon' => '❌', 'label' => 'Ticket Cancellation' ],
-                    44 => [ 'icon' => '💰', 'label' => 'Ticket Refund' ],
-                    45 => [ 'icon' => '📍', 'label' => 'Route Tracking' ],
-                    46 => [ 'icon' => '🛰️', 'label' => 'GPS Tracking' ],
-                    47 => [ 'icon' => '📡', 'label' => 'Live Location' ],
-                    50 => [ 'icon' => '🌙', 'label' => 'Night Service' ],
-                    51 => [ 'icon' => '🚀', 'label' => 'Express Service' ],
-                    52 => [ 'icon' => '🌎', 'label' => 'International Routes' ],
-                    53 => [ 'icon' => '💳', 'label' => 'Online Payment' ],
-                    54 => [ 'icon' => '💵', 'label' => 'Cash Payment' ],
-                    55 => [ 'icon' => '💳', 'label' => 'Card Payment' ],
-                    56 => [ 'icon' => '📲', 'label' => 'Mobile Banking' ],
-                    57 => [ 'icon' => '🧾', 'label' => 'Invoice Support' ],
-                    58 => [ 'icon' => '❄️', 'label' => 'Air Conditioning' ],
-                    59 => [ 'icon' => '📶', 'label' => 'WiFi' ],
-                    60 => [ 'icon' => '🔌', 'label' => 'USB Charging' ],
-                    61 => [ 'icon' => '🔋', 'label' => 'Power Outlet' ],
-                    62 => [ 'icon' => '🪑', 'label' => 'Reclining Seats' ],
-                    63 => [ 'icon' => '🎬', 'label' => 'Entertainment System' ],
-                    64 => [ 'icon' => '💡', 'label' => 'Reading Light' ],
-                    66 => [ 'icon' => '🚻', 'label' => 'Toilet Facility' ],
-                    67 => [ 'icon' => '🧳', 'label' => 'Luggage Storage' ],
-                    68 => [ 'icon' => '♿', 'label' => 'Wheelchair Access' ],
-                    69 => [ 'icon' => '👴', 'label' => 'Priority Seating' ],
-                    70 => [ 'icon' => '👶', 'label' => 'Child Friendly' ],
-                    71 => [ 'icon' => '🐕', 'label' => 'Pet Friendly' ],
-                    72 => [ 'icon' => '🎥', 'label' => 'CCTV Security' ],
-                    73 => [ 'icon' => '🚪', 'label' => 'Emergency Exit' ],
-                    74 => [ 'icon' => '⛑️', 'label' => 'First Aid Kit' ],
-                ];
-            }
-
-            public static function static_faq(): array {
-                return [
-                    1  => [
-                        'title' => 'How do I book a ticket?',
-                        'des'   => '<p>You can book a ticket by selecting your route, travel date, departure time, and preferred seat. Complete the payment process to confirm your booking.</p>',
-                    ],
-                    2  => [
-                        'title' => 'Can I cancel my booking?',
-                        'des'   => '<p>Yes, you can cancel your booking according to the cancellation policy set by the transport operator. Refund eligibility may vary depending on the booking conditions.</p>',
-                    ],
-                    3  => [
-                        'title' => 'Can I change my travel date?',
-                        'des'   => '<p>Travel dates can be modified only if the transport operator allows schedule changes and seats are available for the selected date.</p>',
-                    ],
-                    4  => [
-                        'title' => 'When should I arrive at the boarding point?',
-                        'des'   => '<p>Passengers are advised to arrive at least 15 to 30 minutes before the scheduled departure time to avoid missing the journey.</p>',
-                    ],
-                    5  => [
-                        'title' => 'Will I receive a booking confirmation?',
-                        'des'   => '<p>Yes, a booking confirmation will be sent after a successful payment. You can also review your booking details from your account dashboard.</p>',
-                    ],
-                    6  => [
-                        'title' => 'What payment methods are supported?',
-                        'des'   => '<p>Available payment methods depend on the payment gateways configured by the website administrator.</p>',
-                    ],
-                    7  => [
-                        'title' => 'Can I select my preferred seat?',
-                        'des'   => '<p>Yes, if seat selection is enabled by the operator, you will be able to choose your preferred seat during the booking process.</p>',
-                    ],
-                    8  => [
-                        'title' => 'What happens if the trip is delayed?',
-                        'des'   => '<p>Departure times may change due to weather conditions, traffic congestion, maintenance requirements, or other unforeseen circumstances.</p>',
-                    ],
-                    9  => [
-                        'title' => 'Are children allowed to travel?',
-                        'des'   => '<p>Yes, children are allowed to travel. Additional requirements and ticket policies may vary depending on the transport operator.</p>',
-                    ],
-                    10 => [
-                        'title' => 'Who should I contact for assistance?',
-                        'des'   => '<p>If you need assistance, please contact the transport operator using the contact information provided on the website.</p>',
-                    ],
-                ];
-            }
-
-            public static function static_tc(): false|string {
-                ob_start(); ?>
-                <h6>1. Acceptance of Terms</h6>
-                By using our transport booking service, you agree to comply with these terms and conditions. If you do not agree with any part of these terms, please do not use this service.
-                <h6>2. Booking Confirmation</h6>
-                A booking is considered confirmed only after successful payment and receipt of a booking confirmation. The customer is responsible for providing accurate information during the booking process.
-                <h6>3. Passenger Information</h6>
-                Passengers must provide valid information, including their name, contact details, and any other required information. Incorrect information may result in booking cancellation without notice.
-                <h6>4. Seat Availability</h6>
-                All bookings are subject to seat availability. The operator reserves the right to change or reassign seats when necessary due to operational requirements.
-                <h6>5. Boarding and Arrival</h6>
-                Passengers are advised to arrive at the designated boarding point at least 15 to 30 minutes before departure. Failure to arrive on time may result in the loss of the booking without any refund.
-                <h6>6. Cancellation and Refund Policy</h6>
-                Cancellation and refund eligibility may vary depending on the operator's policy. Any applicable processing fees, taxes, or service charges may be deducted from the refund amount.
-                <h6>7. Schedule Changes</h6>
-                Departure times, routes, and stops may be modified because of weather conditions, traffic, technical issues, government regulations, or other unforeseen circumstances.
-                <h6>8. Passenger Conduct</h6>
-                Passengers must behave appropriately during the journey. Any unlawful, abusive, or disruptive behavior may result in immediate removal from the service without compensation.
-                <h6>9. Luggage Policy</h6>
-                Passengers are responsible for their belongings. The transport operator will not be liable for any loss, damage, or theft of personal items.
-                <h6>10. Limitation of Liability</h6>
-                The transport operator shall not be held responsible for delays, cancellations, accidents, natural disasters, or circumstances beyond reasonable control.
-                <h6>11. Privacy Policy</h6>
-                Personal information collected during the booking process will be used only to provide and improve the service in accordance with the applicable privacy policy.
-                <h6>12. Changes to Terms</h6>
-                These terms and conditions may be updated at any time without prior notice. Continued use of the service indicates acceptance of the revised terms and conditions.
-                <h6>13. Contact Information</h6>
-                If you have any questions regarding these terms and conditions, please contact the transport operator directly.
-                <?php return ob_get_clean();
-            }
-        }
-    }
+			public static function static_faq(): array {
+				return [
+					1  => [
+						'title' => 'How do I book a ticket?',
+						'des'   => '<p>You can book a ticket by selecting your route, travel date, departure time, and preferred seat. Complete the payment process to confirm your booking.</p>',
+					],
+					2  => [
+						'title' => 'Can I cancel my booking?',
+						'des'   => '<p>Yes, you can cancel your booking according to the cancellation policy set by the transport operator. Refund eligibility may vary depending on the booking conditions.</p>',
+					],
+					3  => [
+						'title' => 'Can I change my travel date?',
+						'des'   => '<p>Travel dates can be modified only if the transport operator allows schedule changes and seats are available for the selected date.</p>',
+					],
+					4  => [
+						'title' => 'When should I arrive at the boarding point?',
+						'des'   => '<p>Passengers are advised to arrive at least 15 to 30 minutes before the scheduled departure time to avoid missing the journey.</p>',
+					],
+					5  => [
+						'title' => 'Will I receive a booking confirmation?',
+						'des'   => '<p>Yes, a booking confirmation will be sent after a successful payment. You can also review your booking details from your account dashboard.</p>',
+					],
+					6  => [
+						'title' => 'What payment methods are supported?',
+						'des'   => '<p>Available payment methods depend on the payment gateways configured by the website administrator.</p>',
+					],
+					7  => [
+						'title' => 'Can I select my preferred seat?',
+						'des'   => '<p>Yes, if seat selection is enabled by the operator, you will be able to choose your preferred seat during the booking process.</p>',
+					],
+					8  => [
+						'title' => 'What happens if the trip is delayed?',
+						'des'   => '<p>Departure times may change due to weather conditions, traffic congestion, maintenance requirements, or other unforeseen circumstances.</p>',
+					],
+					9  => [
+						'title' => 'Are children allowed to travel?',
+						'des'   => '<p>Yes, children are allowed to travel. Additional requirements and ticket policies may vary depending on the transport operator.</p>',
+					],
+					10 => [
+						'title' => 'Who should I contact for assistance?',
+						'des'   => '<p>If you need assistance, please contact the transport operator using the contact information provided on the website.</p>',
+					],
+				];
+			}
+		}
+	}

@@ -213,7 +213,7 @@
 	}
 }
 @media only screen and (min-width: 10px) {
-	.edd-cf-account-wrap { max-width: 1200px; margin: 24px 0; font-family: inherit; }
+	.edd-cf-account-wrap { max-width: 100%; margin: 24px 0; font-family: inherit; }
 	.edd-cf-account-box { background: #FFF; border: 1px solid #E5E7EB; border-radius: 12px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04); overflow: hidden; }
 	.edd-cf-account-head { padding: 18px 22px; border-bottom: 1px solid #EEF2F7; background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%); }
 	.edd-cf-account-head h3 { margin: 0; font-size: 1.3rem; }

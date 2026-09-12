@@ -158,6 +158,59 @@
                             </div>
                         </div>
                     <?php } ?>
+                    <?php
+                        $sliders = $product_infos['slider'] ?? '';
+                        if ( ! empty( $sliders ) ) {
+                            $slider_folder = $sliders['file'] ?? '';
+                            $upload_dir    = wp_upload_dir();
+                            $slider_path   = trailingslashit( $upload_dir['basedir'] ) . $slider_folder;
+                            $slider_images = is_dir( $slider_path ) ? glob( trailingslashit( $slider_path ) . '*.{jpg,jpeg,png,gif,webp,bmp,JPG,JPEG,PNG,GIF,WEBP,BMP}', GLOB_BRACE ) : [];
+                            if ( ! empty( $slider_images ) ) {
+                                $slider_images = array_filter( is_array( $slider_images ) ? $slider_images : [], 'is_file' );
+                                sort( $slider_images );
+                                $slider_base_url = trailingslashit( $upload_dir['baseurl'] ) . $slider_folder . '/';
+                                $slider_count    = count( $slider_images );
+                                ?>
+                                <div class="abp_row _section abp_product_slider">
+                                    <div class="_fd_column_gap_xs_w_full">
+                                        <h3 class="abp_text_center_color_theme"><?php echo esc_html( $sliders['title'] ?? '' ); ?></h3>
+                                        <p class="abp_text_center_color_white"><?php echo esc_html( $sliders['sub_title'] ?? '' ); ?></p>
+                                    </div>
+                                    <div class="_divider"></div>
+                                    <div class="abp_slider">
+                                        <div class="slider_loading"></div>
+                                        <div data-slider class="top">
+                                            <?php foreach ( $slider_images as $index => $slider_image ) {
+                                                $slider_file   = basename( $slider_image );
+                                                $slider_name   = pathinfo( $slider_file, PATHINFO_FILENAME );
+                                                $slider_active = 0 === $index ? ' active' : '';
+                                                if ( 0 === $index ) { ?>
+                                                    <div class="slide_resize"><img src="<?php echo esc_url( $slider_base_url . rawurlencode( $slider_file ) ); ?>" alt=""/></div>
+                                                <?php } ?>
+                                                <div class="slider_item<?php echo esc_attr( $slider_active ); ?>" data-slide-index="<?php echo esc_attr( $index ); ?>">
+                                                    <img src="<?php echo esc_url( $slider_base_url . rawurlencode( $slider_file ) ); ?>" alt="<?php echo esc_attr( $slider_name ); ?>"/>
+                                                    <div class="item_caption">
+                                                        <div class="caption_label">Gallery</div>
+                                                        <div class="caption_title"><?php echo esc_html( $slider_name ); ?></div>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                        <span class="prev_item icon_direction"><i class="fa-solid fa-chevron-left"></i></span>
+                                        <span class="next_item icon_direction"><i class="fa-solid fa-chevron-right"></i></span>
+                                        <div class="slide_counter"><span class="current_index">1</span> / <span class="total_index"><?php echo esc_html( $slider_count ); ?></span></div>
+                                        <div class="image_indicator">
+                                            <?php foreach ( $slider_images as $index => $slider_image ) { ?>
+                                                <div class="thumb_item<?php echo 0 === $index ? ' active' : ''; ?>" data-slide-index="<?php echo esc_attr( $index ); ?>"><img src="<?php echo esc_url( $slider_base_url . rawurlencode( basename( $slider_image ) ) ); ?>" alt=""/></div>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="progress_bar">
+                                            <div class="progress_fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php }
+                        } ?>
                 </div>
             </div>
             <?php

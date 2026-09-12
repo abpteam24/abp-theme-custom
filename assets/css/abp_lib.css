@@ -305,6 +305,20 @@
 	div.abp_slider .slider_item.active { opacity: 1; transform: scale(1) translateX(0); pointer-events: auto; z-index: 2; }
 	div.abp_slider .slider_item.active_slide { opacity: 0; transform: scale(0.96) translateX(-40px); z-index: 1; }
 	div.abp_slider .slider_item img { width: 100%; height: 100%; object-fit: contain; display: block; }
+	/******* product slider (natural image size) ***************/
+	div.abp_product_slider div.abp_slider { background: #0b1120; }
+	div.abp_product_slider div.abp_slider [data-slider] { background: #0b1120; }
+	div.abp_product_slider div.abp_slider .slider_item { position: absolute; inset: auto 0 0 0; top: 0; width: 100%; }
+	div.abp_product_slider div.abp_slider .slider_item img { width: 100%; height: auto; object-fit: initial; }
+	div.abp_product_slider div.abp_slider .slide_resize { display: block; width: 100%; height: auto; opacity: 0; pointer-events: none; }
+	div.abp_product_slider div.abp_slider .item_caption { bottom: var(--abp_gap); top: auto; left: var(--abp_gap); display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; gap: 10px; }
+	div.abp_product_slider div.abp_slider .caption_label { margin: 0; padding: 6px 14px; border-radius: 999px; background: rgba(11, 17, 32, 0.72); color: #fff; letter-spacing: 0; text-transform: none; font-size: var(--abp_fs); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+	div.abp_product_slider div.abp_slider .caption_title { font-size: var(--abp_fs_h5); color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+	div.abp_product_slider div.abp_slider .icon_direction { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: rgba(11, 17, 32, 0.55); color: #fff; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); opacity: 0; }
+	div.abp_product_slider div.abp_slider:hover .icon_direction { opacity: 1; }
+	div.abp_product_slider div.abp_slider .icon_direction:hover { color: var(--abp_color_theme); }
+	div.abp_product_slider div.abp_slider .image_indicator .thumb_item img { height: 54px; }
+	div.abp_product_slider div.abp_slider .slide_counter { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
 	div.abp_slider .slider_item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8, 8, 16, 0.85) 0%, rgba(8, 8, 16, 0.2) 40%, transparent 70%); pointer-events: none; }
 	div.abp_slider .slider_loading { position: absolute; inset: 0; background: linear-gradient(90deg, var(--abp_color_theme) 0%, rgba(124, 106, 255, 0.08) 50%, var(--abp_color_theme) 100%); background-size: 200% 100%; animation: slider_loading 1.6s infinite; z-index: 1; transition: opacity 0.4s; }
 	div.abp_slider .slider_loading.hidden { opacity: 0; pointer-events: none; }

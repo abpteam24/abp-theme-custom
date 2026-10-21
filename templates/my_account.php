@@ -2,11 +2,18 @@
 	if ( ! defined( 'ABSPATH' ) ) {
 		exit; // Exit if accessed directly
 	}
-	if ( class_exists( 'Easy_Digital_Downloads' ) && function_exists( 'edd_get_customer_by' ) ) {
-		if ( ! is_user_logged_in() ) { ?>
+			if ( class_exists( 'Easy_Digital_Downloads' ) && function_exists( 'edd_get_customer_by' ) ) {
+				$abp_pending_user = is_user_logged_in() && function_exists( 'edd_user_pending_verification' ) && edd_user_pending_verification( get_current_user_id() );
+				if ( ! is_user_logged_in() ) { ?>
             <div class="abp_area">
                 <h2 class="abp"><?php esc_html_e( 'My Account', 'abp-team' ); ?></h2>
                 <p><?php esc_html_e( 'Log in or Register to access your purchases, licenses, and downloads.', 'abp-team' ); ?></p>
+				<?php if ( isset( $_GET['edd-verify-success'] ) ) : ?>
+					<div class="abp-notice abp-notice--success">
+						<strong><?php esc_html_e( 'Email verified', 'abp-team' ); ?></strong>
+						<span><?php esc_html_e( 'Your email address is confirmed. You can now sign in to your account.', 'abp-team' ); ?></span>
+					</div>
+				<?php endif; ?>
                 <div class="_grid_500">
                     <div class="abp-account-card">
 						<?php
@@ -36,9 +43,62 @@
 									echo '<p>' . esc_html__( 'Registration form shortcode not available.', 'abp-team' ) . '</p>';
 								}
 							?>
+							<p class="abp-muted"><?php esc_html_e( 'We will send a verification link to your email address. You can sign in once your email is verified.', 'abp-team' ); ?></p>
                         </div>
 					<?php endif; ?>
                 </div>
+				<div class="abp-security-note">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+					<span><?php esc_html_e( 'Protected by anti-bot security checks. Every sign-in and registration is verified before it is accepted.', 'abp-team' ); ?></span>
+				</div>
+				<div class="abp-verify-box">
+					<h3><?php esc_html_e( 'Already registered? Verify your email', 'abp-team' ); ?></h3>
+					<p><?php esc_html_e( 'We send a verification link when you create an account. Enter your email address and we will send a fresh link so you can activate your account.', 'abp-team' ); ?></p>
+					<form class="abp-verify-form" id="abp-verify-form" method="post" novalidate>
+						<input type="email" id="abp-verify-email" name="email" placeholder="<?php esc_attr_e( 'Your email address', 'abp-team' ); ?>" autocomplete="email" required />
+						<button type="submit" class="_btn_active"><?php esc_html_e( 'Send verification link', 'abp-team' ); ?></button>
+					</form>
+					<div class="abp-verify-message" id="abp-verify-message" role="status" aria-live="polite"></div>
+				</div>
+				<script>
+				(function($){
+					$(function(){
+						var $form = $('#abp-verify-form');
+						if (!$form.length) { return; }
+						var ajaxUrl = <?php echo wp_json_encode( admin_url('admin-ajax.php') ); ?>;
+						var nonce = <?php echo wp_json_encode( wp_create_nonce( 'abp_resend_verification' ) ); ?>;
+						var sending = <?php echo wp_json_encode( __( 'Sending...', 'abp-team' ) ); ?>;
+						var failed = <?php echo wp_json_encode( __( 'Something went wrong. Please try again.', 'abp-team' ) ); ?>;
+						$form.on('submit', function(e){
+							e.preventDefault();
+							var $msg = $('#abp-verify-message');
+							var $btn = $form.find('button');
+							var email = $.trim($('#abp-verify-email').val() || '');
+							if (!email) {
+								$msg.addClass('is-visible is-error').text( <?php echo wp_json_encode( __( 'Please enter a valid email address.', 'abp-team' ) ); ?> );
+								return;
+							}
+							$btn.prop('disabled', true);
+							$msg.removeClass('is-error is-success').addClass('is-visible').text(sending);
+							$.post(ajaxUrl, {
+								action: 'abp_resend_verification',
+								nonce: nonce,
+								email: email
+							}).done(function(res){
+								if (res && res.success && res.data && res.data.message) {
+									$msg.addClass('is-success').text(res.data.message);
+								} else {
+									$msg.addClass('is-error').text((res && res.data && res.data.message) ? res.data.message : failed);
+								}
+							}).fail(function(){
+								$msg.addClass('is-error').text(failed);
+							}).always(function(){
+								$btn.prop('disabled', false);
+							});
+						});
+					});
+				})(jQuery);
+				</script>
             </div>
 			<?php
 		} else {
@@ -54,6 +114,12 @@
 						<?php esc_html_e( 'Logout', 'abp-team' ); ?>
                     </a>
                 </div>
+				<?php if ( $abp_pending_user ) : ?>
+					<div class="abp-notice abp-notice--warning">
+						<strong><?php esc_html_e( 'Your email address is not verified yet', 'abp-team' ); ?></strong>
+						<span><?php esc_html_e( 'Please confirm your email address to unlock purchases, licenses and downloads.', 'abp-team' ); ?></span>
+					</div>
+				<?php endif; ?>
                 <div class="abp-account-card">
                     <div class="abp-section-heading">
                         <h3><?php esc_html_e( 'Account Overview', 'abp-team' ); ?></h3>

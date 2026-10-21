@@ -97,6 +97,55 @@
 				return ! empty( $option_data ) ? $option_data : $default;
 			}
 
+			/**
+			 * Resolve a valid sender address.
+			 *
+			 * PHPMailer rejects any address whose domain is "localhost" or a raw IP
+			 * ("Invalid address (From)"), which silently breaks every wp_mail() call
+			 * on local/staging installs. This always returns a deliverable address.
+			 */
+			public static function get_from_email( $fallback = 'support@abp-team.com' ): string {
+				$candidate = get_option( 'admin_email' );
+				if ( ! empty( $candidate ) && is_email( $candidate ) && self::is_valid_mail_host( $candidate ) ) {
+					return $candidate;
+				}
+				$host = wp_parse_url( home_url(), PHP_URL_HOST );
+				if ( ! empty( $host ) && self::is_valid_mail_host( 'noreply@' . $host ) ) {
+					return 'noreply@' . $host;
+				}
+
+				return $fallback;
+			}
+
+			private static function is_valid_mail_host( $email ): bool {
+				$position = strrpos( $email, '@' );
+				if ( false === $position ) {
+					return false;
+				}
+				$domain = substr( $email, $position + 1 );
+				if ( empty( $domain ) || 'localhost' === $domain ) {
+					return false;
+				}
+				if ( filter_var( $domain, FILTER_VALIDATE_IP ) ) {
+					return false;
+				}
+
+				return false !== strpos( $domain, '.' );
+			}
+
+			/**
+			 * Return a deliverable address, falling back when the configured one
+			 * cannot be used by PHPMailer (e.g. an @localhost domain).
+			 */
+			public static function get_valid_email( $email, $fallback = 'support@abp-team.com' ): string {
+				$email = sanitize_email( $email );
+				if ( ! empty( $email ) && is_email( $email ) && self::is_valid_mail_host( $email ) ) {
+					return $email;
+				}
+
+				return $fallback;
+			}
+
 			public static function get_options( $option, $key, $default = '' ) {
 				$options = get_option( sanitize_key( $option ) );
 				if ( isset( $options[ $key ] ) && $options[ $key ] ) {
@@ -160,24 +209,9 @@
 		} else {
 			return 0;
 		}
-		$stored_limit = isset( $license_obj->activation_limit ) ? (int) $license_obj->activation_limit : 0;
-		if ( $stored_limit > 0 ) {
-			return $stored_limit;
-		}
-		$product_id = isset( $license_obj->product_id ) ? (int) $license_obj->product_id : 0;
-		if ( ! $product_id ) {
-			return 0;
-		}
-		$price_id = null;
-		if ( isset( $license_obj->price_id ) && is_numeric( $license_obj->price_id ) ) {
-			$price_id = (int) $license_obj->price_id;
-		}
-		if ( function_exists( 'edd_sl_get_product_license_config' ) ) {
-			$config = edd_sl_get_product_license_config( $product_id, $price_id );
-
-			return isset( $config['limit'] ) ? (int) $config['limit'] : 0;
-		}
-
-		return 0;
+		// The activation limit stored on the license is authoritative: it is set
+		// when the license is created and can only be changed by an admin.
+		// A limit of 0 means unlimited.
+		return isset( $license_obj->activation_limit ) ? (int) $license_obj->activation_limit : 0;
 	}
 

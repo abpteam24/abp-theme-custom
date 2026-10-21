@@ -23,6 +23,7 @@
 					'includes/abp-smart-support.php',
 					'includes/abp_static.php',
 					'includes/abp_function.php',
+					'includes/abp_account_security.php',
 					'includes/abp_layout.php',
 					'includes/abp_shortcodes.php',
 				);
@@ -50,6 +51,9 @@
 
 			}
 			public static function activation(): void {
+				if ( class_exists( 'ABP_Account_Security' ) ) {
+					ABP_Account_Security::activate();
+				}
 				flush_rewrite_rules();
 			}
 			public static function deactivate(): void {

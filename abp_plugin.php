@@ -2,7 +2,7 @@
 	/**
 	 * Plugin Name: ABP Plugin
 	 * Description: ABP Custom Plugin.
-	 * Version: 1.0.0
+	 * Version: 1.1.0
 	 * Author: abpteam
 	 * Author URI: https://abp-team.com
 	 * Text Domain: abp-plugin
@@ -34,7 +34,7 @@
 				}
 				if ( ! defined( 'ABP_VERSION' ) ) {
 					// Keep in sync with the plugin header. Update here when bumping plugin version.
-					define( 'ABP_VERSION', '1.0.0' );
+					define( 'ABP_VERSION', '1.1.0' );
 				}
 				if ( ! defined( 'ABP_DIR' ) ) {
 					define( 'ABP_DIR', plugin_dir_path( __FILE__ ) );

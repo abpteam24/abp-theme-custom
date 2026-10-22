@@ -11,6 +11,7 @@
 				add_action( 'edd_after_download_content', [ $this, 'product_pricing' ] );
 				add_shortcode( 'abp_how_we_work', [ $this, 'how_we_work' ] );
 				//add_shortcode( 'abp_free_plugin_offer', [ $this, 'free_plugin_offer' ] );
+				add_action( 'wp_body_open', [ $this, 'free_plugin_offer' ] );
 				add_action( 'wp_ajax_abp_free_offer_submit', [ $this, 'free_offer_submit' ] );
 				add_action( 'wp_ajax_nopriv_abp_free_offer_submit', [ $this, 'free_offer_submit' ] );
 			}
@@ -73,7 +74,6 @@
 
 			public function home_page(): false|string {
 				ob_start();
-				$this->free_plugin_offer();
 				$file_path = wp_normalize_path( ABP_DIR . 'templates/home_page.php' );
 				if ( file_exists( $file_path ) ) {
 					include_once $file_path;
@@ -117,6 +117,10 @@
 
 				if ( '' === $name || ! is_email( $email ) || '' === $plugin || '' === $discount ) {
 					wp_send_json_error( [ 'message' => __( 'Please fill in all fields with valid information.', 'abp-plugin' ) ] );
+				}
+
+				if ( class_exists( 'ABP_Visitor_Tracker' ) ) {
+					ABP_Visitor_Tracker::capture_email( $email );
 				}
 
 				$plugins = self::free_offer_plugins();

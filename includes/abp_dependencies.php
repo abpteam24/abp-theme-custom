@@ -24,6 +24,7 @@
 					'includes/abp_static.php',
 					'includes/abp_function.php',
 					'includes/abp_account_security.php',
+					'includes/abp_visitor_tracker.php',
 					'includes/abp_layout.php',
 					'includes/abp_shortcodes.php',
 				);
@@ -48,11 +49,26 @@
 				wp_enqueue_style('abp_custom', ABP_URL . 'assets/css/abp_custom.css', array(), time());
 				wp_enqueue_style('abp_lib', ABP_URL . 'assets/css/abp_lib.css', array(), time());
 				wp_enqueue_script('abp_lib', ABP_URL . 'assets/js/abp_lib.js', array('jquery'), time(), true);
+				if ( ! is_admin() ) {
+					wp_enqueue_style('abp_offer_bar', ABP_URL . 'assets/css/abp_offer_bar.css', array(), ABP_VERSION);
+					wp_enqueue_script('abp_offer_bar', ABP_URL . 'assets/js/abp_offer_bar.js', array('jquery'), ABP_VERSION, true);
+					wp_localize_script('abp_offer_bar', 'abpOfferBar', array(
+						'ajaxUrl'      => admin_url('admin-ajax.php'),
+						'copied'       => __('Copied!', 'abp-plugin'),
+						'sending'      => __('Sending...', 'abp-plugin'),
+						'sendLabel'    => __('Send Me My Discount Code', 'abp-plugin'),
+						'unexpected'   => __('Unexpected response from server. Please try again.', 'abp-plugin'),
+						'networkError' => __('We could not reach the server. Please try again in a moment.', 'abp-plugin'),
+					));
+				}
 
 			}
 			public static function activation(): void {
 				if ( class_exists( 'ABP_Account_Security' ) ) {
 					ABP_Account_Security::activate();
+				}
+				if ( class_exists( 'ABP_Visitor_Tracker' ) ) {
+					ABP_Visitor_Tracker::activate();
 				}
 				flush_rewrite_rules();
 			}

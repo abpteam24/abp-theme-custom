@@ -18,12 +18,13 @@
 <div class="abp-offer-bar" id="abp-offer-bar">
 	<div class="abp-offer-bar-inner">
 		<span class="abp-offer-bar-badge"><span class="abp-offer-bar-dot"></span><?php esc_html_e( 'Limited Time Offer', 'abp-plugin' ); ?></span>
-		<h2 class="abp-offer-bar-title"><?php esc_html_e( 'Exclusive Discounts On All Products', 'abp-plugin' ); ?></h2>
+		<p class="abp-offer-bar-title"><?php esc_html_e( 'Exclusive Discounts On All Products', 'abp-plugin' ); ?></p>
 		<div class="abp-offer-bar-actions">
 			<?php if ( $offer_instant ) : ?>
 				<span class="abp-offer-bar-code">
 					<span class="abp-offer-bar-code-label"><?php esc_html_e( 'Use code', 'abp-plugin' ); ?></span>
 					<span class="abp-offer-bar-code-value"><?php echo esc_html( $offer_instant['code'] ); ?></span>
+					<span class="abp-offer-bar-code-percent"><?php echo esc_html( $offer_instant['percent'] ); ?>% <?php esc_html_e( 'Off', 'abp-plugin' ); ?></span>
 					<button type="button" class="abp-offer-bar-copy" data-abp-offer-copy="<?php echo esc_attr( $offer_instant['code'] ); ?>"><?php esc_html_e( 'Copy', 'abp-plugin' ); ?></button>
 				</span>
 			<?php endif; ?>

@@ -77,7 +77,6 @@
 					8922 => [
 						'title' => ' — Advanced WordPress Rental Management Plugin',
 						'des' => 'ABP RentalForge is a WooCommerce-based WordPress rental plugin for properties, vehicles, equipment and other resources — flexible pricing, availability, inventory, deposits, delivery and return, and order management from a single dashboard.',
-						'logo' => 9147,
 						'sub_title' => 'ABP RentalForge PRO is a WooCommerce-based WordPress rental management plugin for rental products, properties, locations, pricing, availability, inventory, deposits, customers and orders. Configure hourly, daily, monthly or combined pricing, multiple rental locations, location and geo-based search, rental order status workflow and automatic delivery and return. The Pro version adds location-wise stock, check-in management, partial and advance payment, seasonal pricing, early-booking discounts, PDF and CSV exports, PDF invoice generation, email notifications with PDF attachments and admin order creation.',
 						'variation' => [
 							1 => [
@@ -383,7 +382,6 @@
 					9130 => [
 						'title' => ' — Advanced WooCommerce Ticket Management Plugin',
 						'des' => 'ABP Transport Booking is a WooCommerce-based WordPress transport and ticket plugin for routes, schedules, seat plans, ticket types, passengers, capacity, orders and online ticketing from a single dashboard.',
-						'logo' => 9183,
 						'sub_title' => 'ABP Transport Booking PRO is a WooCommerce-based WordPress plugin for managing transports, routes, schedules, seats, ticket types, passenger information, capacity, pricing and orders from your WordPress dashboard. Configure boarding and drop-off stops, travel time, date-wise schedules, one-way or return trips, seat plans, ticket types, passenger forms and additional services, then sell through the WooCommerce checkout. The Pro version adds same-day, day-wise and date-wise multiple trips, multi-level seat plans, QR code and PDF tickets, PDF and CSV exports, email notifications with PDF attachments, partial payment with deposit and balance tracking, customer cancellation requests, mobile check-in, advanced statistics and admin order tools.',
 						'variation' => [
 							1 => [

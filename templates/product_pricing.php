@@ -20,6 +20,11 @@
             <div class="abp_area ">
                 <div class="abp_container">
                     <div class="abp_row _section abp_product_title">
+                        <?php
+                        if ( class_exists( 'ABP_Product_Logo' ) ) {
+                            echo ABP_Product_Logo::logo_html( $product_id, 'medium', array( 'class' => 'abp-price-logo', 'alt' => $title ) );
+                        }
+                        ?>
                         <h1 class="abp_text_center"><?php echo esc_html( $product_infos['title'] ?? '' ); ?></h1>
                         <p class="abp_text_center"><?php echo esc_html( $product_infos['sub_title'] ?? '' ); ?></p>
                     </div>

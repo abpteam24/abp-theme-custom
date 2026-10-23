@@ -14,6 +14,15 @@
 						<span><?php esc_html_e( 'Your email address is confirmed. You can now sign in to your account.', 'abp-team' ); ?></span>
 					</div>
 				<?php endif; ?>
+				<?php
+					$abp_verify_notice = class_exists( 'ABP_Account_Security' ) ? ABP_Account_Security::get_verify_notice() : array();
+					if ( ! empty( $abp_verify_notice ) ) :
+						?>
+					<div class="abp-notice abp-notice--info" id="abp-verify-sent-notice" role="status" aria-live="polite">
+						<strong><?php esc_html_e( 'Verification email sent', 'abp-team' ); ?></strong>
+						<span><?php esc_html_e( 'We have sent a verification link to your email address. Please open your inbox (and the spam folder), click the link to verify your email, and then sign in.', 'abp-team' ); ?></span>
+					</div>
+				<?php endif; ?>
                 <div class="_grid_500">
                     <div class="abp-account-card">
 						<?php
@@ -38,7 +47,8 @@
                         <div class="abp-account-card">
 							<?php
 								if ( shortcode_exists( 'edd_register' ) ) {
-									echo do_shortcode( '[edd_register]' );
+									$abp_account_url = get_permalink( get_queried_object_id() );
+									echo do_shortcode( $abp_account_url ? sprintf( '[edd_register redirect="%s"]', esc_url_raw( $abp_account_url ) ) : '[edd_register]' );
 								} else {
 									echo '<p>' . esc_html__( 'Registration form shortcode not available.', 'abp-team' ) . '</p>';
 								}

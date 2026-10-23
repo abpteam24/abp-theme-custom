@@ -119,8 +119,8 @@
 					wp_send_json_error( [ 'message' => __( 'Please fill in all fields with valid information.', 'abp-plugin' ) ] );
 				}
 
-				if ( class_exists( 'ABP_Visitor_Tracker' ) ) {
-					ABP_Visitor_Tracker::capture_email( $email );
+				if ( class_exists( 'ABP_IA_Visitors' ) ) {
+					ABP_IA_Visitors::capture_email( $email );
 				}
 
 				$plugins = self::free_offer_plugins();

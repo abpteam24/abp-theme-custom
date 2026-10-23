@@ -23,8 +23,9 @@
 					'includes/abp-smart-support.php',
 					'includes/abp_static.php',
 					'includes/abp_function.php',
-					'includes/abp_account_security.php',
-					'includes/abp_visitor_tracker.php',
+				'includes/abp_account_security.php',
+				'includes/abp_ia_visitors.php',
+					'includes/abp_product_logo.php',
 					'includes/abp_layout.php',
 					'includes/abp_shortcodes.php',
 				);
@@ -40,18 +41,28 @@
 				}
 			}
 
+			private static function asset_version( string $relative ): string {
+				$path = ABP_DIR . ltrim( $relative, '/\\' );
+				if ( file_exists( $path ) ) {
+					return (string) filemtime( $path );
+				}
+				return defined( 'ABP_VERSION' ) ? (string) ABP_VERSION : '1.0.0';
+			}
+
 			public function global_enqueue(): void {
 				wp_enqueue_script('jquery');
-				wp_enqueue_script('jquery-ui-core');
-				wp_enqueue_script('jquery-ui-datepicker');
-				wp_enqueue_style('abp_jquery_ui', ABP_URL . 'assets/css/jquery-ui.min.css', array(), '1.13.2');
+				if ( is_admin() ) {
+					wp_enqueue_script('jquery-ui-core');
+					wp_enqueue_script('jquery-ui-datepicker');
+					wp_enqueue_style('abp_jquery_ui', ABP_URL . 'assets/css/jquery-ui.min.css', array(), '1.13.2');
+				}
 				wp_enqueue_style('abp_font_awesome', ABP_URL . 'assets/css/font_awesome.min.css', array(), '5.15.4');
-				wp_enqueue_style('abp_custom', ABP_URL . 'assets/css/abp_custom.css', array(), time());
-				wp_enqueue_style('abp_lib', ABP_URL . 'assets/css/abp_lib.css', array(), time());
-				wp_enqueue_script('abp_lib', ABP_URL . 'assets/js/abp_lib.js', array('jquery'), time(), true);
+				wp_enqueue_style('abp_custom', ABP_URL . 'assets/css/abp_custom.css', array(), self::asset_version( 'assets/css/abp_custom.css' ));
+				wp_enqueue_style('abp_lib', ABP_URL . 'assets/css/abp_lib.css', array(), self::asset_version( 'assets/css/abp_lib.css' ));
+				wp_enqueue_script('abp_lib', ABP_URL . 'assets/js/abp_lib.js', array('jquery'), self::asset_version( 'assets/js/abp_lib.js' ), true);
 				if ( ! is_admin() ) {
-					wp_enqueue_style('abp_offer_bar', ABP_URL . 'assets/css/abp_offer_bar.css', array(), ABP_VERSION);
-					wp_enqueue_script('abp_offer_bar', ABP_URL . 'assets/js/abp_offer_bar.js', array('jquery'), ABP_VERSION, true);
+					wp_enqueue_style('abp_offer_bar', ABP_URL . 'assets/css/abp_offer_bar.css', array(), self::asset_version( 'assets/css/abp_offer_bar.css' ));
+					wp_enqueue_script('abp_offer_bar', ABP_URL . 'assets/js/abp_offer_bar.js', array('jquery'), self::asset_version( 'assets/js/abp_offer_bar.js' ), true);
 					wp_localize_script('abp_offer_bar', 'abpOfferBar', array(
 						'ajaxUrl'      => admin_url('admin-ajax.php'),
 						'copied'       => __('Copied!', 'abp-plugin'),
@@ -67,8 +78,8 @@
 				if ( class_exists( 'ABP_Account_Security' ) ) {
 					ABP_Account_Security::activate();
 				}
-				if ( class_exists( 'ABP_Visitor_Tracker' ) ) {
-					ABP_Visitor_Tracker::activate();
+				if ( class_exists( 'ABP_IA_Visitors' ) ) {
+					ABP_IA_Visitors::activate();
 				}
 				flush_rewrite_rules();
 			}

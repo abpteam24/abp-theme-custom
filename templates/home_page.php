@@ -9,22 +9,39 @@
             <div class="abp_row _section abp_home_title">
                 <span class="abp-home-eyebrow">ABP-TEAM • WORDPRESS SOFTWARE</span>
                 <h1 class="abp_text_center">Build Smarter. Grow Faster with Powerful WordPress Software</h1>
-                <h6 class="abp_text_center">Professional WordPress Plugins Built for Business Operations</h6>
-                <p class="abp_text_center">ABP-TEAM develops reliable WordPress software that helps businesses manage products, customers, orders, inventory, pricing, schedules, availability, and everyday operational workflows directly from WordPress.</p>
-                <p class="abp_text_center abp-home-subtext">We develop and sell downloadable WordPress plugins and digital software products for businesses.</p>
+                <p class="abp_text_center abp-home-lede">Downloadable WordPress plugins for products, orders, inventory, pricing, and scheduling — installed and managed on your own site.</p>
+                <p class="abp_text_center abp-home-subtext">ABP-TEAM builds practical WordPress software for the operational work that runs behind a business: what you sell, how you price it, when it is available, and how your team keeps it moving.</p>
                 <div class="abp-home-actions">
                     <a href="<?php echo esc_url( home_url( '/products/' ) ); ?>" class="_btn_active">Explore Our Products <span>|</span><i class="fa-solid fa-arrow-right-long"></i></a>
                     <a href="<?php echo esc_url( home_url( '/support-desk/' ) ); ?>" class="_btn_light_active">Get Product Support <span>|</span><i class="fa-solid fa-arrow-right-long"></i></a>
                 </div>
-                <div>
-                    <img class="_img_control" src="<?php echo esc_url( ABP_Function::get_image_url( $page_id ) ); ?>" alt="<?php echo esc_attr( get_the_title( $page_id ) ); ?>"/>
-                </div>
+                <ul class="abp-home-badges" aria-label="What every ABP-TEAM plugin includes">
+                    <li><i class="fa-solid fa-check" aria-hidden="true"></i> Built for WordPress</li>
+                    <li><i class="fa-solid fa-check" aria-hidden="true"></i> Instant download</li>
+                    <li><i class="fa-solid fa-check" aria-hidden="true"></i> Regular updates</li>
+                    <li><i class="fa-solid fa-check" aria-hidden="true"></i> Product support</li>
+                </ul>
+                <?php if ( has_post_thumbnail( $page_id ) ) { ?>
+                    <div>
+                        <?php
+                            echo get_the_post_thumbnail(
+                                $page_id,
+                                'full',
+                                array(
+                                    'class'         => '_img_control',
+                                    'loading'       => 'eager',
+                                    'fetchpriority' => 'high',
+                                    'decoding'      => 'async',
+                                )
+                            );
+                        ?>
+                    </div>
+                <?php } ?>
             </div>
             <div class="abp_row _section abp_home_product">
                 <span class="abp-home-section-label">OUR SOFTWARE</span>
-                <h6 class="abp_text_center _color_active">Practical Software for Growing Businesses</h6>
-                <h3 class="abp_text_center _color_5">Professional WordPress Plugins for Business Workflows</h3>
-                <p class="abp_text_center">Our software products provide configurable tools that help businesses manage products, customers, orders, inventory, pricing, schedules, availability, and other operational processes directly from their own WordPress websites.</p>
+                <h2 class="abp_text_center _color_5">Practical Software for Growing Businesses</h2>
+                <p class="abp_text_center">Each plugin focuses on one part of your operation, so you can install only what your business needs and configure it around the way you already work.</p>
                 <div class="price_content _grid_500">
                     <?php
                         if ( class_exists( 'Easy_Digital_Downloads' ) && function_exists( 'edd_get_customer_by' ) ) {
@@ -37,20 +54,34 @@
                                         $pro_feature_infos = $product_infos['feature_pro'] ?? [];
                                         $title             = get_the_title( $product_id );
                                         $variation_infos   = $product_infos['variation'] ?? [];
-                                        $logo              = $product_infos['logo'] ?? '';
                                         $variation_info    = $variation_infos[1] ?? [];
                                         $price_data        = $prices[1] ?? [];
                                         ?>
                                         <div class="price_card">
                                             <div>
                                                 <div class="_all_center_fd_column_gap_xs">
-                                                    <div><img class="_img_control _h_200" src="<?php echo esc_url( ABP_Function::get_image_url( '', $logo ) ); ?>" alt="<?php echo esc_attr( $title ); ?>"/></div>
+                                                    <div>
+                                                        <?php
+                                                            if ( class_exists( 'ABP_Product_Logo' ) ) {
+                                                                echo ABP_Product_Logo::logo_html(
+                                                                    $product_id,
+                                                                    'medium',
+                                                                    array(
+                                                                        'class'    => '_img_control _h_200',
+                                                                        'alt'      => $title,
+                                                                        'loading'  => 'lazy',
+                                                                        'decoding' => 'async',
+                                                                    )
+                                                                );
+                                                            }
+                                                        ?>
+                                                    </div>
                                                     <h3 class="abp_color_green_pale"><?php echo esc_html( $title ); ?></h3>
                                                     <p class="abp_padding_xs_bg_light_border"><?php echo esc_html( $product_infos['des'] ?? '' ); ?></p>
                                                 </div>
                                                 <?php if ( ! empty( $pro_feature_infos ) ) { ?>
                                                     <div class="_divider_xxs"></div>
-                                                    <h5 class="abp_color_active">PRO Features</h5>
+                                                    <p class="abp_color_active _fs_h5 abp-pro-label">PRO Features</p>
                                                     <ul class="abp_list">
                                                         <?php foreach ( $pro_feature_infos as $feature ) { ?>
                                                             <li><span class="<?php echo esc_attr( $feature['icon'] ?? '' ); ?>"></span><?php echo esc_html( $feature['label'] ?? '' ); ?></li>
@@ -81,7 +112,7 @@
                             <span class="abp-about-eyebrow-line"></span>
                             <span>ABOUT ABP-TEAM</span>
                         </div>
-                        <h4 class="abp_color_purple">WordPress Software Built for Real Business Workflows</h4>
+                        <h2 class="abp_color_purple">WordPress Software Built for Real Business Workflows</h2>
                         <p class="abp">ABP-TEAM develops practical WordPress plugins that help businesses manage their own products, customers, orders, inventory, pricing, schedules, availability, and day-to-day operational workflows more efficiently.</p>
                         <div class="abp-about-features">
                             <div class="abp-about-feature">
@@ -138,7 +169,7 @@
                             <div class="abp-about-product-top">
                                 <div>
                                     <span class="abp-about-product-label">ABP-TEAM</span>
-                                    <h3>WordPress Software</h3>
+                                    <p class="abp-about-product-heading">WordPress Software</p>
                                 </div>
                                 <div class="abp-about-status">
                                     <span></span>
@@ -231,8 +262,8 @@
                         <span class="abp-wcu-label-line"></span>
                         <span>WHY ABP-TEAM</span>
                     </div>
-                    <h4 class="abp_color_purple">Powerful WordPress Plugins Built for Business Management</h4>
-                    <p class="abp">ABP-TEAM creates practical WordPress plugins that help businesses manage products, customers, inventory, pricing, schedules, availability, and related operational workflows from their own WordPress websites.</p>
+                    <h2 class="abp_color_purple">Powerful WordPress Plugins Built for Business Management</h2>
+                    <p class="abp">Every plugin is designed around a specific operational job, so the settings you see map to decisions you already make — not to abstract features you have to interpret.</p>
                 </div>
                 <div class="abp-wcu-grid">
                     <article class="abp-wcu-card">
@@ -243,8 +274,8 @@
                             </svg>
                         </div>
                         <div class="why_item">
-                            <h5 class="abp_color_white">Product Management</h5>
-                            <p class="abp">Manage products, pricing, inventory, availability, customer information, and business-specific settings with flexible WordPress tools.</p>
+                            <h3 class="abp_color_white">Built Around Your Operation</h3>
+                            <p class="abp">Your products, pricing rules, availability, and customer records stay in one place instead of being spread across spreadsheets and separate tools.</p>
                         </div>
                     </article>
                     <article class="abp-wcu-card">
@@ -257,8 +288,8 @@
                             </svg>
                         </div>
                         <div class="why_item">
-                            <h5 class="abp_color_light">Workflow Management</h5>
-                            <p class="abp">Configure practical workflows around your business processes with tools for managing everyday operations in WordPress.</p>
+                            <h3 class="abp_color_light">No Locked-In Platform</h3>
+                            <p class="abp">The software runs on your own WordPress site, so the data, accounts, and settings stay under your control.</p>
                         </div>
                     </article>
                     <article class="abp-wcu-card">
@@ -270,8 +301,8 @@
                             </svg>
                         </div>
                         <div class="why_item">
-                            <h5 class="abp_color_light">Scheduling &amp; Availability</h5>
-                            <p class="abp">Create configurable schedules, operating periods, availability rules, and time-based settings for different business workflows.</p>
+                            <h3 class="abp_color_light">Configured by You, Not Us</h3>
+                            <p class="abp">Settings map to real business decisions — how you price, when you are available, and what your team is allowed to change — rather than fixed templates.</p>
                         </div>
                     </article>
                     <article class="abp-wcu-card">
@@ -282,8 +313,8 @@
                             </svg>
                         </div>
                         <div class="why_item">
-                            <h5 class="abp_color_light">Business-Focused Software</h5>
-                            <p class="abp">Our plugins are designed around practical business workflows, helping you manage operations efficiently from your own WordPress website.</p>
+                            <h3 class="abp_color_light">Updates and Support Included</h3>
+                            <p class="abp">Every licence includes product support and updates for its term, covering fixes, compatibility work, and new features.</p>
                         </div>
                     </article>
                 </div>
@@ -308,7 +339,7 @@
                         <span class="abp-wcu-label-line"></span>
                         <span>HOW WE WORK</span>
                     </div>
-                    <h4 class="abp_color_purple">How We Build &amp; Deliver WordPress Plugins</h4>
+                    <h2 class="abp_color_purple">How We Build &amp; Deliver WordPress Plugins</h2>
                     <p class="abp">From planning and development to testing and ongoing updates, we follow a practical process to build reliable WordPress software for real business workflows.</p>
                 </div>
                 <div class="abp-how-steps">
@@ -404,9 +435,69 @@
                     </div>
                 </div>
             </div>
+            <div class="abp_row _section abp_home_faq">
+                <?php
+                    $abp_home_faqs = array(
+                        array(
+                            'q' => __( 'What do I receive when I buy a plugin?', 'abp-plugin' ),
+                            'a' => __( 'You receive the downloadable plugin package for the licence you select, plus product support and updates for that licence period.', 'abp-plugin' ),
+                        ),
+                        array(
+                            'q' => __( 'Do I need WooCommerce to use your plugins?', 'abp-plugin' ),
+                            'a' => __( 'ABP RentalForge and ABP Transport Booking run on WooCommerce, which handles payments, taxes, coupons, and orders for those products. Other ABP-TEAM tools are built for WordPress itself.', 'abp-plugin' ),
+                        ),
+                        array(
+                            'q' => __( 'Where is the software installed?', 'abp-plugin' ),
+                            'a' => __( 'On your own WordPress site. You install the plugin, configure it in the WordPress admin, and keep full control of the data it manages.', 'abp-plugin' ),
+                        ),
+                        array(
+                            'q' => __( 'Are updates included?', 'abp-plugin' ),
+                            'a' => __( 'Updates are released during the licence period and cover bug fixes, compatibility improvements, and new features for the product you purchased.', 'abp-plugin' ),
+                        ),
+                        array(
+                            'q' => __( 'How do I get help with a product?', 'abp-plugin' ),
+                            'a' => __( 'Use the product support desk to send us your question. Include your site details and the steps that led to the issue so we can look into it.', 'abp-plugin' ),
+                        ),
+                    );
+
+                    $abp_faq_schema = array(
+                        '@context'   => 'https://schema.org',
+                        '@type'      => 'FAQPage',
+                        'mainEntity' => array(),
+                    );
+
+                    foreach ( $abp_home_faqs as $abp_faq ) {
+                        $abp_faq_schema['mainEntity'][] = array(
+                            '@type'          => 'Question',
+                            'name'           => $abp_faq['q'],
+                            'acceptedAnswer' => array(
+                                '@type' => 'Answer',
+                                'text'  => $abp_faq['a'],
+                            ),
+                        );
+                    }
+                ?>
+                <span class="abp-home-section-label">QUESTIONS</span>
+                <h2 class="abp_color_purple">Answers Before You Buy</h2>
+                <p class="abp">Short answers to the questions we get most about licences, requirements, updates, and support.</p>
+                <div class="abp-faq-list">
+                    <?php $abp_faq_index = 0; ?>
+                    <?php foreach ( $abp_home_faqs as $abp_faq ) { ?>
+                        <?php $abp_faq_index++; ?>
+                        <details class="abp-faq-item"<?php echo 1 === $abp_faq_index ? ' open' : ''; ?>>
+                            <summary>
+                                <h3><?php echo esc_html( $abp_faq['q'] ); ?></h3>
+                                <span class="abp-faq-marker" aria-hidden="true"></span>
+                            </summary>
+                            <p><?php echo esc_html( $abp_faq['a'] ); ?></p>
+                        </details>
+                    <?php } ?>
+                </div>
+                <script type="application/ld+json"><?php echo wp_json_encode( $abp_faq_schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP ); ?></script>
+            </div>
             <div class="abp_row _section abp_home_trust">
                 <div class="abp-home-section-label">WHY CHOOSE ABP-TEAM</div>
-                <h4 class="abp_color_purple">Software You Can Build Your Workflow Around</h4>
+                <h2 class="abp_color_purple">Software You Can Build Your Workflow Around</h2>
                 <p class="abp">Our products are designed as downloadable WordPress software that businesses can install, configure, and manage on their own websites.</p>
                 <div class="abp-trust-grid">
                     <div class="abp-trust-card">

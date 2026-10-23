@@ -337,8 +337,8 @@ function abp_smart_form_ajax_handler() {
         abp_smart_send_json( false, array( 'message' => 'Please fill in all required fields with valid information.' ) );
     }
 
-    if ( class_exists('ABP_Visitor_Tracker') ) {
-        ABP_Visitor_Tracker::capture_email( $email );
+    if ( class_exists('ABP_IA_Visitors') ) {
+        ABP_IA_Visitors::capture_email( $email );
     }
 
     $to_routing_email = ABP_Function::get_valid_email( get_option('abp_smart_target_email', 'support@abp-team.com') );

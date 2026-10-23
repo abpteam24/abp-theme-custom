@@ -298,15 +298,22 @@
 		gap: 10px;
 		min-height: 50px;
 		padding: 0 12px;
+		justify-content: center;
 	}
 	.abp-offer-bar-badge {
 		display: none;
 	}
 	.abp-offer-bar-title {
-		font-size: 13.5px;
+		display: none;
 	}
 	.abp-offer-bar-code {
-		display: none;
+		display: inline-flex;
+		gap: 6px;
+		padding: 3px 4px 3px 9px;
+	}
+	.abp-offer-bar-code .abp-offer-bar-copy {
+		padding: 3px 8px;
+		font-size: 10px;
 	}
 	.abp-offer-bar-cta {
 		padding: 8px 13px;
@@ -319,4 +326,18 @@
 		padding: 30px 22px 24px;
 		border-radius: 16px;
 	}
+}
+
+/* Offer bar: show code percent always small */
+.abp-offer-bar-code-percent {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 7px;
+	border-radius: 6px;
+	background: rgba(255, 255, 255, .16);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: .3px;
+	white-space: nowrap;
 }

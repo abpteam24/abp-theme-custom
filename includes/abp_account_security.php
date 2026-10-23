@@ -26,6 +26,10 @@
 			const OPTION_MIGRATED    = 'abp_account_security_migrated';
 			const OPTION_VERSION     = 'abp_account_security_version';
 			const TRANSIENT_ACCOUNT  = 'abp_my_account_url';
+			const COOKIE_NOTICE      = 'abp_verify_notice';
+			const TRANSIENT_NOTICE   = 'abp_verify_notice_';
+			/** Lifetime (seconds) of the "verification email sent" notice. */
+			const NOTICE_LIFETIME    = 3600;
 
 			/** Minimum seconds between rendering and submitting a form. */
 			const MIN_SECONDS        = 2;
@@ -59,6 +63,7 @@
 
 				add_action( 'user_register', array( $this, 'flag_new_registration' ), 11 );
 				add_action( 'edd_insert_user', array( $this, 'finalize_registration' ), 10, 1 );
+				add_action( 'template_redirect', array( __CLASS__, 'maybe_clear_notice_after_verification' ), 20 );
 
 				add_filter( 'edd_user_verification_base_url', array( $this, 'verification_base_url' ) );
 				add_filter( 'wp_authenticate_user', array( $this, 'block_unverified_login' ), 10, 2 );
@@ -358,7 +363,101 @@
 						'abp_verification_email_failed',
 						__( 'Your account was created, but we could not send the verification email from the server. Please use the box below to request a link again, or contact support if the problem continues.', 'abp-plugin' )
 					);
+
+					return;
 				}
+
+				$user = get_userdata( $user_id );
+				if ( $user instanceof WP_User ) {
+					$this->set_verify_notice( $user->user_email );
+				}
+			}
+
+			/* -----------------------------------------------------------------
+			 * Persistent "verification email sent" notice
+			 * -------------------------------------------------------------- */
+			private function set_verify_notice( string $email ): void {
+				$email = sanitize_email( $email );
+				if ( '' === $email || ! is_email( $email ) ) {
+					return;
+				}
+
+				$hash    = md5( strtolower( $email ) );
+				$expires = time() + self::NOTICE_LIFETIME;
+
+				set_transient( self::TRANSIENT_NOTICE . $hash, $expires, self::NOTICE_LIFETIME + DAY_IN_SECONDS );
+
+				if ( ! headers_sent() ) {
+					setcookie(
+						self::COOKIE_NOTICE,
+						$hash,
+						array(
+							'expires'  => $expires,
+							'path'     => ( defined( 'COOKIEPATH' ) && COOKIEPATH ) ? COOKIEPATH : '/',
+							'domain'   => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
+							'secure'   => is_ssl(),
+							'httponly' => true,
+							'samesite' => 'Lax',
+						)
+					);
+				}
+
+				$_COOKIE[ self::COOKIE_NOTICE ] = $hash;
+			}
+
+			/**
+			 * Notice state for the current browser.
+			 *
+			 * @return array{email_hash:string,expires:int}|array
+			 */
+			public static function get_verify_notice(): array {
+				$hash = isset( $_COOKIE[ self::COOKIE_NOTICE ] ) ? sanitize_text_field( wp_unslash( $_COOKIE[ self::COOKIE_NOTICE ] ) ) : '';
+				if ( '' === $hash || ! preg_match( '/^[a-f0-9]{32}$/', $hash ) ) {
+					return array();
+				}
+
+				$expires = get_transient( self::TRANSIENT_NOTICE . $hash );
+				if ( false === $expires ) {
+					return array();
+				}
+
+				return array(
+					'email_hash' => $hash,
+					'expires'    => (int) $expires,
+				);
+			}
+
+			public static function clear_verify_notice(): void {
+				$hash = isset( $_COOKIE[ self::COOKIE_NOTICE ] ) ? sanitize_text_field( wp_unslash( $_COOKIE[ self::COOKIE_NOTICE ] ) ) : '';
+
+				if ( '' !== $hash ) {
+					delete_transient( self::TRANSIENT_NOTICE . $hash );
+				}
+
+				if ( ! headers_sent() ) {
+					setcookie(
+						self::COOKIE_NOTICE,
+						'',
+						array(
+							'expires'  => time() - HOUR_IN_SECONDS,
+							'path'     => ( defined( 'COOKIEPATH' ) && COOKIEPATH ) ? COOKIEPATH : '/',
+							'domain'   => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
+							'secure'   => is_ssl(),
+							'httponly' => true,
+							'samesite' => 'Lax',
+						)
+					);
+				}
+
+				unset( $_COOKIE[ self::COOKIE_NOTICE ] );
+			}
+
+			public static function maybe_clear_notice_after_verification(): void {
+				if ( ! isset( $_GET['edd-verify-success'] ) ) {
+					return;
+				}
+
+				self::clear_verify_notice();
 			}
 
 			private function is_registration_request(): bool {
@@ -598,6 +697,8 @@
 				if ( ! $this->send_verification_email( $user->ID ) ) {
 					wp_send_json_error( [ 'message' => __( 'We could not send the verification email. Please try again in a few minutes.', 'abp-plugin' ) ] );
 				}
+
+				$this->set_verify_notice( $email );
 
 				wp_send_json_success( [ 'message' => __( 'Verification link sent. Please check your inbox and your spam folder.', 'abp-plugin' ) ] );
 			}

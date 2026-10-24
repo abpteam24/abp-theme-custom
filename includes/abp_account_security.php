@@ -8,13 +8,15 @@
 		 *
 		 * 1. Email verification gate - accounts created through the My Account
 		 *    registration form stay "pending" until the visitor confirms the
-		 *    email address. Unverified accounts are never able to sign in.
+		 *    email address. Unverified accounts cannot sign in, stay out of the
+		 *    default Users list, and do not trigger an admin new-user email
+		 *    until verification succeeds.
 		 * 2. Anti-bot protection for the login and the registration form -
 		 *    honeypot field, signed timestamp, dedicated nonce, user agent
 		 *    screening and transient based rate limiting.
 		 */
 		class ABP_Account_Security {
-			const VERSION            = '1.0.0';
+			const VERSION            = '1.1.0';
 			const NONCE_LOGIN        = 'abp_login_secure';
 			const NONCE_REGISTER     = 'abp_register_secure';
 			const NONCE_RESEND       = 'abp_resend_verification';
@@ -23,6 +25,8 @@
 			const FIELD_SIG          = 'abp_form_sig';
 			const FIELD_NONCE        = 'abp_secure_nonce';
 			const META_PENDING       = '_edd_pending_verification';
+			/** Set on My Account registrations; cleared after admin is notified. */
+			const META_NOTIFY_ADMIN  = '_abp_notify_admin_on_verify';
 			const OPTION_MIGRATED    = 'abp_account_security_migrated';
 			const OPTION_VERSION     = 'abp_account_security_version';
 			const TRANSIENT_ACCOUNT  = 'abp_my_account_url';
@@ -58,17 +62,25 @@
 
 				add_action( 'edd_login_fields_before', array( $this, 'render_login_fields' ) );
 				add_action( 'edd_register_form_fields_before_submit', array( $this, 'render_register_fields' ) );
+				add_action( 'edd_register_fields_after', array( $this, 'render_checkout_fields' ) );
 
 				add_action( 'edd_process_register_form', array( $this, 'guard_registration' ), 1 );
+				add_filter( 'edd_insert_user_args', array( $this, 'guard_checkout_registration' ), 10, 2 );
+				add_filter( 'wp_new_user_notification_email_admin', array( $this, 'suppress_admin_new_user_email' ) );
+				add_filter( 'wp_send_new_user_notification_to_admin', array( $this, 'maybe_block_admin_notification' ), 10, 2 );
 
 				add_action( 'user_register', array( $this, 'flag_new_registration' ), 11 );
 				add_action( 'edd_insert_user', array( $this, 'finalize_registration' ), 10, 1 );
+				add_action( 'edd_post_set_user_to_active', array( $this, 'on_user_verified' ), 10, 2 );
 				add_action( 'template_redirect', array( __CLASS__, 'maybe_clear_notice_after_verification' ), 20 );
 
 				add_filter( 'edd_user_verification_base_url', array( $this, 'verification_base_url' ) );
 				add_filter( 'wp_authenticate_user', array( $this, 'block_unverified_login' ), 10, 2 );
 				add_action( 'wp_login_failed', array( $this, 'record_failed_login' ), 10, 2 );
 				add_action( 'wp_login', array( $this, 'clear_login_rate_limits' ), 10, 2 );
+
+				add_filter( 'users_list_table_query_args', array( $this, 'filter_users_list_query' ) );
+				add_filter( 'views_users', array( $this, 'filter_user_views' ) );
 
 				add_action( 'wp_ajax_abp_resend_verification', array( $this, 'ajax_resend_verification' ) );
 				add_action( 'wp_ajax_nopriv_abp_resend_verification', array( $this, 'ajax_resend_verification' ) );
@@ -82,6 +94,21 @@
 			}
 
 			public function render_register_fields(): void {
+				$this->render_security_fields( 'register', self::NONCE_REGISTER );
+			}
+
+			/**
+			 * Security fields for the EDD checkout registration form.
+			 *
+			 * The checkout form is rendered through a different template than
+			 * [edd_register] and does not fire
+			 * `edd_register_form_fields_before_submit`, so the fields have to be
+			 * printed on `edd_register_fields_after` as well.
+			 */
+			public function render_checkout_fields(): void {
+				if ( is_user_logged_in() ) {
+					return;
+				}
 				$this->render_security_fields( 'register', self::NONCE_REGISTER );
 			}
 
@@ -317,6 +344,12 @@
 					return;
 				}
 
+				$email = isset( $data['edd_user_email'] ) ? sanitize_email( (string) $data['edd_user_email'] ) : '';
+				if ( $this->is_disposable_email( $email ) ) {
+					edd_set_error( 'abp_disposable_email', $this->disposable_email_message() );
+					return;
+				}
+
 				$password = isset( $data['edd_user_pass'] ) ? (string) $data['edd_user_pass'] : '';
 				if ( strlen( $password ) < 8 ) {
 					edd_set_error( 'abp_password_weak', __( 'Your password must be at least 8 characters long.', 'abp-plugin' ) );
@@ -326,6 +359,176 @@
 					edd_set_error( 'abp_password_weak', __( 'Your password must contain at least one letter and one number.', 'abp-plugin' ) );
 					return;
 				}
+			}
+
+			/**
+			 * Anti-bot gate for the checkout registration form.
+			 *
+			 * EDD registers checkout customers through
+			 * `edd_register_and_login_new_user()` directly, which bypasses the
+			 * `edd_process_register_form` action entirely. The user arguments are
+			 * therefore filtered right before `wp_insert_user()` and an invalid
+			 * login is forced when the request looks automated, so no account is
+			 * ever created.
+			 *
+			 * @param array $user_args Prepared arguments for wp_insert_user().
+			 * @param array $user_data Raw data provided by the checkout form.
+			 * @return array
+			 */
+			public function guard_checkout_registration( $user_args, $user_data = array() ) {
+				if ( ! is_array( $user_args ) || ! $this->is_checkout_registration() ) {
+					return $user_args;
+				}
+
+				$data  = wp_unslash( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+				$error = $this->validate_security( 'register', self::NONCE_REGISTER, $data );
+
+				if ( '' === $error ) {
+					$email = isset( $data['edd_email'] ) ? sanitize_email( (string) $data['edd_email'] ) : '';
+					if ( '' === $email && isset( $user_args['user_email'] ) ) {
+						$email = sanitize_email( (string) $user_args['user_email'] );
+					}
+					if ( $this->is_disposable_email( $email ) ) {
+						$error = $this->disposable_email_message();
+					}
+				}
+
+				if ( '' === $error && $this->rate_reached( 'register_ip', $this->client_ip(), self::REGISTER_MAX ) ) {
+					$error = __( 'Too many accounts have been created from this device. Please try again later.', 'abp-plugin' );
+				}
+
+				if ( '' !== $error ) {
+					edd_set_error( 'abp_security_error', $error );
+					// An empty login makes wp_insert_user() fail, which stops
+					// edd_register_and_login_new_user() before any user meta or
+					// customer record is written.
+					$user_args['user_login'] = '';
+					$user_args['user_email'] = '';
+				}
+
+				return $user_args;
+			}
+
+			/**
+			 * Whether the current request is an EDD checkout registration.
+			 */
+			private function is_checkout_registration(): bool {
+				$var = isset( $_POST['edd-purchase-var'] ) ? sanitize_key( wp_unslash( $_POST['edd-purchase-var'] ) ) : '';
+
+				return 'needs-to-register' === $var;
+			}
+
+			private function disposable_email_message(): string {
+				return __( 'Please use a permanent email address. Disposable or temporary email providers are not allowed.', 'abp-plugin' );
+			}
+
+			/**
+			 * Reject known disposable / throw-away email domains.
+			 *
+			 * Domains can be extended with the `abp_blocked_email_domains` filter.
+			 */
+			private function is_disposable_email( string $email ): bool {
+				$email = strtolower( trim( $email ) );
+				if ( '' === $email || false === strpos( $email, '@' ) ) {
+					return false;
+				}
+
+				$domain = substr( $email, strpos( $email, '@' ) + 1 );
+				$domain = preg_replace( '/^www\./', '', $domain );
+				if ( '' === $domain ) {
+					return false;
+				}
+
+				$blocked = (array) apply_filters(
+					'abp_blocked_email_domains',
+					array(
+						'10minutemail.com',
+						'20minutemail.com',
+						'blogbliss.site',
+						'blogs.pics',
+						'carshop.work',
+						'cloudns.asia',
+						'dispostable.com',
+						'digimail.info',
+						'emailondeck.com',
+						'fakeinbox.com',
+						'getnada.com',
+						'guerrillamail.com',
+						'guerrillamail.net',
+						'guerrillamail.org',
+						'inboxkiller.com',
+						'maildrop.cc',
+						'mailinator.com',
+						'mailnesia.com',
+						'maptech.online',
+						'masonic.live',
+						'mintemail.com',
+						'moakt.com',
+						'mytemp.email',
+						'pokemonica.online',
+						'pos.coupons',
+						'proton.rest',
+						'sancto.xyz',
+						'searchmail.club',
+						'sharklasers.com',
+						'spam4.me',
+						'tangos.click',
+						'temp-mail.org',
+						'tempmail.com',
+						'tempmail.net',
+						'tempmailo.com',
+						'throwawaymail.com',
+						'trashmail.com',
+						'yopmail.com',
+					)
+				);
+
+				foreach ( $blocked as $item ) {
+					$item = strtolower( ltrim( trim( (string) $item ), '@' ) );
+					if ( '' === $item ) {
+						continue;
+					}
+					if ( $item === $domain || substr( $domain, -( strlen( $item ) + 1 ) ) === '.' . $item ) {
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			/**
+			 * Hold back WordPress's immediate admin new-user mail for My Account
+			 * registrations. The real notice is sent from on_user_verified().
+			 */
+			public function suppress_admin_new_user_email( $email ) {
+				if ( ! $this->should_defer_admin_notification() ) {
+					return $email;
+				}
+				if ( is_array( $email ) ) {
+					$email['to'] = '';
+				}
+
+				return $email;
+			}
+
+			/**
+			 * @param bool             $send Whether to email the site admin.
+			 * @param WP_User|mixed    $user New user object when available.
+			 * @return bool
+			 */
+			public function maybe_block_admin_notification( $send, $user = null ) {
+				if ( $this->should_defer_admin_notification() ) {
+					return false;
+				}
+				if ( $user instanceof WP_User && $this->is_pending( (int) $user->ID ) ) {
+					return false;
+				}
+
+				return (bool) $send;
+			}
+
+			private function should_defer_admin_notification(): bool {
+				return $this->is_registration_request();
 			}
 
 			public function flag_new_registration( $user_id ): void {
@@ -338,13 +541,48 @@
 				}
 
 				$this->set_pending( $user_id );
+				update_user_meta( $user_id, self::META_NOTIFY_ADMIN, '1' );
 				$this->rate_increment( 'register_ip', $this->client_ip(), self::REGISTER_WINDOW );
 				$this->send_verification_email( $user_id );
 			}
 
+			/**
+			 * After the visitor confirms their email: notify the site admin and
+			 * clear the deferred-notification flag so the account can appear in
+			 * the default Users list.
+			 *
+			 * @param int  $user_id User that was activated.
+			 * @param bool $success Whether pending meta was removed.
+			 */
+			public function on_user_verified( $user_id, $success = true ): void {
+				$user_id = (int) $user_id;
+				if ( $user_id <= 0 || ! $success ) {
+					return;
+				}
+
+				$should_notify = (string) get_user_meta( $user_id, self::META_NOTIFY_ADMIN, true );
+				if ( '' === $should_notify ) {
+					return;
+				}
+
+				delete_user_meta( $user_id, self::META_NOTIFY_ADMIN );
+				$this->send_admin_new_user_email( $user_id );
+			}
+
 			public function finalize_registration( $user_id ): void {
 				$user_id = (int) $user_id;
-				if ( $user_id <= 0 || ! $this->is_pending( $user_id ) ) {
+				if ( $user_id <= 0 ) {
+					return;
+				}
+
+				if ( ! $this->is_pending( $user_id ) ) {
+					// Checkout registrations are normal accounts (no pending
+					// verification gate), but they still count towards the
+					// per-device registration limit.
+					if ( $this->is_checkout_registration() ) {
+						$this->rate_increment( 'register_ip', $this->client_ip(), self::REGISTER_WINDOW );
+					}
+
 					return;
 				}
 
@@ -467,6 +705,96 @@
 			}
 
 			/* -----------------------------------------------------------------
+			 * Users list - hide unverified accounts from the default view
+			 * -------------------------------------------------------------- */
+			private function is_pending_users_view(): bool {
+				return isset( $_GET['abp_pending'] ) && '1' === (string) wp_unslash( $_GET['abp_pending'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			}
+
+			/**
+			 * Default Users list excludes pending accounts. The dedicated
+			 * "Pending verification" view shows only those accounts.
+			 *
+			 * @param array $args WP_User_Query args for the list table.
+			 * @return array
+			 */
+			public function filter_users_list_query( $args ) {
+				if ( ! is_array( $args ) ) {
+					return $args;
+				}
+
+				$clause = $this->is_pending_users_view()
+					? array(
+						'key'   => self::META_PENDING,
+						'value' => '1',
+					)
+					: array(
+						'key'     => self::META_PENDING,
+						'compare' => 'NOT EXISTS',
+					);
+
+				if ( empty( $args['meta_query'] ) || ! is_array( $args['meta_query'] ) ) {
+					$args['meta_query'] = array( $clause );
+				} else {
+					$args['meta_query']['relation'] = isset( $args['meta_query']['relation'] )
+						? $args['meta_query']['relation']
+						: 'AND';
+					$args['meta_query'][]           = $clause;
+				}
+
+				return $args;
+			}
+
+			/**
+			 * @param array $views Existing role / status view links.
+			 * @return array
+			 */
+			public function filter_user_views( $views ) {
+				if ( ! is_array( $views ) ) {
+					$views = array();
+				}
+
+				$pending_count = $this->count_pending_users();
+				$pending_url   = add_query_arg(
+					array(
+						'abp_pending' => '1',
+					),
+					admin_url( 'users.php' )
+				);
+
+				if ( $this->is_pending_users_view() ) {
+					foreach ( $views as $key => $html ) {
+						$views[ $key ] = str_replace( ' class="current"', '', (string) $html );
+						$views[ $key ] = str_replace( " class='current'", '', $views[ $key ] );
+					}
+				}
+
+				$views['abp_pending'] = sprintf(
+					'<a href="%s"%s>%s <span class="count">(%s)</span></a>',
+					esc_url( $pending_url ),
+					$this->is_pending_users_view() ? ' class="current" aria-current="page"' : '',
+					esc_html__( 'Pending verification', 'abp-plugin' ),
+					number_format_i18n( $pending_count )
+				);
+
+				return $views;
+			}
+
+			private function count_pending_users(): int {
+				$query = new WP_User_Query(
+					array(
+						'fields'     => 'ID',
+						'number'     => 1,
+						'count_total'=> true,
+						'meta_key'   => self::META_PENDING,
+						'meta_value' => '1',
+					)
+				);
+
+				return (int) $query->get_total();
+			}
+
+			/* -----------------------------------------------------------------
 			 * Verification helpers
 			 * -------------------------------------------------------------- */
 			private function is_pending( int $user_id ): bool {
@@ -583,6 +911,78 @@
 				$this->verification_mail_sent = (bool) wp_mail( $user->user_email, $subject, $body, $headers );
 
 				return $this->verification_mail_sent;
+			}
+
+			/**
+			 * Notify the site admin once a My Account registration is verified.
+			 */
+			private function send_admin_new_user_email( int $user_id ): bool {
+				$user = get_userdata( $user_id );
+				if ( ! ( $user instanceof WP_User ) ) {
+					return false;
+				}
+
+				$admin_email = class_exists( 'ABP_Function' )
+					? ABP_Function::get_valid_email( get_option( 'admin_email' ) )
+					: get_option( 'admin_email' );
+				$admin_email = is_email( (string) $admin_email ) ? (string) $admin_email : '';
+				if ( '' === $admin_email ) {
+					return false;
+				}
+
+				$site_name = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+				$site_name = $site_name ? $site_name : 'ABP-TEAM';
+				$from      = class_exists( 'ABP_Function' ) ? ABP_Function::get_from_email() : $admin_email;
+				$edit_url  = admin_url( sprintf( 'user-edit.php?user_id=%d', $user_id ) );
+
+				$subject = sprintf(
+					/* translators: %s: site name */
+					__( '[%s] New user registration', 'abp-plugin' ),
+					$site_name
+				);
+
+				$body = sprintf(
+					"New user registration on %1\$s\n\nUsername: %2\$s\nEmail: %3\$s\n\nEdit user: %4\$s\n",
+					$site_name,
+					$user->user_login,
+					$user->user_email,
+					$edit_url
+				);
+
+				/**
+				 * Filters the admin new-user notification after email verification.
+				 *
+				 * @param array   $email {
+				 *     @type string $to      Admin recipient.
+				 *     @type string $subject Subject line.
+				 *     @type string $message Plain-text body.
+				 *     @type array  $headers Headers for wp_mail().
+				 * }
+				 * @param WP_User $user Verified user.
+				 */
+				$email = apply_filters(
+					'abp_admin_verified_user_email',
+					array(
+						'to'      => $admin_email,
+						'subject' => $subject,
+						'message' => $body,
+						'headers' => array(
+							sprintf( 'From: %s <%s>', $site_name, $from ),
+						),
+					),
+					$user
+				);
+
+				if ( empty( $email['to'] ) || empty( $email['subject'] ) ) {
+					return false;
+				}
+
+				return (bool) wp_mail(
+					$email['to'],
+					$email['subject'],
+					isset( $email['message'] ) ? $email['message'] : $body,
+					isset( $email['headers'] ) ? $email['headers'] : array()
+				);
 			}
 
 			private function build_verification_email( WP_User $user, string $url, string $site_name, string $brand, string $support ): string {

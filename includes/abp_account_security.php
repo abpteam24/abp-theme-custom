@@ -4,19 +4,20 @@
 	}
 	if ( ! class_exists( 'ABP_Account_Security' ) ) {
 		/**
-		 * My Account security layer.
+		 * Account security layer.
 		 *
-		 * 1. Email verification gate - accounts created through the My Account
-		 *    registration form stay "pending" until the visitor confirms the
-		 *    email address. Unverified accounts cannot sign in, stay out of the
-		 *    default Users list, and do not trigger an admin new-user email
-		 *    until verification succeeds.
+		 * 1. Email verification gate - accounts created through My Account or
+		 *    checkout registration stay "pending" until the visitor confirms
+		 *    the email address. Unverified accounts cannot sign in again, stay
+		 *    out of the default Users list, and do not trigger an admin
+		 *    new-user email until verification succeeds. Checkout keeps the
+		 *    visitor logged in for the current purchase only.
 		 * 2. Anti-bot protection for the login and the registration form -
 		 *    honeypot field, signed timestamp, dedicated nonce, user agent
 		 *    screening and transient based rate limiting.
 		 */
 		class ABP_Account_Security {
-			const VERSION            = '1.1.0';
+			const VERSION            = '1.2.0';
 			const NONCE_LOGIN        = 'abp_login_secure';
 			const NONCE_REGISTER     = 'abp_register_secure';
 			const NONCE_RESEND       = 'abp_resend_verification';
@@ -25,7 +26,7 @@
 			const FIELD_SIG          = 'abp_form_sig';
 			const FIELD_NONCE        = 'abp_secure_nonce';
 			const META_PENDING       = '_edd_pending_verification';
-			/** Set on My Account registrations; cleared after admin is notified. */
+			/** Set on gated registrations; cleared after admin is notified. */
 			const META_NOTIFY_ADMIN  = '_abp_notify_admin_on_verify';
 			const OPTION_MIGRATED    = 'abp_account_security_migrated';
 			const OPTION_VERSION     = 'abp_account_security_version';
@@ -68,6 +69,10 @@
 				add_filter( 'edd_insert_user_args', array( $this, 'guard_checkout_registration' ), 10, 2 );
 				add_filter( 'wp_new_user_notification_email_admin', array( $this, 'suppress_admin_new_user_email' ) );
 				add_filter( 'wp_send_new_user_notification_to_admin', array( $this, 'maybe_block_admin_notification' ), 10, 2 );
+				// EDD schedules its own new-user mails ~30s after insert; those must
+				// stay blocked while the account is still pending verification.
+				add_filter( 'edd_should_send_email_new_user_admin', array( $this, 'maybe_block_edd_new_user_admin_email' ), 10, 2 );
+				add_filter( 'edd_should_send_email_new_user', array( $this, 'maybe_block_edd_new_user_email' ), 10, 2 );
 
 				add_action( 'user_register', array( $this, 'flag_new_registration' ), 11 );
 				add_action( 'edd_insert_user', array( $this, 'finalize_registration' ), 10, 1 );
@@ -311,9 +316,15 @@
 
 			/**
 			 * Backstop for wp-login.php and any other authentication entry point.
+			 *
+			 * The immediate login that EDD performs right after creating an
+			 * account is allowed so checkout can finish; later sign-ins stay blocked.
 			 */
 			public function block_unverified_login( $user, $password = '' ) {
 				if ( ! ( $user instanceof WP_User ) ) {
+					return $user;
+				}
+				if ( $this->is_gated_registration() ) {
 					return $user;
 				}
 				if ( ! $this->is_pending( $user->ID ) ) {
@@ -497,7 +508,7 @@
 			}
 
 			/**
-			 * Hold back WordPress's immediate admin new-user mail for My Account
+			 * Hold back WordPress's immediate admin new-user mail for gated
 			 * registrations. The real notice is sent from on_user_verified().
 			 */
 			public function suppress_admin_new_user_email( $email ) {
@@ -527,12 +538,95 @@
 				return (bool) $send;
 			}
 
+			/**
+			 * Block EDD's admin "new user" email until the visitor verifies.
+			 *
+			 * EDD queues this via `edd_send_new_user_email` (~30s after insert),
+			 * so WordPress-only filters are not enough - the check must also work
+			 * outside the original registration POST request.
+			 *
+			 * @param bool  $send  Whether EDD should send the admin email.
+			 * @param mixed $email EDD email type instance (may expose user_id).
+			 * @return bool
+			 */
+			public function maybe_block_edd_new_user_admin_email( $send, $email = null ) {
+				if ( ! $send ) {
+					return false;
+				}
+				if ( $this->should_defer_admin_notification() ) {
+					return false;
+				}
+
+				$user_id = $this->edd_email_user_id( $email );
+				if ( $user_id > 0 && $this->should_hold_admin_notification( $user_id ) ) {
+					return false;
+				}
+
+				return (bool) $send;
+			}
+
+			/**
+			 * Block EDD's customer welcome email while the account is pending.
+			 * The visitor already receives ABP's verification email instead.
+			 *
+			 * @param bool  $send  Whether EDD should send the user email.
+			 * @param mixed $email EDD email type instance (may expose user_id).
+			 * @return bool
+			 */
+			public function maybe_block_edd_new_user_email( $send, $email = null ) {
+				if ( ! $send ) {
+					return false;
+				}
+				if ( $this->should_defer_admin_notification() ) {
+					return false;
+				}
+
+				$user_id = $this->edd_email_user_id( $email );
+				if ( $user_id > 0 && $this->is_pending( $user_id ) ) {
+					return false;
+				}
+
+				return (bool) $send;
+			}
+
+			/**
+			 * @param mixed $email EDD email object or unknown.
+			 */
+			private function edd_email_user_id( $email ): int {
+				if ( is_object( $email ) && isset( $email->user_id ) ) {
+					return (int) $email->user_id;
+				}
+
+				return 0;
+			}
+
+			/**
+			 * True when admin must wait for email verification before being notified.
+			 */
+			private function should_hold_admin_notification( int $user_id ): bool {
+				if ( $user_id <= 0 ) {
+					return false;
+				}
+				if ( '' !== (string) get_user_meta( $user_id, self::META_NOTIFY_ADMIN, true ) ) {
+					return true;
+				}
+
+				return $this->is_pending( $user_id );
+			}
+
 			private function should_defer_admin_notification(): bool {
-				return $this->is_registration_request();
+				return $this->is_gated_registration();
+			}
+
+			/**
+			 * My Account form or checkout "Create an account" registration.
+			 */
+			private function is_gated_registration(): bool {
+				return $this->is_registration_request() || $this->is_checkout_registration();
 			}
 
 			public function flag_new_registration( $user_id ): void {
-				if ( ! $this->is_registration_request() ) {
+				if ( ! $this->is_gated_registration() ) {
 					return;
 				}
 				$user_id = (int) $user_id;
@@ -571,16 +665,20 @@
 
 			public function finalize_registration( $user_id ): void {
 				$user_id = (int) $user_id;
-				if ( $user_id <= 0 ) {
+				if ( $user_id <= 0 || ! $this->is_pending( $user_id ) ) {
 					return;
 				}
 
-				if ( ! $this->is_pending( $user_id ) ) {
-					// Checkout registrations are normal accounts (no pending
-					// verification gate), but they still count towards the
-					// per-device registration limit.
-					if ( $this->is_checkout_registration() ) {
-						$this->rate_increment( 'register_ip', $this->client_ip(), self::REGISTER_WINDOW );
+				edd_unset_error( 'edd_invalid_login' );
+
+				// Checkout must keep the new session so the purchase can complete.
+				// Future logins stay blocked until the email is verified.
+				if ( $this->is_checkout_registration() ) {
+					if ( $this->verification_mail_sent ) {
+						$user = get_userdata( $user_id );
+						if ( $user instanceof WP_User ) {
+							$this->set_verify_notice( $user->user_email );
+						}
 					}
 
 					return;
@@ -590,7 +688,6 @@
 					wp_logout();
 				}
 
-				edd_unset_error( 'edd_invalid_login' );
 				edd_set_success(
 					'abp_verification_pending',
 					__( 'Your account has been created. We have sent a verification link to your email address - please verify it before signing in.', 'abp-plugin' )

@@ -13,6 +13,8 @@
 					'post_status'    => 'publish',
 					'numberposts'    => -1,
 					'fields'         => 'ids',
+					'orderby'        => 'ID',
+					'order'          => 'DESC',
 				));
 				return array_unique($all_data);
 			}

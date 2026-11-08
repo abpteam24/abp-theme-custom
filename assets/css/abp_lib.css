@@ -394,7 +394,7 @@
 	body.theme-twentytwentytwo div.abp_area div.abp_container,
 	div.abp_area div.abp_container { max-width: var(--abp_container_max); width: 100%; margin: 0 auto; display: -webkit-flex; display: flex; -webkit-flex-direction: column;flex-direction: column;gap: var(--abp_gap);}
 	div.abp_area [class*="abp_row"] { min-height: 1px; display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap;}
-	div.abp_area div.abp_container{background-color: #707;}
+	div.abp_area div.abp_container{background-color: transparent;}
 	/*=============================*/
 	div.abp_area pre {background: var(--abp_color_light); border: 1px solid var(--abp_color_border); padding: var(--abp_gap);display: block; font-size: var(--abp_fs_h5); word-break: break-all; word-wrap: break-word;white-space: pre-wrap;}
 	/*=============================*/

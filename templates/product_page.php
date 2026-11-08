@@ -22,13 +22,13 @@
                                     echo ABP_Product_Logo::logo_html( $product_id, 'medium', array( 'class' => 'abp-price-logo', 'alt' => $title ) );
                                 }
                                 ?>
-                                <h1 class="abp_text_center"><?php echo esc_html( $product_infos['title'] ?? '' ); ?></h1>
+                                <h2 class="abp_text_center"><?php echo esc_html( $product_infos['title'] ?? '' ); ?></h2>
                                 <p class="abp_text_center"><?php echo esc_html( $product_infos['sub_title'] ?? '' ); ?></p>
                             </div>
                             <div class="abp_row abp_product_price">
                                 <div class="_section_fd_column_gap">
                                     <div class="_all_center">
-                                        <div class="_gap_xs _text_center"><h3 class="abp_color_theme"><?php echo esc_html( $title ); ?></h3><?php ABP_Static::svg( 'minus_1' ); ?><h3 class="abp_color_active">Flexible Pricing Option For ALL</h3></div>
+                                        <div class="_gap_xs _text_center"><p class="abp_section_eyebrow abp_color_theme"><?php echo esc_html( $title ); ?></p><?php ABP_Static::svg( 'minus_1' ); ?><h3 class="abp_section_heading abp_color_active">Flexible Pricing Option For ALL</h3></div>
                                     </div>
                                     <div class="_all_center">
                                         <div class="_group_content">
@@ -52,7 +52,7 @@
                                                     <div class="_all_center_fd_column_gap_xs">
                                                         <h3 class="abp_color_green_pale"><?php echo esc_html( $price_data['name'] ); ?></h3>
                                                         <div class="_gap_xxs">
-                                                            <h1 class="abp_color_theme"><?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?>/</h1><sub><?php echo esc_html( $variation_info['price_sub'] ?? '' ); ?></sub>
+                                                            <p class="abp_price_amount abp_color_theme"><?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?>/</p><sub><?php echo esc_html( $variation_info['price_sub'] ?? '' ); ?></sub>
                                                         </div>
                                                     </div>
                                                     <div class="_divider"></div>
@@ -80,7 +80,7 @@
                                     <div class=" _grid_350">
 										<?php foreach ( $infos as $feature ) { ?>
                                             <div class="chose_list" style="background-color: <?php echo esc_attr( $feature['bg_color'] ?? '' ); ?>">
-                                                <h1 class="abp_all_center"><?php echo esc_html( $feature['icon'] ?? '' ); ?></h1>
+                                                <div class="abp_all_center abp_card_icon"><?php echo esc_html( $feature['icon'] ?? '' ); ?></div>
                                                 <h5 class="abp_text_center"><?php echo esc_html( $feature['title'] ?? '' ); ?></h5>
                                             </div>
 										<?php } ?>

@@ -48,8 +48,8 @@
 			<span class="abp-offer-dialog-chip">
 				<?php echo esc_html( $offer_claim ? $offer_claim['percent'] . '% Off - ' . $offer_claim['flag'] : __( 'Discount Offer', 'abp-plugin' ) ); ?>
 			</span>
-			<h3 id="abp-offer-title"><?php esc_html_e( 'Claim Your Discount Offer', 'abp-plugin' ); ?></h3>
-			<p><?php esc_html_e( 'Complete the form below and our team will email your personal discount code together with everything you need to redeem it.', 'abp-plugin' ); ?></p>
+			<h3 id="abp-offer-title" class="_fs_h4"><?php esc_html_e( 'Claim Your Discount Offer', 'abp-plugin' ); ?></h3>
+			<p class="abp"><?php esc_html_e( 'Complete the form below and our team will email your personal discount code together with everything you need to redeem it.', 'abp-plugin' ); ?></p>
 		</div>
 		<div class="abp-offer-response" id="abp-offer-response"></div>
 		<form class="abp-offer-form" id="abp-offer-form">

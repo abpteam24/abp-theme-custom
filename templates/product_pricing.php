@@ -19,25 +19,30 @@
             ?>
             <div class="abp_area ">
                 <div class="abp_container">
-                    <div class="abp_row _section abp_product_title">
+                    <div class="abp_product_title">
                         <?php
-                        if ( class_exists( 'ABP_Product_Logo' ) ) {
-                            echo ABP_Product_Logo::logo_html( $product_id, 'medium', array( 'class' => 'abp-price-logo', 'alt' => $title ) );
-                        }
+                            if ( class_exists( 'ABP_Product_Logo' ) ) {
+                                $logo_html = ABP_Product_Logo::logo_html( $product_id, 'medium', array( 'class' => 'abp-price-logo', 'alt' => $title ) );
+                                if ( ! empty( $logo_html ) ) {
+                                    echo '<span class="abp-product-logo-card">' . $logo_html . '</span>';
+                                }
+                            }
                         ?>
                         <h1 class="abp_text_center"><?php echo esc_html( $product_infos['title'] ?? '' ); ?></h1>
                         <p class="abp_text_center"><?php echo esc_html( $product_infos['sub_title'] ?? '' ); ?></p>
                     </div>
-                    <div class="abp_row abp_product_price">
+                    <div class="abp_product_price">
                         <div class="_section_fd_column_gap">
-                            <div class="_all_center">
-                                <div class="_gap_xs _text_center"><p class="abp_section_eyebrow abp_color_theme"><?php echo esc_html( $title ); ?></p><?php ABP_Static::svg( 'minus_1' ); ?><h2 class="abp_section_heading abp_color_active">Flexible Pricing Option For ALL</h2></div>
+                            <div class="abp-price-head">
+                                <span class="abp-price-eyebrow"><?php echo esc_html( $title ); ?></span>
+                                <h2 class="abp_section_heading _fs_h3"><?php echo esc_html__( 'Flexible Pricing Option For ALL', 'abp-plugin' ); ?></h2>
+                                <p class="abp-price-sub"><?php echo esc_html__( 'Choose a yearly subscription or a one-time lifetime license. Every plan unlocks the same PRO features.', 'abp-plugin' ); ?></p>
                             </div>
                             <div class="_all_center">
                                 <div class="_group_content">
-                                    <button type="button" class="_btn_light_theme abp_active" data-price-target="all">All (Yearly + One Time)</button>
-                                    <button type="button" class="_btn_light_theme" data-price-target="annual">Yearly / Annual Billing</button>
-                                    <button type="button" class="_btn_light_theme" data-price-target="one_time">One Time / Lifetime License</button>
+                                    <button type="button" class="_btn_light_theme abp_active" data-price-target="all" aria-pressed="true">All (Yearly + One Time)</button>
+                                    <button type="button" class="_btn_light_theme" data-price-target="annual" aria-pressed="false">Yearly</button>
+                                    <button type="button" class="_btn_light_theme" data-price-target="one_time" aria-pressed="false">Lifetime License</button>
                                 </div>
                             </div>
                             <div class="price_content _grid_350">
@@ -52,87 +57,96 @@
                                             <?php if ( $popular ) {
                                                 echo '<div class="popular_badge">Most Popular</div>';
                                             } ?>
-                                            <div class="_all_center_fd_column_gap_xs">
-                                                <h3 class="abp_color_green_pale"><?php echo esc_html( $price_data['name'] ); ?></h3>
-                                                <div class="_gap_xxs">
-                                                    <p class="abp_price_amount abp_color_theme"><?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?>/</p><sub><?php echo esc_html( $variation_info['price_sub'] ?? '' ); ?></sub>
+                                            <div class="abp-price-card-inner">
+                                                <div class="_all_center_fd_column_gap_xs">
+                                                    <h3 class="abp_color_green_pale _fs_h5"><?php echo esc_html( $price_data['name'] ); ?></h3>
+                                                    <div class="_gap_xxs">
+                                                        <p class="abp_price_amount abp_color_theme _fs_h1"><?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?></p>
+                                                        <?php if ( ! empty( $variation_info['price_sub'] ) ) { ?>
+                                                            <sub><?php echo esc_html( $variation_info['price_sub'] ); ?></sub>
+                                                        <?php } ?>
+                                                    </div>
                                                 </div>
+                                                <div class="_divider"></div>
+                                                <?php if ( ! empty( $features ) ) { ?>
+                                                    <h4 class="abp_feature_label abp_color_green_pale _fs_small">Features</h4>
+                                                    <ul class="abp_list feature_list">
+                                                        <?php foreach ( $features as $feature ) { ?>
+                                                            <li><?php echo esc_html( $feature ); ?></li>
+                                                        <?php } ?>
+                                                    </ul>
+                                                <?php } ?>
+                                                <div class="_divider"></div>
+                                                <a href="<?php echo esc_url( ABP_Function::build_edd_url( $product_id, $price_id ) ); ?>" class="<?php echo esc_attr( $btn_class ); ?>"><i class="fa-solid fa-cart-plus"></i><span class="abp-price-btn-label"><?php echo esc_html( $variation_info['btn_text'] ?? '' ); ?></span><span class="abp-price-btn-amount"><?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?> + VAT</span></a>
                                             </div>
-                                            <div class="_divider"></div>
-                                            <?php if ( ! empty( $features ) ) { ?>
-                                                <h4 class="abp_feature_label abp_color_green_pale">Features</h4>
-                                                <ul class="abp_list feature_list">
-                                                    <?php foreach ( $features as $feature ) { ?>
-                                                        <li><?php echo esc_html( $feature ); ?></li>
-                                                    <?php } ?>
-                                                </ul>
-                                            <?php } ?>
-                                            <div class="_divider"></div>
-                                            <a href="<?php echo esc_url( ABP_Function::build_edd_url( $product_id, $price_id ) ); ?>" class="<?php echo esc_attr( $btn_class ); ?>"><i class="fa-solid fa-cart-plus"></i><?php echo esc_html( $variation_info['btn_text'] ?? '' ); ?>(<?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?>+VAT)</a>
                                         </div>
                                     <?php }
                                 } ?>
                             </div>
                         </div>
                     </div>
-                    <div class="abp_row _section abp_product_feature">
-                        <div class="_max_1100_mar_auto">
-                            <?php if ( ! empty( $feature_infos ) || ! empty( $pro_feature_infos ) ) { ?>
-                                <div class="abp_feature_intro">
-                                    <p class="abp_section_eyebrow abp_color_theme"><?php echo esc_html( $title ); ?></p>
-                                    <?php ABP_Static::svg( 'minus_1' ); ?>
-                                    <h2 class="abp_section_heading abp_color_active">Free vs. PRO Features</h2>
-                                    <p class="abp_feature_subtitle"><?php echo esc_html__( 'See exactly what is included in the free version and what unlocks with PRO.', 'abp-plugin' ); ?></p>
+                    <div class="abp_product_feature">
+                        <?php if ( ! empty( $feature_infos ) || ! empty( $pro_feature_infos ) ) { ?>
+                            <div class="abp_feature_intro">
+                                <span class="abp-feature-eyebrow"><?php echo esc_html( $title ); ?></span>
+                                <h2 class="abp_section_heading _fs_h3"><?php echo esc_html__( 'Free vs. PRO Features', 'abp-plugin' ); ?></h2>
+                                <p class="abp_feature_subtitle"><?php echo esc_html__( 'See exactly what is included in the free version and what unlocks with PRO.', 'abp-plugin' ); ?></p>
+                            </div>
+                        <?php } ?>
+                        <div class="_grid_500 abp_feature_grid">
+                            <?php if ( ! empty( $feature_infos ) ) { ?>
+                                <div class="free_list">
+                                    <div class="abp_feature_card_head">
+                                        <div class="abp_feature_head_main">
+                                            <span class="abp_feature_badge is-free"><?php echo esc_html__( 'Free', 'abp-plugin' ); ?></span>
+                                            <h3 class="abp_feature_card_title _fs_h5"><?php echo esc_html__( 'Free Features', 'abp-plugin' ); ?></h3>
+                                        </div>
+                                        <span class="abp_feature_count"><?php echo esc_html( sprintf( _n( '%s feature', '%s features', count( $feature_infos ), 'abp-plugin' ), number_format_i18n( count( $feature_infos ) ) ) ); ?></span>
+                                    </div>
+                                    <ul class="abp_list">
+                                        <?php foreach ( $feature_infos as $feature ) { ?>
+                                            <li><span class="<?php echo esc_html( $feature['icon'] ?? '' ); ?>"></span><?php echo esc_html( $feature['label'] ?? '' ); ?></li>
+                                        <?php } ?>
+                                    </ul>
                                 </div>
                             <?php } ?>
-                            <div class="_grid_500 abp_feature_grid">
-                                <?php if ( ! empty( $feature_infos ) ) { ?>
-                                    <div class="free_list">
-                                        <div class="abp_feature_card_head">
-                                            <div class="abp_feature_head_main">
-                                                <span class="abp_feature_badge is-free"><?php echo esc_html__( 'Free', 'abp-plugin' ); ?></span>
-                                                <h3 class="abp_feature_card_title"><?php echo esc_html__( 'Free Features', 'abp-plugin' ); ?></h3>
-                                            </div>
-                                            <span class="abp_feature_count"><?php echo esc_html( count( $feature_infos ) ); ?> <?php echo esc_html__( 'features', 'abp-plugin' ); ?></span>
+                            <?php if ( ! empty( $pro_feature_infos ) ) { ?>
+                                <div class="pro_list">
+                                    <div class="abp_feature_card_head">
+                                        <div class="abp_feature_head_main">
+                                            <span class="abp_feature_badge is-pro">PRO</span>
+                                            <h3 class="abp_feature_card_title _fs_h5"><?php echo esc_html__( 'PRO Features', 'abp-plugin' ); ?></h3>
                                         </div>
-                                        <ul class="abp_list">
-                                            <?php foreach ( $feature_infos as $feature ) { ?>
-                                                <li><span class="<?php echo esc_html( $feature['icon'] ?? '' ); ?>"></span><?php echo esc_html( $feature['label'] ?? '' ); ?></li>
-                                            <?php } ?>
-                                        </ul>
+                                        <span class="abp_feature_count"><?php echo esc_html( sprintf( _n( '%s feature', '%s features', count( $pro_feature_infos ), 'abp-plugin' ), number_format_i18n( count( $pro_feature_infos ) ) ) ); ?></span>
                                     </div>
-                                <?php } ?>
-                                <?php if ( ! empty( $pro_feature_infos ) ) { ?>
-                                    <div class="pro_list">
-                                        <div class="abp_feature_card_head">
-                                            <div class="abp_feature_head_main">
-                                                <span class="abp_feature_badge is-pro">PRO</span>
-                                                <h3 class="abp_feature_card_title"><?php echo esc_html__( 'PRO Features', 'abp-plugin' ); ?></h3>
-                                            </div>
-                                            <span class="abp_feature_count"><?php echo esc_html( count( $pro_feature_infos ) ); ?> <?php echo esc_html__( 'features', 'abp-plugin' ); ?></span>
-                                        </div>
-                                        <ul class="abp_list">
-                                            <?php foreach ( $pro_feature_infos as $feature ) { ?>
-                                                <li><span class="<?php echo esc_html( $feature['icon'] ?? '' ); ?>"></span><?php echo esc_html( $feature['label'] ?? '' ); ?></li>
-                                            <?php } ?>
-                                        </ul>
-                                    </div>
-                                <?php } ?>
-                            </div>
+                                    <ul class="abp_list">
+                                        <?php foreach ( $pro_feature_infos as $feature ) { ?>
+                                            <li><span class="<?php echo esc_html( $feature['icon'] ?? '' ); ?>"></span><?php echo esc_html( $feature['label'] ?? '' ); ?></li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                     <?php if ( ! empty( $about ) ) {
-                        $description  = $about['description'] ?? [];
-                        $features     = $about['features'] ?? [];
-                        $requirements = $about['requirements'] ?? []; ?>
-                        <div class="abp_row _section abp_product_about">
-                            <p class="abp_section_eyebrow abp _color_burnt_orange _text_center"><?php echo esc_html( $about['sub_title'] ?? '' ); ?></p>
-                            <h2 class="abp_section_heading abp_text_center"><?php echo esc_html( $about['title'] ?? '' ); ?></h2>
-                            <?php if ( ! empty( $description ) ) {
-                                foreach ( $description as $des ) { ?>
-                                    <p class="abp"><?php echo esc_html( $des ); ?></p>
-                                <?php }
-                            } ?>
+                        $description = $about['description'] ?? [];
+                        $columns     = ! empty( $description ) ? array_chunk( $description, (int) ceil( count( $description ) / 2 ) ) : []; ?>
+                        <div class="abp_product_about">
+                            <div class="abp-pa-head">
+                                <span class="abp-pa-eyebrow"><?php echo esc_html( $about['sub_title'] ?? '' ); ?></span>
+                                <h2 class="abp_section_heading _fs_h3"><?php echo esc_html( $about['title'] ?? '' ); ?></h2>
+                            </div>
+                            <?php if ( ! empty( $columns ) ) { ?>
+                                <div class="abp-pa-article">
+                                    <?php foreach ( $columns as $column_index => $paragraphs ) { ?>
+                                        <div class="abp-pa-col">
+                                            <?php foreach ( $paragraphs as $index => $des ) { ?>
+                                                <p class="abp<?php echo ( 0 === $column_index && 0 === $index ) ? ' abp-pa-lede' : ''; ?>"><?php echo esc_html( $des ); ?></p>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
                         </div>
                     <?php } ?>
                     <?php if ( ! empty( $why_chose ) ) {
@@ -142,11 +156,10 @@
                             return ! empty( $item['pro'] );
                         } ) );
                         ?>
-                        <div class="abp_row _section abp_product_chose">
-                            <div class="abp_section_intro">
-                                <p class="abp_section_eyebrow"><?php echo esc_html( $why_chose['sub_title'] ?? '' ); ?></p>
-                                <?php ABP_Static::svg( 'minus_1' ); ?>
-                                <h2 class="abp_section_heading"><?php echo esc_html( $why_chose['title'] ?? '' ); ?></h2>
+                        <div class="abp_product_chose">
+                            <div class="abp-chose-head">
+                                <span class="abp-chose-eyebrow"><?php echo esc_html( $why_chose['sub_title'] ?? '' ); ?></span>
+                                <h2 class="abp_section_heading _fs_h3"><?php echo esc_html( $why_chose['title'] ?? '' ); ?></h2>
                                 <div class="abp_section_meta">
                                     <span class="abp_section_meta_count"><?php echo esc_html( sprintf( _n( '%s capability', '%s capabilities', $total, 'abp-plugin' ), number_format_i18n( $total ) ) ); ?></span>
                                     <?php if ( $pro_total > 0 ) { ?>
@@ -154,41 +167,44 @@
                                     <?php } ?>
                                 </div>
                             </div>
-                            <div class="_grid_350">
+                            <div class="abp-chose-grid" id="abp-chose-grid" data-abp-chose-grid>
                                 <?php foreach ( $infos as $feature ) {
                                     $is_pro = ! empty( $feature['pro'] ); ?>
-                                    <div class="chose_list<?php echo $is_pro ? ' is-pro' : ''; ?>" style="--chose-accent: <?php echo esc_attr( $feature['border_color'] ?? '#7B5EA7' ); ?>">
+                                    <div class="abp-chose-card<?php echo $is_pro ? ' is-pro' : ''; ?>" style="--chose-accent: <?php echo esc_attr( $feature['border_color'] ?? '#7B5EA7' ); ?>">
                                         <?php if ( $is_pro ) { ?>
                                             <span class="abp-pro-label">PRO</span>
                                         <?php } ?>
                                         <div class="abp_chose_card_head">
                                             <div class="abp_all_center abp_card_icon"><?php echo esc_html( $feature['icon'] ?? '' ); ?></div>
-                                            <h3><?php echo esc_html( $feature['title'] ?? '' ); ?></h3>
+                                            <h3 class="_fs_h5"><?php echo esc_html( $feature['title'] ?? '' ); ?></h3>
                                         </div>
-                                        <label><?php echo esc_html( $feature['description'] ?? '' ); ?></label>
+                                        <p class="abp abp-chose-desc"><?php echo esc_html( $feature['description'] ?? '' ); ?></p>
                                     </div>
                                 <?php } ?>
+                            </div>
+                            <div class="abp-chose-footer" data-abp-chose-footer hidden>
+                                <button type="button" class="abp-chose-more" data-abp-chose-more data-more-text="<?php echo esc_attr( sprintf( _n( 'Show all %s capability', 'Show all %s capabilities', $total, 'abp-plugin' ), number_format_i18n( $total ) ) ); ?>" data-less-text="<?php echo esc_attr__( 'Show fewer capabilities', 'abp-plugin' ); ?>" aria-expanded="false" aria-controls="abp-chose-grid"><span class="abp-chose-more-text"><?php echo esc_html( sprintf( _n( 'Show all %s capability', 'Show all %s capabilities', $total, 'abp-plugin' ), number_format_i18n( $total ) ) ); ?></span><span class="abp-chose-more-icon" aria-hidden="true"></span></button>
                             </div>
                         </div>
                     <?php } ?>
                     <?php if ( ! empty( $use_case ) ) {
                         $infos = $use_case['infos'] ?? [];
                         $total = count( $infos ); ?>
-                        <div class="abp_row _section abp_product_use_case">
-                            <div class="abp_section_intro">
-                                <p class="abp_section_eyebrow"><?php echo esc_html__( 'Use Cases', 'abp-plugin' ); ?></p>
-                                <?php ABP_Static::svg( 'minus_1' ); ?>
-                                <h2 class="abp_section_heading"><?php echo esc_html( $use_case['title'] ?? '' ); ?></h2>
-                                <p class="abp_section_subheading"><?php echo esc_html( $use_case['sub_title'] ?? '' ); ?></p>
+                        <div class="abp_product_use_case">
+                            <div class="abp-uc-head">
+                                <span class="abp-uc-eyebrow"><?php echo esc_html__( 'Use Cases', 'abp-plugin' ); ?></span>
+                                <h2 class="abp_section_heading _fs_h3"><?php echo esc_html( $use_case['title'] ?? '' ); ?></h2>
+                                <p class="abp-uc-sub"><?php echo esc_html( $use_case['sub_title'] ?? '' ); ?></p>
                                 <div class="abp_section_meta">
                                     <span class="abp_section_meta_count"><?php echo esc_html( sprintf( _n( '%s use case', '%s use cases', $total, 'abp-plugin' ), number_format_i18n( $total ) ) ); ?></span>
                                 </div>
                             </div>
-                            <div class="_grid_350">
+                            <div class="abp-uc-grid">
                                 <?php foreach ( $infos as $feature ) { ?>
-                                    <div class="chose_list" style="--use-bg: <?php echo esc_attr( $feature['bg_color'] ?? '#F4F6FB' ); ?>">
-                                        <div class="abp_all_center abp_card_icon"><?php echo esc_html( $feature['icon'] ?? '' ); ?></div>
-                                        <h3><?php echo esc_html( $feature['title'] ?? '' ); ?></h3>
+                                    <div class="abp-uc-row" style="--use-bg: <?php echo esc_attr( $feature['bg_color'] ?? '#F4F6FB' ); ?>">
+                                        <div class="abp_all_center abp-uc-icon"><?php echo esc_html( $feature['icon'] ?? '' ); ?></div>
+                                        <h3 class="_fs_h6"><?php echo esc_html( $feature['title'] ?? '' ); ?></h3>
+                                        <span class="abp-uc-chevron" aria-hidden="true"></span>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -196,14 +212,21 @@
                     <?php } ?>
                     <?php if ( ! empty( $short_code ) ) {
                         $infos = $short_code['infos'] ?? []; ?>
-                        <div class="abp_row _section abp_product_short_code">
-                            <h2 class="abp_section_heading abp_text_center"><?php echo esc_html( $short_code['title'] ?? '' ); ?></h2>
-                            <p class="abp_section_subheading abp_text_center"><?php echo esc_html( $short_code['sub_title'] ?? '' ); ?></p>
-                            <div class=" _grid_500">
-                                <?php foreach ( $infos as $feature ) { ?>
-                                    <div class="chose_list">
-                                        <h3 class="abp_color_theme _text_inherit"><code class="abp_all_center"><?php echo esc_html( $feature['code'] ?? '' ); ?></code></h3>
-                                        <p class="abp_text_center_color_white"><?php echo esc_html( $feature['description'] ?? '' ); ?></p>
+                        <div class="abp_product_short_code">
+                            <div class="abp_sc_intro">
+                                <span class="abp-sc-eyebrow"><?php echo esc_html__( 'Shortcode Library', 'abp-plugin' ); ?></span>
+                                <h2 class="abp_section_heading _fs_h3"><?php echo esc_html( $short_code['title'] ?? '' ); ?></h2>
+                                <p class="abp_sc_sub"><?php echo esc_html( $short_code['sub_title'] ?? '' ); ?></p>
+                            </div>
+                            <div class="abp_sc_grid">
+                                <?php foreach ( $infos as $feature ) {
+                                    $shortcode = $feature['code'] ?? ''; ?>
+                                    <div class="abp_sc_card">
+                                        <div class="abp_sc_card_head">
+                                            <code class="abp_sc_code"><?php echo esc_html( $shortcode ); ?></code>
+                                            <button type="button" class="abp_sc_copy" data-abp-copy="<?php echo esc_attr( $shortcode ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'Copy shortcode %s', 'abp-plugin' ), $shortcode ) ); ?>" hidden><i class="fas fa-copy" aria-hidden="true"></i><span class="abp_sc_copy_text"><?php echo esc_html__( 'Copy', 'abp-plugin' ); ?></span></button>
+                                        </div>
+                                        <p class="abp_sc_desc"><?php echo esc_html( $feature['description'] ?? '' ); ?></p>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -224,12 +247,12 @@
                                 $gallery_batch   = 12;
                                 $gallery_items   = [];
                                 foreach ( $slider_images as $slider_image ) {
-                                    $slider_file   = basename( $slider_image );
-                                    $slider_name   = pathinfo( $slider_file, PATHINFO_FILENAME );
-                                    $slider_label  = trim( preg_replace( '/^[\d\s.\-_]+/', '', $slider_name ) );
-                                    $slider_label  = $slider_label ? $slider_label : $slider_name;
-                                    $slider_label  = ucwords( trim( str_replace( [ '-', '_' ], ' ', $slider_label ) ) );
-                                    $slider_size   = @getimagesize( $slider_image );
+                                    $slider_file     = basename( $slider_image );
+                                    $slider_name     = pathinfo( $slider_file, PATHINFO_FILENAME );
+                                    $slider_label    = trim( preg_replace( '/^[\d\s.\-_]+/', '', $slider_name ) );
+                                    $slider_label    = $slider_label ? $slider_label : $slider_name;
+                                    $slider_label    = ucwords( trim( str_replace( [ '-', '_' ], ' ', $slider_label ) ) );
+                                    $slider_size     = @getimagesize( $slider_image );
                                     $gallery_items[] = [
                                         'url'    => $slider_base_url . rawurlencode( $slider_file ),
                                         'label'  => $slider_label,
@@ -238,11 +261,11 @@
                                     ];
                                 }
                                 ?>
-                                <div class="abp_row _section abp_product_gallery" data-abp-gallery data-batch="<?php echo esc_attr( $gallery_batch ); ?>">
+                                <div class="abp_product_gallery" data-abp-gallery data-batch="<?php echo esc_attr( $gallery_batch ); ?>">
                                     <div class="_fd_column_gap_xs_w_full">
-                                        <p class="abp_section_eyebrow abp-gallery-eyebrow">Screenshot Gallery</p>
+                                        <p class="abp-gallery-eyebrow">Screenshot Gallery</p>
                                         <h2 class="abp_section_heading abp-gallery-title"><?php echo esc_html( $sliders['title'] ?? '' ); ?></h2>
-                                        <p class="abp-gallery-subtitle"><?php echo esc_html( $sliders['sub_title'] ?? '' ); ?></p>
+                                        <p class="abp-gallery-subtitle _fs_h6"><?php echo esc_html( $sliders['sub_title'] ?? '' ); ?></p>
                                     </div>
                                     <div class="abp-gallery-wrap">
                                         <div class="abp-gallery" data-abp-gallery-grid>

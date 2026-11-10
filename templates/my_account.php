@@ -6,8 +6,8 @@
 				$abp_pending_user = is_user_logged_in() && function_exists( 'edd_user_pending_verification' ) && edd_user_pending_verification( get_current_user_id() );
 				if ( ! is_user_logged_in() ) { ?>
             <div class="abp_area">
-                <h2 class="abp"><?php esc_html_e( 'My Account', 'abp-team' ); ?></h2>
-                <p><?php esc_html_e( 'Log in or Register to access your purchases, licenses, and downloads.', 'abp-team' ); ?></p>
+                <h2 class="abp _fs_h3"><?php esc_html_e( 'My Account', 'abp-team' ); ?></h2>
+                <p class="abp"><?php esc_html_e( 'Log in or Register to access your purchases, licenses, and downloads.', 'abp-team' ); ?></p>
 				<?php if ( isset( $_GET['edd-verify-success'] ) ) : ?>
 					<div class="abp-notice abp-notice--success">
 						<strong><?php esc_html_e( 'Email verified', 'abp-team' ); ?></strong>
@@ -50,7 +50,7 @@
 									$abp_account_url = get_permalink( get_queried_object_id() );
 									echo do_shortcode( $abp_account_url ? sprintf( '[edd_register redirect="%s"]', esc_url_raw( $abp_account_url ) ) : '[edd_register]' );
 								} else {
-									echo '<p>' . esc_html__( 'Registration form shortcode not available.', 'abp-team' ) . '</p>';
+									echo '<p class="abp">' . esc_html__( 'Registration form shortcode not available.', 'abp-team' ) . '</p>';
 								}
 							?>
 							<p class="abp-muted"><?php esc_html_e( 'We will send a verification link to your email address. You can sign in once your email is verified.', 'abp-team' ); ?></p>
@@ -62,8 +62,8 @@
 					<span><?php esc_html_e( 'Protected by anti-bot security checks. Every sign-in and registration is verified before it is accepted.', 'abp-team' ); ?></span>
 				</div>
 				<div class="abp-verify-box">
-					<h3><?php esc_html_e( 'Already registered? Verify your email', 'abp-team' ); ?></h3>
-					<p><?php esc_html_e( 'We send a verification link when you create an account. Enter your email address and we will send a fresh link so you can activate your account.', 'abp-team' ); ?></p>
+					<h3 class="_fs_h6"><?php esc_html_e( 'Already registered? Verify your email', 'abp-team' ); ?></h3>
+					<p class="abp"><?php esc_html_e( 'We send a verification link when you create an account. Enter your email address and we will send a fresh link so you can activate your account.', 'abp-team' ); ?></p>
 					<form class="abp-verify-form" id="abp-verify-form" method="post" novalidate>
 						<input type="email" id="abp-verify-email" name="email" placeholder="<?php esc_attr_e( 'Your email address', 'abp-team' ); ?>" autocomplete="email" required />
 						<button type="submit" class="_btn_active"><?php esc_html_e( 'Send verification link', 'abp-team' ); ?></button>
@@ -117,8 +117,8 @@
             <div class="abp-account abp_area">
                 <div class="abp-account-header flex-header">
                     <div>
-                        <h2><?php esc_html_e( 'My Account', 'abp-team' ); ?></h2>
-                        <p><?php printf( esc_html__( 'Welcome back, %s!', 'abp-team' ), esc_html( $user->display_name ) ); ?></p>
+                        <h2 class="abp _fs_h3"><?php esc_html_e( 'My Account', 'abp-team' ); ?></h2>
+                        <p class="abp"><?php printf( esc_html__( 'Welcome back, %s!', 'abp-team' ), esc_html( $user->display_name ) ); ?></p>
                     </div>
                     <a class="_btn_warning" href="<?php echo esc_url( wp_logout_url( get_permalink() ) ); ?>">
 						<?php esc_html_e( 'Logout', 'abp-team' ); ?>
@@ -132,7 +132,7 @@
 				<?php endif; ?>
                 <div class="abp-account-card">
                     <div class="abp-section-heading">
-                        <h3><?php esc_html_e( 'Account Overview', 'abp-team' ); ?></h3>
+                        <h3 class="_fs_h5"><?php esc_html_e( 'Account Overview', 'abp-team' ); ?></h3>
                     </div>
                     <div class="abp-account-details">
                         <div class="abp-detail-item _fj_between">
@@ -152,7 +152,7 @@
 				<?php
 					$customer = edd_get_customer_by( 'user_id', $user->ID );
 					if ( ! $customer ) {
-						echo '<p>' . esc_html__( 'You have no account orders yet.', 'easy-digital-downloads' ) . '</p>';
+						echo '<p class="abp">' . esc_html__( 'You have no account orders yet.', 'easy-digital-downloads' ) . '</p>';
 					} else {
 						$orders = function_exists( 'edd_get_orders' ) ? edd_get_orders(
 							array(
@@ -169,7 +169,7 @@
                             <div class="edd-cf-account-wrap">
                                 <div class="edd-cf-account-box">
                                     <div class="edd-cf-account-head">
-                                        <h3><?php esc_html_e( 'My Orders & Subscriptions', 'easy-digital-downloads' ); ?></h3>
+                                        <h3 class="_fs_h5"><?php esc_html_e( 'My Orders & Subscriptions', 'easy-digital-downloads' ); ?></h3>
                                     </div>
                                     <div class="edd-cf-account-body">
                                         <table class="abp">

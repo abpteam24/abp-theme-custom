@@ -1,8 +1,8 @@
 /**
  * ABP screenshot gallery.
  *
- * Batched "Load More" disclosure for the masonry grid plus a keyboard
- * accessible lightbox with previous / next navigation.
+ * Batched "Load More" disclosure for the responsive screenshot grid plus a
+ * keyboard accessible lightbox with previous / next navigation.
  */
 (function () {
 	'use strict';
@@ -88,6 +88,7 @@
 
 			visible = next;
 			syncMore();
+			scheduleLayout();
 
 			if (firstNew) {
 				var rect = firstNew.getBoundingClientRect();
@@ -107,6 +108,100 @@
 		}
 
 		syncMore();
+
+		/* ------------------------------------------------------------------
+		 * Masonry packing: every tile keeps its natural image ratio, so the
+		 * script stacks tiles into the shortest column and gives each one an
+		 * exact row span. Gutters stay at one constant value.
+		 * ------------------------------------------------------------------ */
+
+		var rafId = 0;
+
+		function layoutGrid() {
+			var gridStyle = window.getComputedStyle(grid);
+			var gutter = Math.round(parseFloat(gridStyle.columnGap) || 0);
+			var tracks = (gridStyle.gridTemplateColumns || '').split(' ').filter(Boolean);
+			var widths = tracks.map(function (track) {
+				return parseFloat(track) || 0;
+			});
+			var columnCount = widths.length || 1;
+			var cursors = [];
+
+			for (var c = 0; c < columnCount; c++) {
+				cursors.push(0);
+			}
+
+			grid.classList.add('is-masonry');
+
+			items.forEach(function (item) {
+				item.style.gridColumn = '';
+				item.style.gridRowStart = '';
+				item.style.gridRowEnd = '';
+			});
+
+			items.forEach(function (item) {
+				if (item.hidden) {
+					return;
+				}
+
+				var img = item.querySelector('img');
+				if (!img) {
+					return;
+				}
+
+				var naturalWidth = img.naturalWidth || parseFloat(img.getAttribute('width')) || 0;
+				var naturalHeight = img.naturalHeight || parseFloat(img.getAttribute('height')) || 0;
+				var box = item.getBoundingClientRect();
+
+				if (!naturalWidth || !naturalHeight || !box.width) {
+					return;
+				}
+
+				var itemStyle = window.getComputedStyle(item);
+				var borders = (parseFloat(itemStyle.borderTopWidth) || 0) + (parseFloat(itemStyle.borderBottomWidth) || 0);
+
+				// Shortest column first: keeps the gutters even and leaves no holes.
+				var column = 0;
+				for (var i = 1; i < cursors.length; i++) {
+					if (cursors[i] < cursors[column]) {
+						column = i;
+					}
+				}
+
+				var tileWidth = (widths[column] || box.width) - borders;
+				var height = Math.ceil(tileWidth * (naturalHeight / naturalWidth) + borders);
+
+				// Rows are 1px each without row gaps, so the span is the tile
+				// height plus the gutter that should sit under it.
+				item.style.gridColumn = String(column + 1);
+				item.style.gridRowStart = String(cursors[column] + 1);
+				item.style.gridRowEnd = 'span ' + (height + gutter);
+
+				cursors[column] += height + gutter;
+			});
+		}
+
+		function scheduleLayout() {
+			if (rafId) {
+				return;
+			}
+
+			rafId = window.requestAnimationFrame(function () {
+				rafId = 0;
+				layoutGrid();
+			});
+		}
+
+		layoutGrid();
+		window.addEventListener('resize', scheduleLayout);
+		window.addEventListener('load', scheduleLayout);
+
+		items.forEach(function (item) {
+			var img = item.querySelector('img');
+			if (img && !img.complete) {
+				img.addEventListener('load', scheduleLayout);
+			}
+		});
 
 		/* ------------------------------------------------------------------
 		 * Lightbox

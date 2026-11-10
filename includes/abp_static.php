@@ -74,7 +74,7 @@
 
 			public static function product( $product_id = '' ): array {
 				$product = [
-					9757 => [
+					9807 => [
 						'title'       => 'Advanced WooCommerce Tour & Travel Booking Plugin',
 						'des'         => 'ABP Tour & Travel is a WooCommerce-based WordPress tour booking plugin for tours, ticket types, reserved seating, guides, schedules, traveler details and online bookings from a single dashboard.',
 						'sub_title'   => 'ABP Tour & Travel PRO is a WooCommerce-based WordPress plugin for creating tours, selling general admission and reserved seat tickets, designing reusable seat plans, publishing itineraries and collecting traveler information from your WordPress dashboard. Configure ticket types, prices, quantities, tour dates, check-in and check-out times, duration, stay nights, maximum guests, age range, start points, locations, categories, operators, guides, timelines, places you will see and additional services, then sell through the WooCommerce checkout. The Pro version adds seasonal and early bird discounts, partial payments with balance tracking, customer cancellation requests, PDF tour tickets with QR codes, traveler list PDFs, customizable booking emails, admin booking creation and editing, CSV exports, session statistics, ticket lookup and check-in, and license-managed updates.',
@@ -474,7 +474,7 @@
 							'file'      => 'abptt',
 						],
 					],
-					9754 => [
+					9786 => [
 						'title'       => 'Advanced WooCommerce Event Ticketing & Registration Plugin',
 						'des'         => 'ABP Event Ticket is a WooCommerce-based WordPress event ticketing plugin for events, ticket types, reserved seating, attendees, schedules and online ticket sales from a single dashboard.',
 						'sub_title'   => 'ABP Event Ticket PRO is a WooCommerce-based WordPress plugin for creating events, selling general admission and reserved seat tickets, designing reusable seat plans, collecting attendee information, scheduling sessions and managing orders from your WordPress dashboard. Configure ticket types, prices, quantities, event dates, day-wise and date-wise times, locations, categories, organizers, brands, speakers, timelines, FAQs and additional services, then sell through the WooCommerce checkout. The Pro version adds seasonal and early bird discounts, partial payments with balance tracking, customer cancellation requests, PDF tickets with QR codes, attendee list PDFs, customizable booking emails, admin booking creation and editing, CSV exports, session statistics, ticket lookup and check-in, and license-managed updates.',

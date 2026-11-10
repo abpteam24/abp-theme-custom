@@ -16,20 +16,23 @@
 					?>
                     <div class="abp_area ">
                         <div class="abp_container">
-                            <div class="abp_row _section abp_product_title">
+                            <div class="abp_product_title">
                                 <?php
                                 if ( class_exists( 'ABP_Product_Logo' ) ) {
-                                    echo ABP_Product_Logo::logo_html( $product_id, 'medium', array( 'class' => 'abp-price-logo', 'alt' => $title ) );
+                                    $logo_html = ABP_Product_Logo::logo_html( $product_id, 'medium', array( 'class' => 'abp-price-logo', 'alt' => $title ) );
+                                    if ( ! empty( $logo_html ) ) {
+                                        echo '<span class="abp-product-logo-card">' . $logo_html . '</span>';
+                                    }
                                 }
                                 ?>
                                 <h2 class="abp_text_center"><?php echo esc_html( $product_infos['title'] ?? '' ); ?></h2>
                                 <p class="abp_text_center"><?php echo esc_html( $product_infos['sub_title'] ?? '' ); ?></p>
                             </div>
-                            <div class="abp_row abp_product_price">
+                            <div class="abp_product_price">
                                 <div class="_section_fd_column_gap">
-                                    <div class="_all_center">
-                                        <div class="_gap_xs _text_center"><p class="abp_section_eyebrow abp_color_theme"><?php echo esc_html( $title ); ?></p><?php ABP_Static::svg( 'minus_1' ); ?><h3 class="abp_section_heading abp_color_active">Flexible Pricing Option For ALL</h3></div>
-                                    </div>
+
+                                        <div class="_gap_xs_text_center"><h4 class="abp_color_theme"><?php echo esc_html( $title ); ?></h4><?php ABP_Static::svg( 'minus_1' ); ?><h4 class="abp_section_heading abp_color_active _fs_h5">Flexible Pricing Option For ALL</h4></div>
+
                                     <div class="_all_center">
                                         <div class="_group_content">
                                             <button type="button" class="_btn_light_theme abp_active" data-price-target="all">All (Yearly + One Time)</button>
@@ -50,9 +53,9 @@
 														echo '<div class="popular_badge">Most Popular</div>';
 													} ?>
                                                     <div class="_all_center_fd_column_gap_xs">
-                                                        <h3 class="abp_color_green_pale"><?php echo esc_html( $price_data['name'] ); ?></h3>
+                                                        <h3 class="abp_color_green_pale _fs_h5"><?php echo esc_html( $price_data['name'] ); ?></h3>
                                                         <div class="_gap_xxs">
-                                                            <p class="abp_price_amount abp_color_theme"><?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?>/</p><sub><?php echo esc_html( $variation_info['price_sub'] ?? '' ); ?></sub>
+                                                            <p class="abp_price_amount abp_color_theme _fs_h1"><?php echo edd_currency_filter( edd_format_amount( $price_data['amount'] ) ); ?>/</p><sub><?php echo esc_html( $variation_info['price_sub'] ?? '' ); ?></sub>
                                                         </div>
                                                     </div>
                                                     <div class="_divider"></div>
@@ -74,7 +77,7 @@
                             </div>
 							<?php if ( ! empty( $use_case ) ) {
 								$infos = $use_case['infos'] ?? []; ?>
-                                <div class="abp_row _section abp_product_use_case">
+                                <div class="abp_product_use_case">
                                     <h3 class="abp_text_center"><?php echo esc_html( $use_case['title'] ?? '' ); ?></h3>
                                     <h6 class="abp_text_center"><?php echo esc_html( $use_case['sub_title'] ?? '' ); ?></h6>
                                     <div class=" _grid_350">

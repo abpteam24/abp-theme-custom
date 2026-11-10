@@ -61,9 +61,12 @@
 				wp_enqueue_style('abp_custom', ABP_URL . 'assets/css/abp_custom.css', array('abp_lib'), self::asset_version( 'assets/css/abp_custom.css' ));
 				wp_enqueue_script('abp_lib', ABP_URL . 'assets/js/abp_lib.js', array('jquery'), self::asset_version( 'assets/js/abp_lib.js' ), true);
 				if ( ! is_admin() ) {
-					wp_enqueue_style('abp_offer_bar', ABP_URL . 'assets/css/abp_offer_bar.css', array(), self::asset_version( 'assets/css/abp_offer_bar.css' ));
 					wp_enqueue_script('abp_offer_bar', ABP_URL . 'assets/js/abp_offer_bar.js', array('jquery'), self::asset_version( 'assets/js/abp_offer_bar.js' ), true);
 					wp_enqueue_script('abp_gallery', ABP_URL . 'assets/js/abp_gallery.js', array(), self::asset_version( 'assets/js/abp_gallery.js' ), true);
+					wp_enqueue_script('abp_home_product', ABP_URL . 'assets/js/abp_home_product.js', array(), self::asset_version( 'assets/js/abp_home_product.js' ), true);
+					wp_enqueue_script('abp_product_feature', ABP_URL . 'assets/js/abp_product_feature.js', array(), self::asset_version( 'assets/js/abp_product_feature.js' ), true);
+					wp_enqueue_script('abp_product_chose', ABP_URL . 'assets/js/abp_product_chose.js', array(), self::asset_version( 'assets/js/abp_product_chose.js' ), true);
+		wp_enqueue_script('abp_shortcode_copy', ABP_URL . 'assets/js/abp_shortcode_copy.js', array(), self::asset_version( 'assets/js/abp_shortcode_copy.js' ), true);
 					wp_localize_script('abp_offer_bar', 'abpOfferBar', array(
 						'ajaxUrl'      => admin_url('admin-ajax.php'),
 						'copied'       => __('Copied!', 'abp-plugin'),

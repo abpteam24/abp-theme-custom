@@ -1,25 +1,22 @@
 
 (function ($) {
     "use strict";
+    function abpPriceFilter($section, target) {
+        $section.find('[data-price-tab]').each(function () {
+            var tab = String($(this).attr('data-price-tab') || '');
+            this.hidden = !(target === 'all' || tab === String(target));
+        });
+    }
     $(document).on('click', 'div.abp_area .abp_product_price [data-price-target]', function () {
-        if (!$(this).hasClass('abp_active')) {
-            let tabsTarget = $(this).data('price-target');
-            let parent = $(this).closest('.abp_product_price');
-            parent.height(parent.height());
-            parent.find('[data-price-target].abp_active').removeClass('abp_active');
-            $(this).addClass('abp_active');
-            if(tabsTarget==='all'){
-                parent.find('[data-price-tab]').slideDown(350);
-                parent.height('auto');
-            }else {
-                parent.find('[data-price-tab]').slideUp(350).promise().done(function () {
-                    parent.find('[data-price-tab="' + tabsTarget + '"]').slideDown(350).promise().done(function () {
-                        parent.height('auto');
-                    });
-                });
-            }
-
+        var $btn = $(this);
+        if ($btn.hasClass('abp_active')) {
+            return;
         }
+        var target = String($btn.attr('data-price-target') || 'all');
+        var $parent = $btn.closest('.abp_product_price');
+        $parent.find('[data-price-target]').removeClass('abp_active').attr('aria-pressed', 'false');
+        $btn.addClass('abp_active').attr('aria-pressed', 'true');
+        abpPriceFilter($parent, target);
     });
 }(jQuery));
 

@@ -19,12 +19,20 @@
 			public static function free_offer_plugins(): array {
 				return [
 					'abp-rentalforge'       => [
-						'label'  => __( 'ABP RentalForge', 'abp-plugin' ),
+						'label'  => __( 'ABP RentalForge PRO', 'abp-plugin' ),
 						'review' => 'https://wordpress.org/support/plugin/abp-rentalforge/reviews/',
 					],
 					'abp-transport-booking' => [
-						'label'  => __( 'ABP Transport Booking', 'abp-plugin' ),
+						'label'  => __( 'ABP Transport Booking PRO', 'abp-plugin' ),
 						'review' => 'https://wordpress.org/support/plugin/abp-transport-booking/reviews/',
+					],
+					'abp-event-ticket'      => [
+						'label'  => __( 'ABP Event Ticket PRO', 'abp-plugin' ),
+						'review' => 'https://wordpress.org/support/plugin/abp-event-ticket/reviews/',
+					],
+					'abp-tour-travel'       => [
+						'label'  => __( 'ABP Tour & Travel PRO', 'abp-plugin' ),
+						'review' => 'https://wordpress.org/support/plugin/abp-tour-travel/reviews/',
 					],
 				];
 			}

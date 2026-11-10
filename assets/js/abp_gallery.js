@@ -198,10 +198,21 @@
 
 		items.forEach(function (item) {
 			var img = item.querySelector('img');
-			if (img && !img.complete) {
+			if (!img) {
+				return;
+			}
+			if (img.complete && img.naturalWidth) {
+				scheduleLayout();
+			} else {
 				img.addEventListener('load', scheduleLayout);
+				img.addEventListener('error', scheduleLayout);
 			}
 		});
+
+		// Re-pack once more after the browser has decoded the (possibly
+		// cached) images, so tiles are never left unpositioned.
+		window.setTimeout(scheduleLayout, 250);
+		window.setTimeout(scheduleLayout, 1000);
 
 		/* ------------------------------------------------------------------
 		 * Lightbox
